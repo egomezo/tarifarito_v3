@@ -1,4 +1,4 @@
-from ..repository import NtoleranciaRepository
+from ...repository import NtoleranciaRepository
 
 class NtoleranciaService:
 

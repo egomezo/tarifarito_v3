@@ -2,10 +2,10 @@ import json
 
 from flask import request
 
-from ..controller import controller
-from ..service import NtoleranciaService
-from ..repository import NtoleranciaRepository
-from ..util.constants import API_ROOT_PATH
+from ...controller import controller
+from ...service import NtoleranciaService
+from ...repository import NtoleranciaRepository
+from ...util.constants import API_ROOT_PATH
 
 # Obtener listado de tolerancia
 @controller.route(API_ROOT_PATH + 'g_ntolerancia', methods=['GET'])

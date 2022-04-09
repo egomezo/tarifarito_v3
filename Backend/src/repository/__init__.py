@@ -4,7 +4,7 @@ from .anios_repository import AniosRepository
 from .empresas_repository import EmpresasRepository
 from .mercados_repository import MercadosRepository
 from .empresa_mercado_repository import EmpresaMercadoRepository
-from .ntolerancia_repository import NtoleranciaRepository
+from .gestor.ntolerancia_repository import NtoleranciaRepository
 
 
 class RepositoryModule(Module):

@@ -4,7 +4,7 @@ from .anios_service import AniosService
 from .empresas_service import EmpresasService
 from .mercados_service import MercadosService
 from .empresa_mercado_service import EmpresaMercadoService
-from .ntolerancia_service import NtoleranciaService
+from .gestor.ntolerancia_service import NtoleranciaService
 
 class ServiceModule(Module):
     def configure(self, binder):
