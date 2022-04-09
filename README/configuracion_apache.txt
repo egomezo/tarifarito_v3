@@ -1,0 +1,227 @@
+COMANDOS PARA DETENER / INICIAR EL SERVIDOR DE NODEJS EXPREESS QUE CORRE POR pm2
+
+1. Comando para obtener listado de aplicaciones en ejecución
+    pm2 list
+2. Comando para eliminar instancia de una aplicación
+    pm2 delete 0
+3. Comando para iniciar la ejecución de una aplicación
+    Entrar en la carpeta del proyecto: cd /home/admincc/tvi-web/
+    Ejecutar el siguiente comando: pm2 start app.js --name "tvi-web"
+4. Comando para asociar llave secreta a la ejecución
+    SECRETORPRIVATEKEY=L8YJnRKfptukpqt5kyYRnrqn3Lvf9FX429Ufqt3Nn5q94Nz8nVz8SNJ7LqcZ52ZMJVNJ8fjYEJyJS6eAKsNGCrCPytSJm9qxDA8G26eSp6SNL6JAmhXeAufPBypBCZhptAvEwnPY7xtSH7y7yqqqaKDcBM8Znja9XhHgfzYxLCRj82sQpEZVthLNzV5mA9vaVjGgNcN3uXF9bwXmc9J2jhzvzhLjqYZpxBmuPFqQbvy3yNhSSvja5wnWUKNsVzdm pm2 restart app.js --update-env
+5. Comando para configurar puerto de la aplicación
+    PORT=8080 pm2 restart app.js --update-env
+
+* COMANDO PARA VER QUE APLICACIONES ESTAN CORRIENDO POR LOS PUERTOS DE LINUX
+	netstat -tanp
+
+--------------------- UBUNTU --------------------------------
+
+https://ubuntu.com/tutorials/install-and-configure-apache#1-overview
+
+sudo apt update
+sudo apt install apache2
+
+cd /var/www/html [Directorio por defecto donde se almacenan los proyectos]
+
+cd /etc/apache2/sites-available/ [Directorio donde se configuran los parametros de virtual host]
+sudo nano 000-default.conf
+sudo nano gci.conf
+
+sudo service apache2 reload
+
+cd /home/azureuser/
+ServerPath /procesosDIEG/api
+
+--------------------- REDHAT --------------------------------
+
+https://linuxtechlab.com/apache-as-reverse-proxy-centos-rhel/
+
+[Instalar apache en Redhat]
+    sudo yum update httpd
+    sudo yum install httpd
+    sudo systemctl start httpd
+    sudo systemctl status httpd
+
+[Directorio por defecto donde se almacenan las aplicaciones web]
+    cd /var/www/html
+
+[Directorio que contiene la configuracion de apache / se configura el virtualhost]
+    cd /etc/httpd/conf/ 
+    sudo vim /etc/httpd/conf/httpd.conf
+
+[Agregar estas lineas al final del archivo httpd.conf - para permitir usar el proxy]
+    LoadModule proxy_module modules/mod_proxy.so
+    LoadModule proxy_http_module modules/mod_proxy_http.so
+
+[Configurar virtualhost al final del archivo httpd.conf]
+    <VirtualHost *:80>
+        ProxyPreserveHost On
+        ServerName dieg.superservicios.gov.co
+        ProxyPass / http://127.0.0.1:5057/
+        ProxyPassReverse / http://127.0.0.1:5057/
+    </VirtualHost>
+
+    <VirtualHost *:80>
+        ProxyPreserveHost On
+        ServerName tvi.superservicios.gov.co
+        ProxyPass / http://127.0.0.1:8080/
+        ProxyPassReverse / http://127.0.0.1:8080/
+    </VirtualHost>
+
+sudo systemctl restart httpd
+
+--------------- CONFIGURAR VIRTUALHOST PROXY PATH REDIRECCION [UBUNTU]---------------------------
+Cuando es una app desarrollada en VUEjs y python:
+1.Crear configuracion de virtualhost indicando la ruta que se abrira en el browser, como se muestra a continuación:
+
+    <VirtualHost *:80>
+            ServerAdmin webmaster@localhost
+            ServerName appfacturacion.eastus.cloudapp.azure.com
+
+            # setup the proxy
+            <Proxy *>
+                Order allow,deny
+                Allow from all
+            </Proxy>
+            ProxyPass /abo http://127.0.0.1:5057/
+            ProxyPassReverse /abo http://127.0.0.1:5057/
+
+            ErrorLog ${APACHE_LOG_DIR}/error.log
+            CustomLog ${APACHE_LOG_DIR}/access.log combined
+    </VirtualHost>
+
+2.En el archivo de configuracion ".env.production" apuntar al api adicionando la ruta configurada en el proxy (/abo) (abo/procesosDIEG/api)
+3.En el archivo del controller del front de python "front_controller.py" adicionar la ruta configurada en el proxy (/abo):
+    --> return render_template("dist/index.html", url_base=script_root + "abo/front/dist")
+
+--------------- CONFIGURAR VIRTUALHOST PROXY PATH REDIRECCION [REDHAT] ---------------------------
+Cuando es una app desarrollada en VUEjs y python:
+1.Crear configuracion de virtualhost indicando la ruta que se abrira en el browser, como se muestra a continuación:
+
+    LoadModule proxy_module modules/mod_proxy.so
+    LoadModule proxy_http_module modules/mod_proxy_http.so
+
+    <VirtualHost *:80>
+        ProxyPreserveHost On
+        ServerName tvi.superservicios.gov.co
+        ProxyPass / http://127.0.0.1:8080/
+        ProxyPassReverse / http://127.0.0.1:8080/
+    </VirtualHost>
+
+    <VirtualHost *:80>
+        ProxyPreserveHost On
+        ServerName dieg.superservicios.gov.co
+        ProxyPass /sdegc http://127.0.0.1:5057/
+        ProxyPassReverse /sdegc http://127.0.0.1:5057/
+        ProxyPass /ods http://127.0.0.1:5059/
+        ProxyPassReverse /ods http://127.0.0.1:5059/
+    </VirtualHost>
+
+
+2.En el archivo de configuracion ".env.production" apuntar al api adicionando la ruta configurada en el proxy (/sdegc) (sdegc/procesosDIEG/api)
+3.En el archivo "vue.config.js" adicionar la ruta configurada en el proxy (/sdegc):
+    --> publicPath: process.env.NODE_ENV === 'development' ? '/' : 'sdegc/front/dist',    
+
+--------------- CONFIGURAR VIRTUALHOST ---------------------------------
+
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName dieg.eastus.cloudapp.azure.com/dieg
+        DocumentRoot /var/www/html/dieg
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName dieg.eastus.cloudapp.azure.com
+
+        # setup the proxy
+        <Proxy *>
+            Order allow,deny
+            Allow from all
+        </Proxy>
+        ProxyPass / http://127.0.0.1:5057/
+        ProxyPassReverse / http://127.0.0.1:5057/
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+------------------------------------
+
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName dieg.eastus.cloudapp.azure.com/dieg
+        DocumentRoot /var/www/html/dieg
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName dieg.eastus.cloudapp.azure.com/facturacion
+        DocumentRoot /var/www/html/facturacion
+
+        ErrorLog /home/azureuser/error.log
+        CustomLog /home/azureuser//access.log combined
+</VirtualHost>
+
+
+------------------------------------------------------
+
+<VirtualHost *:80>
+    ProxyPreserveHost On
+    ServerName dieg.superservicios.gov.co
+    ProxyPass / http://127.0.0.1:5057/
+    ProxyPassReverse / http://127.0.0.1:5057/
+    ErrorLog /var/www/dieg/log/error.log
+    CustomLog /var/www/dieg/log/requests.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+    ProxyPreserveHost On
+    ServerName tvi.superservicios.gov.co
+    ProxyPass / http://127.0.0.1:8080/
+    ProxyPassReverse / http://127.0.0.1:8080/
+    ErrorLog /var/www/tvi/log/error.log
+    CustomLog /var/www/tvi/log/requests.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName tvi.superservicios.gov.co/dieg
+    DocumentRoot /var/www/html/dieg
+</VirtualHost>
+
+
+
+------------------ configurar vhost UBUNTU -------------
+
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName dieg.eastus.cloudapp.azure.com/dieg
+        DocumentRoot /var/www/html/dieg
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName appfacturacion.eastus.cloudapp.azure.com
+
+        # setup the proxy
+        <Proxy *>
+            Order allow,deny
+            Allow from all
+        </Proxy>
+        ProxyPass / http://127.0.0.1:5056/
+        ProxyPassReverse / http://127.0.0.1:5056/
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>

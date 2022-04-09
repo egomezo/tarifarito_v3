@@ -1,0 +1,10 @@
+Revisar si se puede unificar todo en un mismo API
+Revisar si se puede refactorizar el API de tarifarito con el nuevo (procesosDIEG)
+Revisar si se puede abrir una página antes del login o sola
+
+cd /var/ummeg/services
+
+/usr/bin/python3 /var/ummeg/indicadores-ummeg/backend/manage.py runserver -h 172.16.32.13 -p 8081 >> "/var/ummeg/services/log/log_indicadores_$(date +%Y-%m-%d).log" 2>&1
+
+cd /var/ummeg/indicadores-ummeg/backend
+SQLALCHEMY_DATABASE_URI = 'postgresql://ummegadmin:ummegadmin@adonisvrt.sspd.gov.co:5432/ummeg'

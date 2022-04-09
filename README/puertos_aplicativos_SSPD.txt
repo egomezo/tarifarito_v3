@@ -1,0 +1,44 @@
+---------------------------------------------------
+-- PUERTOS APLICATIVO SUPERSERVICIOS
+---------------------------------------------------
+
+---------------------------------------------------
+*** TARIFARITO ***
+---------------------------------------------------
+
+5055: PRODUCCIÓN BD - TARIFARITO [LISTO]
+5058: PRODUCCIÓN FRONTEND - TARIFARITO [LISTO]
+
+5059: PRUEBAS FRONTEND - TARIFARITO
+5066: PRUEBAS BD - TARIFARITO
+
+---------------------------------------------------
+*** PROCESOSDIEG ***
+---------------------------------------------------
+
+5056: PRODUCCIÓN FRONTEND - PROCESOSDIEG [LISTO]
+5057: PRODUCCIÓN BD - PROCESOSDIEG [LISTO]
+
+5062: PRUEBAS FRONTEND - PROCESOSDIEG [LISTO]
+5063: PRUEBAS BD - PROCESOSDIEG [LISTO]
+
+---------------------------------------------------
+*** MAPA INTERRUPCIONES ***
+---------------------------------------------------
+
+5064: PRODUCCIÓN FRONTEND - MAPA INTERRUPCIONES [LISTO]
+5065: PRODUCCIÓN BD - MAPA INTERRUPCIONES
+---------------------------------------------------
+
+5066: PRODUCCIÓN FRONTEND - MAPA ODS
+XXXX: PRODUCCIÓN BD - MAPA ODS
+
+
+5059 - (SI) esta abierto - (NO) esta en uso
+5060 - (NO) esta abierto - (NO) esta en uso
+5061 - (NO) esta abierto - (NO) esta en uso
+5062 - (SI) esta abierto - (SI) esta en uso
+5063 - (SI) esta abierto - (SI) esta en uso
+5064 - (SI) esta abierto - (SI) esta en uso
+5065 - (SI) esta abierto - (NO) esta en uso
+5066 - (SI) esta abierto - (NO) esta en uso
