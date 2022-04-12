@@ -10,4 +10,10 @@ mercados_controller, \
 empresa_mercado_controller \
 
 from .gestor import \
-ntolerancia_controller
+ntolerancia_controller, \
+idane_controller, \
+icomercial_controller, \
+D097Resolucion_controller, \
+D097Error_controller, \
+perdidas_controller, \
+infoAdd_controller
