@@ -3,8 +3,8 @@ from ...repository import ComponenteTRepository
 class ComponenteTService:
 
     def get_componenteT(self, g_componenteT_repository: ComponenteTRepository, componenteT):
-        cpte = []
         data = g_componenteT_repository.get_componenteT_bd(componenteT)
+        cpte = []
         for result in data:
             cpte.append(
                 {

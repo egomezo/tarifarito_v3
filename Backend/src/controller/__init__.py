@@ -19,5 +19,6 @@ perdidas_controller, \
 infoAdd_controller
 
 from .revisor import \
-componenteg_controller, \
-componentet_controller
+componenteG_controller, \
+componenteT_controller, \
+componenteP097_controller

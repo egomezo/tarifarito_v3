@@ -1,4 +1,4 @@
-componentet_sql = '''
+componenteT_sql = '''
         SELECT 
         FT78.ID_EMPRESA,
         FT78.CAR_T1669_ID_MERCADO,

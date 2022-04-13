@@ -1,4 +1,3 @@
-from sqlalchemy.sql import text
 import json
 
 from ...componentes.componentes import ComponenteG
@@ -9,7 +8,7 @@ class ComponenteGRepository:
         self.mongodb = mongodb
 
     def get_componenteG_bd(self, componente: ComponenteG):
-        return componente.ValoresComponente(self.db)
+        return componente.ValoresComponenteSui(self.db)
 
     def post_componenteG(self, req):
         self.mongodb.componentes.insert_one(

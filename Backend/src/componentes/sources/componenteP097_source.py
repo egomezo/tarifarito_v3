@@ -1,4 +1,4 @@
-componentep097_sql = '''
+componenteP097_sql = '''
     SELECT 
         CPTEP.*
     FROM

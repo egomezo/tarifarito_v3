@@ -1,4 +1,4 @@
-componenteg_sql = '''
+componenteG_sql = '''
     SELECT 
         T10.*,
         T9.*,

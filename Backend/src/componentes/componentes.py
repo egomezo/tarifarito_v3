@@ -1,21 +1,31 @@
 from sqlalchemy.sql import text
 
-from ..sources.componenteg_source import componenteg_sql
-from ..sources.componentet_source import componentet_sql
-from ..sources.componentep097_source import componentep097_sql
+from .model_componentes import *
 
 class Componente():
     def __init__(self, ano, mes, empresa, mercado, ntprop):
-        self.componente = ""
+        self.componente = None
         self.anio = ano
         self.periodo = mes
         self.periodo_menos1 = mes - 1
         self.empresa = empresa
         self.mercado = mercado
         self.ntprop = ntprop
+        self.util = None
+        self.db = None
+        self.mongodb = None
+        self.valoresSUI = None
+        self.valoresGestor = None
 
-    def ValoresComponente(self, db):
+    def ValoresComponenteSui(self, db):
         self.db = db
+    
+    def ValoresComponenteGestor(self, mongodb):
+        self.mongodb = mongodb
+
+    def mergeData(self, valoresSUI, valoresGestor):
+        self.valoresSUI = valoresSUI
+        self.valoresGestor = valoresGestor
 
 
 class ComponenteCU(Componente):
@@ -30,11 +40,13 @@ class ComponenteG(ComponenteCU):
         self.periodo = mes
         self.empresa = empresa
         self.mercado = mercado
+        self.util = ModelComponenteG()
 
-    def ValoresComponente(self, db):
+    def ValoresComponenteSui(self, db):
         self.db = db
-        sql = componenteg_sql
-        return self.db.engine.execute(text(sql), ANIO_ARG=self.anio, PERIODO_ARG=self.periodo, EMPRESA_ARG=self.empresa, MERCADO_ARG=self.mercado).fetchall()
+        componente = self
+        sql = self.util.getValoresComponenteSui(componente)
+        return sql
 
 
 class ComponenteT(ComponenteCU):
@@ -45,12 +57,13 @@ class ComponenteT(ComponenteCU):
         self.empresa = empresa
         self.mercado = mercado
         self.ntprop = ntprop
+        self.util = ModelComponenteT()
 
-    def ValoresComponente(self, db):
+    def ValoresComponenteSui(self, db):
         self.db = db
-        sql = componentet_sql
-        return self.db.engine.execute(text(sql), ANIO_ARG=self.anio, PERIODO_ARG=self.periodo, EMPRESA_ARG=self.empresa, MERCADO_ARG=self.mercado, NTPROP_ARG=self.ntprop).fetchall()
-
+        componente = self
+        sql = self.util.getValoresComponenteSui(componente)
+        return sql
 
 class ComponenteP097(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado):
@@ -59,8 +72,20 @@ class ComponenteP097(ComponenteCU):
         self.periodo = mes
         self.empresa = empresa
         self.mercado = mercado
+        self.util = ModelComponenteP097()
 
-    def ValoresComponente(self, db):
+    def ValoresComponenteSui(self, db):
         self.db = db
-        sql = componentep097_sql
-        return self.db.engine.execute(text(sql), ANIO_ARG=self.anio, PERIODO_ARG=self.periodo, EMPRESA_ARG=self.empresa, MERCADO_ARG=self.mercado).fetchall()
+        componente = self
+        sql = self.util.getValoresComponenteSui(componente)
+        return sql
+
+    def ValoresComponenteGestor(self, mongodb):
+        self.mongodb = mongodb
+        query = self.util.getValoresGestor(self.mongodb)
+        return query
+
+    def mergeData(self, valoresSUI, valoresGestor):
+        self.valoresSUI = valoresSUI
+        self.valoresGestor = valoresGestor
+        return self.util.mergeDataframe(self.valoresSUI, self.valoresGestor)

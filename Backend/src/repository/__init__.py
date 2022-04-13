@@ -11,8 +11,9 @@ from .gestor.D097Resolucion_repository import D097ResolucionRepository
 from .gestor.D097Error_repository import D097ErrorRepository
 from .gestor.perdidas_repository import PerdidasRepository
 from .gestor.infoAdd_repository import InfoAddRepository
-from .revisor.componenteg_repository import ComponenteGRepository
-from .revisor.componentet_repository import ComponenteTRepository
+from .revisor.componenteG_repository import ComponenteGRepository
+from .revisor.componenteT_repository import ComponenteTRepository
+from .revisor.componenteP097_repository import ComponenteP097Repository
 
 
 class RepositoryModule(Module):
@@ -32,8 +33,9 @@ class RepositoryModule(Module):
         D097Error_repository = D097ErrorRepository(self.mongodb)
         perdidas_repository = PerdidasRepository(self.mongodb)
         infoAdd_repository = InfoAddRepository(self.mongodb)
-        componenteg_repository = ComponenteGRepository(self.db, self.mongodb)
-        componentet_repository = ComponenteTRepository(self.db, self.mongodb)
+        componenteG_repository = ComponenteGRepository(self.db, self.mongodb)
+        componenteT_repository = ComponenteTRepository(self.db, self.mongodb)
+        componenteP097_repository = ComponenteP097Repository(self.db, self.mongodb)
 
         binder.bind(AniosRepository, to=anios_repository, scope=singleton)
         binder.bind(EmpresasRepository, to=empresas_repository, scope=singleton)
@@ -46,5 +48,7 @@ class RepositoryModule(Module):
         binder.bind(D097ErrorRepository, to=D097Error_repository, scope=singleton)
         binder.bind(PerdidasRepository, to=perdidas_repository, scope=singleton)
         binder.bind(InfoAddRepository, to=infoAdd_repository, scope=singleton)
-        binder.bind(ComponenteGRepository, to=componenteg_repository, scope=singleton)
-        binder.bind(ComponenteTRepository, to=componentet_repository, scope=singleton)
+        binder.bind(ComponenteGRepository, to=componenteG_repository, scope=singleton)
+        binder.bind(ComponenteTRepository, to=componenteT_repository, scope=singleton)
+        binder.bind(ComponenteP097Repository, to=componenteP097_repository, scope=singleton)
+        

@@ -11,8 +11,9 @@ from .gestor.D097Resolucion_service import D097ResolucionService
 from .gestor.D097Error_service import D097ErrorService
 from .gestor.perdidas_service import PerdidasService
 from .gestor.infoAdd_service import InfoAddService
-from .revisor.componenteg_service import ComponenteGService
-from .revisor.componentet_service import ComponenteTService
+from .revisor.componenteG_service import ComponenteGService
+from .revisor.componenteT_service import ComponenteTService
+from .revisor.componenteP097_service import ComponenteP097Service
 
 class ServiceModule(Module):
     def configure(self, binder):
@@ -27,8 +28,9 @@ class ServiceModule(Module):
         D097Error_service = D097ErrorService()
         perdidas_service = PerdidasService()
         infoAdd_service = InfoAddService()
-        componenteg_service = ComponenteGService()
-        componentet_service = ComponenteTService()
+        componenteG_service = ComponenteGService()
+        componenteT_service = ComponenteTService()
+        componenteP097_service = ComponenteP097Service()
 
         binder.bind(AniosService, to=anios_service, scope=singleton)
         binder.bind(EmpresasService, to=empresas_service, scope=singleton)
@@ -41,5 +43,6 @@ class ServiceModule(Module):
         binder.bind(D097ErrorService, to=D097Error_service, scope=singleton)
         binder.bind(PerdidasService, to=perdidas_service, scope=singleton)
         binder.bind(InfoAddService, to=infoAdd_service, scope=singleton)
-        binder.bind(ComponenteGService, to=componenteg_service, scope=singleton)
-        binder.bind(ComponenteTService, to=componentet_service, scope=singleton)
+        binder.bind(ComponenteGService, to=componenteG_service, scope=singleton)
+        binder.bind(ComponenteTService, to=componenteT_service, scope=singleton)
+        binder.bind(ComponenteP097Service, to=componenteP097_service, scope=singleton)
