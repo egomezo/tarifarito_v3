@@ -17,3 +17,7 @@ D097Resolucion_controller, \
 D097Error_controller, \
 perdidas_controller, \
 infoAdd_controller
+
+from .revisor import \
+componenteg_controller, \
+componentet_controller

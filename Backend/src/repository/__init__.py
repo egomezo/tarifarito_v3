@@ -11,6 +11,8 @@ from .gestor.D097Resolucion_repository import D097ResolucionRepository
 from .gestor.D097Error_repository import D097ErrorRepository
 from .gestor.perdidas_repository import PerdidasRepository
 from .gestor.infoAdd_repository import InfoAddRepository
+from .revisor.componenteg_repository import ComponenteGRepository
+from .revisor.componentet_repository import ComponenteTRepository
 
 
 class RepositoryModule(Module):
@@ -30,6 +32,8 @@ class RepositoryModule(Module):
         D097Error_repository = D097ErrorRepository(self.mongodb)
         perdidas_repository = PerdidasRepository(self.mongodb)
         infoAdd_repository = InfoAddRepository(self.mongodb)
+        componenteg_repository = ComponenteGRepository(self.db, self.mongodb)
+        componentet_repository = ComponenteTRepository(self.db, self.mongodb)
 
         binder.bind(AniosRepository, to=anios_repository, scope=singleton)
         binder.bind(EmpresasRepository, to=empresas_repository, scope=singleton)
@@ -42,3 +46,5 @@ class RepositoryModule(Module):
         binder.bind(D097ErrorRepository, to=D097Error_repository, scope=singleton)
         binder.bind(PerdidasRepository, to=perdidas_repository, scope=singleton)
         binder.bind(InfoAddRepository, to=infoAdd_repository, scope=singleton)
+        binder.bind(ComponenteGRepository, to=componenteg_repository, scope=singleton)
+        binder.bind(ComponenteTRepository, to=componentet_repository, scope=singleton)
