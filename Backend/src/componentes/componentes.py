@@ -1,5 +1,3 @@
-from sqlalchemy.sql import text
-
 from .model_componentes import *
 
 class Componente():

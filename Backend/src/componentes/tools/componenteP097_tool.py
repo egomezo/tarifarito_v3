@@ -11,7 +11,9 @@ class ToolComponenteP097():
 
     def merge_perdidas_P097(self, valoresSUI, valoresGestor):
 
+
         cpteP097 = pd.DataFrame(valoresSUI, columns=['ano','mes','empresa','mercado','c6','c7','c1','c14','c2','c3','c4','c5'])
+        print(cpteP097)
 
         gestorP097 = valoresGestor
 
@@ -46,6 +48,8 @@ class ToolComponenteP097():
         cpteP097['nt3'] =  cpteP097['c18'] +  cpteP097['c22']
 
         cpteP097['nt4'] =  cpteP097['c19'] +  cpteP097['c23']
+
+        print(cpteP097)
 
         return cpteP097
 
