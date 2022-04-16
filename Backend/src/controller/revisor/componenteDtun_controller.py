@@ -7,7 +7,7 @@ from ...service import ComponenteDtunService
 from ...repository import ComponenteDtunRepository
 from ...util.constants import API_ROOT_PATH
 
-from ...componentes.componentes import ComponenteDtun
+from ...business.componentes.componentes import ComponenteDtun
 
 # Obtener listado de componenteDtun
 @controller.route(API_ROOT_PATH + 'r_componentDtun', methods=['GET'])

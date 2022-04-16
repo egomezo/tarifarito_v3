@@ -1,6 +1,6 @@
 import json
 
-from ...componentes.componentes import ComponenteDtun
+from ...business.componentes.componentes import ComponenteDtun
 
 class ComponenteDtunRepository:
     def __init__(self, db, mongodb):

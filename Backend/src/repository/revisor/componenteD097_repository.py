@@ -1,6 +1,6 @@
 import json
 
-from ...componentes.componentes import ComponenteD097
+from ...business.componentes.componentes import ComponenteD097
 
 class ComponenteD097Repository:
     def __init__(self, db, mongodb):

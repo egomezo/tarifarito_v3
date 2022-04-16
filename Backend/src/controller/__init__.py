@@ -28,4 +28,5 @@ componenteD097_controller, \
 componenteD015_controller, \
 componenteC_controller, \
 componenteR_controller, \
-componentesMDB_controller
+componentesMDB_controller, \
+tarifas_controller

@@ -7,7 +7,7 @@ from ...service import ComponenteP015Service
 from ...repository import ComponenteP015Repository
 from ...util.constants import API_ROOT_PATH
 
-from ...componentes.componentes import ComponenteP015
+from ...business.componentes.componentes import ComponenteP015
 
 # Obtener listado de componenteP015
 @controller.route(API_ROOT_PATH + 'r_componentP015', methods=['GET'])
