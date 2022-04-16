@@ -24,11 +24,6 @@ def r_componenteP097_1(r_componenteP097_service: ComponenteP097Service, r_compon
 def r_componenteP097_2(r_componenteP097_service: ComponenteP097Service, r_componenteP097_repository: ComponenteP097Repository, anio, mes, empresa, mercado):
     return json.dumps(r_componenteP097_service.get_componenteP097(r_componenteP097_repository, ComponenteP097(anio, mes, empresa, mercado)))
 
-# Obtener listado de componenteP097 por anio / mes / empresa / mercado / ntprop
-@controller.route(API_ROOT_PATH + '/r_componentP097/<int:anio>/<int:mes>/<int:empresa>/<int:mercado>/<string:ntprop>', methods=['GET'])
-def r_componenteP097_3(r_componenteP097_service: ComponenteP097Service, r_componenteP097_repository: ComponenteP097Repository, anio, mes, empresa, mercado, ntprop):
-    return json.dumps(r_componenteP097_service.get_componenteP097(r_componenteP097_repository, ComponenteP097(anio, mes, empresa, mercado, ntprop)))
-
 # Guardar componenteP097
 @controller.route(API_ROOT_PATH + 'r_componentP097', methods=['POST'])
 def create_componenteP097(r_componenteP097_service: ComponenteP097Service, r_componenteP097_repository: ComponenteP097Repository):

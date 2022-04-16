@@ -21,4 +21,11 @@ infoAdd_controller
 from .revisor import \
 componenteG_controller, \
 componenteT_controller, \
-componenteP097_controller
+componenteP097_controller, \
+componenteP015_controller,\
+componenteDtun_controller, \
+componenteD097_controller, \
+componenteD015_controller, \
+componenteC_controller, \
+componenteR_controller, \
+componentesMDB_controller

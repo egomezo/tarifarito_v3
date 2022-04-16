@@ -14,6 +14,13 @@ from .gestor.infoAdd_service import InfoAddService
 from .revisor.componenteG_service import ComponenteGService
 from .revisor.componenteT_service import ComponenteTService
 from .revisor.componenteP097_service import ComponenteP097Service
+from .revisor.componenteP015_service import ComponenteP015Service
+from .revisor.componenteDtun_service import ComponenteDtunService
+from .revisor.componenteD097_service import ComponenteD097Service
+from .revisor.componenteD015_service import ComponenteD015Service
+from .revisor.componenteC_service import ComponenteCService
+from .revisor.componenteR_service import ComponenteRService
+from .revisor.componentesMDB_service import rComponentesMDBService
 
 class ServiceModule(Module):
     def configure(self, binder):
@@ -31,6 +38,13 @@ class ServiceModule(Module):
         componenteG_service = ComponenteGService()
         componenteT_service = ComponenteTService()
         componenteP097_service = ComponenteP097Service()
+        componenteP015_service = ComponenteP015Service()
+        componenteDtun_service = ComponenteDtunService()
+        componenteD097_service = ComponenteD097Service()
+        componenteD015_service = ComponenteD015Service()
+        componenteC_service = ComponenteCService()
+        componenteR_service = ComponenteRService()
+        componentesMDB_service = rComponentesMDBService()
 
         binder.bind(AniosService, to=anios_service, scope=singleton)
         binder.bind(EmpresasService, to=empresas_service, scope=singleton)
@@ -46,3 +60,10 @@ class ServiceModule(Module):
         binder.bind(ComponenteGService, to=componenteG_service, scope=singleton)
         binder.bind(ComponenteTService, to=componenteT_service, scope=singleton)
         binder.bind(ComponenteP097Service, to=componenteP097_service, scope=singleton)
+        binder.bind(ComponenteP015Service, to=componenteP015_service, scope=singleton)
+        binder.bind(ComponenteDtunService, to=componenteDtun_service, scope=singleton)
+        binder.bind(ComponenteD097Service, to=componenteD097_service, scope=singleton)
+        binder.bind(ComponenteD015Service, to=componenteD015_service, scope=singleton)
+        binder.bind(ComponenteCService, to=componenteC_service, scope=singleton)
+        binder.bind(ComponenteRService, to=componenteR_service, scope=singleton)
+        binder.bind(rComponentesMDBService, to=componentesMDB_service, scope=singleton)

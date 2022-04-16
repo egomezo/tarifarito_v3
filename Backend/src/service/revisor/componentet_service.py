@@ -2,8 +2,8 @@ from ...repository import ComponenteTRepository
 
 class ComponenteTService:
 
-    def get_componenteT(self, g_componenteT_repository: ComponenteTRepository, componenteT):
-        data = g_componenteT_repository.get_componenteT_bd(componenteT)
+    def get_componenteT(self, r_componenteT_repository: ComponenteTRepository, componenteT):
+        data = r_componenteT_repository.get_componenteT_bd(componenteT)
         cpte = []
         for result in data:
             cpte.append(
@@ -32,10 +32,10 @@ class ComponenteTService:
             )
         return cpte
 
-    def post(self, g_componenteT_repository: ComponenteTRepository, req):
+    def post(self, r_componenteT_repository: ComponenteTRepository, req):
         print("_________ POST MODEL _____________")
         print(req)
         print("_________________________________")
         # Insertar datos
-        result = g_componenteT_repository.post_componenteT(req)
+        result = r_componenteT_repository.post_componenteT(req)
         return result

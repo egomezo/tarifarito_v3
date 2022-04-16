@@ -2,8 +2,8 @@ from ...repository import ComponenteP097Repository
 
 class ComponenteP097Service:
 
-    def get_componenteP097(self, g_componenteP097_repository: ComponenteP097Repository, componenteP097):
-        data = g_componenteP097_repository.get_componenteP097_bd(componenteP097)
+    def get_componenteP097(self, r_componenteP097_repository: ComponenteP097Repository, componenteP097):
+        data = r_componenteP097_repository.get_componenteP097_bd(componenteP097)
         cpte = []
         cpte.append(
             {
@@ -78,10 +78,10 @@ class ComponenteP097Service:
         )
         return cpte
 
-    def post(self, g_componenteP097_repository: ComponenteP097Repository, req):
+    def post(self, r_componenteP097_repository: ComponenteP097Repository, req):
         print("_________ POST MODEL _____________")
         print(req)
         print("_________________________________")
         # Insertar datos
-        result = g_componenteP097_repository.post_componenteP097(req)
+        result = r_componenteP097_repository.post_componenteP097(req)
         return result
