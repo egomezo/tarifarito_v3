@@ -1,19 +1,26 @@
-from componentes import *
+from .componente import *
 
 # ---------------------------
-# -- Fabrica
+# -- FABRICA COMPONENTES
 # ---------------------------
 
 class Fabrica:
-    def crear_cpteg(self):
+    def crear_cpteG(self):
         pass
 
-    def crear_cptet(self):
+    def crear_cpteT(self):
         pass
 
-class FabricaComponentes(Fabrica):
-    def crear_cpteg(self):
-        return ComponenteG()
 
-    def crear_cptet(self):
-        return ComponenteT()
+class FabricaCU(Fabrica):
+    def __init__(self):
+        Fabrica.__init__(self)
+
+
+class FabricaComponentes(FabricaCU):
+    def crear_cpteG(self, ano, mes, empresa, mercado):
+        cpte = ComponenteG(ano, mes, empresa, mercado)
+        return cpte
+
+    # def crear_cpteT(self, ano, mes, empresa, mercado, ntprop):
+    #     return ComponenteT(ano, mes, empresa, mercado, ntprop)

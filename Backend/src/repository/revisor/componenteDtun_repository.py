@@ -1,6 +1,6 @@
 import json
 
-from ...business.componentes.componentes import ComponenteDtun
+from ...business.componentes.componente import ComponenteDtun
 
 class ComponenteDtunRepository:
     def __init__(self, db, mongodb):
@@ -8,9 +8,7 @@ class ComponenteDtunRepository:
         self.mongodb = mongodb
 
     def get_componenteDtun_bd(self, componente: ComponenteDtun):
-        valoresSUI = componente.ValoresComponenteSui(self.db)
-        valoresGestor = componente.ValoresComponenteGestor(self.mongodb)
-        return componente.mergeData(valoresSUI, valoresGestor)
+        return componente.getValues(self.db, self.mongodb)
 
     def post_componenteDtun(self, req):
         self.mongodb.componentes.insert_one(

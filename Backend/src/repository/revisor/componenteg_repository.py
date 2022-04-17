@@ -1,6 +1,6 @@
 import json
 
-from ...business.componentes.componentes import ComponenteG
+from ...business.componentes.componente import ComponenteG
 
 class ComponenteGRepository:
     def __init__(self, db, mongodb):
@@ -8,7 +8,7 @@ class ComponenteGRepository:
         self.mongodb = mongodb
 
     def get_componenteG_bd(self, componente: ComponenteG):
-        return componente.ValoresComponenteSui(self.db)
+        return componente.getValues(self.db, self.mongodb)
 
     def post_componenteG(self, req):
         self.mongodb.componentes.insert_one(

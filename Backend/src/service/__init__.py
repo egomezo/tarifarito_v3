@@ -22,6 +22,7 @@ from .revisor.componenteC_service import ComponenteCService
 from .revisor.componenteR_service import ComponenteRService
 from .revisor.componentesMDB_service import rComponentesMDBService
 from .revisor.tarifas_service import TarifasService
+from .revisor.costoUnitario_service import CostoUnitarioService
 
 class ServiceModule(Module):
     def configure(self, binder):
@@ -46,6 +47,7 @@ class ServiceModule(Module):
         componenteC_service = ComponenteCService()
         componenteR_service = ComponenteRService()
         componentesMDB_service = rComponentesMDBService()
+        costoUnitario_service = CostoUnitarioService()
         tarifas_service = TarifasService()
 
         binder.bind(AniosService, to=anios_service, scope=singleton)
@@ -69,4 +71,5 @@ class ServiceModule(Module):
         binder.bind(ComponenteCService, to=componenteC_service, scope=singleton)
         binder.bind(ComponenteRService, to=componenteR_service, scope=singleton)
         binder.bind(rComponentesMDBService, to=componentesMDB_service, scope=singleton)
+        binder.bind(CostoUnitarioService, to=costoUnitario_service, scope=singleton)
         binder.bind(TarifasService, to=tarifas_service, scope=singleton)

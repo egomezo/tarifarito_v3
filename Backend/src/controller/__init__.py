@@ -29,4 +29,5 @@ componenteD015_controller, \
 componenteC_controller, \
 componenteR_controller, \
 componentesMDB_controller, \
-tarifas_controller
+tarifas_controller, \
+costoUnitario_controller

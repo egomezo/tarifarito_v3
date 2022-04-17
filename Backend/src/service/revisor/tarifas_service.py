@@ -38,4 +38,5 @@ class TarifasService:
                 'tarifas': tarifas
             })
             tarifas = []
+        print(f"finished at {time.strftime('%X')}")
         return valuesTarifas

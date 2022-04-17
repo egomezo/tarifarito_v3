@@ -3,7 +3,7 @@ from .model_componentes import *
 
 class Componente():
     def __init__(self, ano, mes, empresa, mercado, ntprop):
-        self.componente = None
+        self.nombre = None
         self.anio = ano
         self.periodo = mes
         self.periodo_menos1 = mes - 1
@@ -17,11 +17,15 @@ class Componente():
         self.valoresSUI = None
         self.valoresGestor = None
 
-    def ValoresComponenteSui(self, db):
+    def getValues(self, db, mongodb):
         self.db = db
-
-    def ValoresComponenteGestor(self, mongodb):
         self.mongodb = mongodb
+
+    def ValoresComponenteSui(self):
+        pass
+
+    def ValoresComponenteGestor(self):
+        pass
 
     def mergeData(self, valoresSUI, valoresGestor):
         self.valoresSUI = valoresSUI
@@ -35,15 +39,19 @@ class ComponenteCU(Componente):
 
 class ComponenteG(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado):
-        self.componente = "G"
+        self.nombre = "G"
         self.anio = ano
         self.periodo = mes
         self.empresa = empresa
         self.mercado = mercado
         self.util = ModelComponenteG()
 
-    def ValoresComponenteSui(self, db):
+    def getValues(self, db, mongodb):
         self.db = db
+        self.mongodb = mongodb
+        return self.ValoresComponenteSui()
+
+    def ValoresComponenteSui(self):        
         componente = self
         sql = self.util.getValoresComponenteSui(componente)
         return sql
@@ -51,7 +59,7 @@ class ComponenteG(ComponenteCU):
 
 class ComponenteT(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado, ntprop):
-        self.componente = "T"
+        self.nombre = "T"
         self.anio = ano
         self.periodo = mes
         self.empresa = empresa
@@ -59,8 +67,12 @@ class ComponenteT(ComponenteCU):
         self.ntprop = ntprop
         self.util = ModelComponenteT()
 
-    def ValoresComponenteSui(self, db):
+    def getValues(self, db, mongodb):
         self.db = db
+        self.mongodb = mongodb
+        return self.ValoresComponenteSui()
+
+    def ValoresComponenteSui(self):
         componente = self
         sql = self.util.getValoresComponenteSui(componente)
         return sql
@@ -68,21 +80,26 @@ class ComponenteT(ComponenteCU):
 
 class ComponenteP097(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado):
-        self.componente = "P097"
+        self.nombre = "P097"
         self.anio = ano
         self.periodo = mes
         self.empresa = empresa
         self.mercado = mercado
         self.util = ModelComponenteP097()
 
-    def ValoresComponenteSui(self, db):
+    def getValues(self, db, mongodb):
         self.db = db
+        self.mongodb = mongodb
+        valoresSUI = self.ValoresComponenteSui()
+        valoresGestor = self.ValoresComponenteGestor()
+        return self.mergeData(valoresSUI, valoresGestor)
+
+    def ValoresComponenteSui(self):
         componente = self
         sql = self.util.getValoresComponenteSui(componente)
         return sql
 
-    def ValoresComponenteGestor(self, mongodb):
-        self.mongodb = mongodb
+    def ValoresComponenteGestor(self):
         query = self.util.getValoresGestor(self.mongodb)
         return query
 
@@ -94,15 +111,19 @@ class ComponenteP097(ComponenteCU):
 
 class ComponenteP015(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado):
-        self.componente = "P015"
+        self.nombre = "P015"
         self.anio = ano
         self.periodo = mes
         self.empresa = empresa
         self.mercado = mercado
         self.util = ModelComponenteP015()
 
-    def ValoresComponenteSui(self, db):
+    def getValues(self, db, mongodb):
         self.db = db
+        self.mongodb = mongodb
+        return self.ValoresComponenteSui()
+
+    def ValoresComponenteSui(self):
         componente = self
         sql = self.util.getValoresComponenteSui(componente)
         return sql
@@ -110,21 +131,26 @@ class ComponenteP015(ComponenteCU):
 
 class ComponenteDtun(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado):
-        self.componente = "Dtun"
+        self.nombre = "Dtun"
         self.anio = ano
         self.periodo = mes
         self.empresa = empresa
         self.mercado = mercado
         self.util = ModelComponenteDtun()
 
-    def ValoresComponenteSui(self, db):
+    def getValues(self, db, mongodb):
         self.db = db
+        self.mongodb = mongodb
+        valoresSUI = self.ValoresComponenteSui()
+        valoresGestor = self.ValoresComponenteGestor()
+        return self.mergeData(valoresSUI, valoresGestor)
+
+    def ValoresComponenteSui(self):
         componente = self
         sql = self.util.getValoresComponenteSui(componente)
         return sql
 
-    def ValoresComponenteGestor(self, mongodb):
-        self.mongodb = mongodb
+    def ValoresComponenteGestor(self):
         mercado = self.mercado
         query = self.util.getValoresGestor(self.mongodb, mercado)
         return query
@@ -137,21 +163,26 @@ class ComponenteDtun(ComponenteCU):
 
 class ComponenteD097(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado):
-        self.componente = "D097"
+        self.nombre = "D097"
         self.anio = ano
         self.periodo = mes
         self.empresa = empresa
         self.mercado = mercado
         self.util = ModelComponenteD097()
 
-    def ValoresComponenteSui(self, db):
+    def getValues(self, db, mongodb):
         self.db = db
+        self.mongodb = mongodb
+        valoresSUI = self.ValoresComponenteSui()
+        perdidas, distribucion, dane, dane2007 = self.ValoresComponenteGestor()
+        return self.mergeData(valoresSUI, perdidas, distribucion, dane, dane2007)
+
+    def ValoresComponenteSui(self):
         componente = self
         sql = self.util.getValoresComponenteSui(componente)
         return sql
 
-    def ValoresComponenteGestor(self, mongodb):
-        self.mongodb = mongodb
+    def ValoresComponenteGestor(self):
         perdidas, distribucion, dane, dane2007 = self.util.getValoresGestor(self.mongodb, self.anio, self.periodo, self.empresa)
         return perdidas, distribucion, dane, dane2007
 
@@ -162,15 +193,19 @@ class ComponenteD097(ComponenteCU):
 
 class ComponenteD015(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado):
-        self.componente = "D015"
+        self.nombre = "D015"
         self.anio = ano
         self.periodo = mes
         self.empresa = empresa
         self.mercado = mercado
         self.util = ModelComponenteD015()
 
-    def ValoresComponenteSui(self, db):
+    def getValues(self, db, mongodb):
         self.db = db
+        self.mongodb = mongodb
+        return self.ValoresComponenteSui()
+
+    def ValoresComponenteSui(self):
         componente = self
         sql = self.util.getValoresComponenteSui(componente)
         return sql
@@ -178,7 +213,7 @@ class ComponenteD015(ComponenteCU):
 
 class ComponenteC(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado):
-        self.componente = "C"
+        self.nombre = "C"
         self.anio = ano
         self.periodo = mes
         self.periodo_menos1 = mes - 1
@@ -187,14 +222,19 @@ class ComponenteC(ComponenteCU):
         self.mercado = mercado
         self.util = ModelComponenteC()
 
-    def ValoresComponenteSui(self, db):
+    def getValues(self, db, mongodb):
         self.db = db
+        self.mongodb = mongodb
+        valoresSUI = self.ValoresComponenteSui()
+        dane2013, dane, comercializacion = self.ValoresComponenteGestor()
+        return self.mergeData(valoresSUI, dane2013, dane, comercializacion)
+
+    def ValoresComponenteSui(self):
         componente = self
         sql = self.util.getValoresComponenteSui(componente)
         return sql
 
-    def ValoresComponenteGestor(self, mongodb):
-        self.mongodb = mongodb
+    def ValoresComponenteGestor(self):
         dane2013, dane, comercializacion = self.util.getValoresGestor(self.mongodb, self.anio, self.periodo, self.empresa)
         return dane2013, dane, comercializacion
 
@@ -205,7 +245,7 @@ class ComponenteC(ComponenteCU):
 
 class ComponenteR(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado):
-        self.componente = "R"
+        self.nombre = "R"
         self.anio = ano
         self.periodo = mes
         self.periodo_menos1 = mes - 1
@@ -213,8 +253,39 @@ class ComponenteR(ComponenteCU):
         self.mercado = mercado
         self.util = ModelComponenteR()
 
-    def ValoresComponenteSui(self, db):
+    def getValues(self, db, mongodb):
         self.db = db
+        self.mongodb = mongodb
+        return self.ValoresComponenteSui()
+
+    def ValoresComponenteSui(self):
         componente = self
         sql = self.util.getValoresComponenteSui(componente)
         return sql
+
+
+class CostoUnitario(ComponenteCU):
+    def __init__(self, ano, mes, empresa, mercado, ntprop):
+        self.nombre = "CU"
+        self.anio = ano
+        self.periodo = mes
+        self.empresa = empresa
+        self.mercado = mercado
+        self.ntprop = ntprop
+        self.util = ModelCostoUnitario()
+
+    def getValues(self, db, mongodb):
+        self.db = db
+        self.mongodb = mongodb
+        valoresSUI = self.ValoresComponenteSui()
+        # self.crearComponentesCU()
+        return self.crearComponentesCU()
+
+    def ValoresComponenteSui(self):
+        valoresCU = self
+        sql = self.util.getValoresComponenteSui(valoresCU)
+        return sql
+
+    def crearComponentesCU(self):
+        valoresCU = self
+        return self.util.getValoresComponentes(valoresCU)

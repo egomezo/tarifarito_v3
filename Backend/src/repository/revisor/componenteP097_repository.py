@@ -1,6 +1,6 @@
 import json
 
-from ...business.componentes.componentes import ComponenteP097
+from ...business.componentes.componente import ComponenteP097
 
 class ComponenteP097Repository:
     def __init__(self, db, mongodb):
@@ -8,9 +8,7 @@ class ComponenteP097Repository:
         self.mongodb = mongodb
 
     def get_componenteP097_bd(self, componente: ComponenteP097):
-        valoresSUI = componente.ValoresComponenteSui(self.db)
-        valoresGestor = componente.ValoresComponenteGestor(self.mongodb)
-        return componente.mergeData(valoresSUI, valoresGestor)
+        return componente.getValues(self.db, self.mongodb)
 
     def post_componenteP097(self, req):
         self.mongodb.componentes.insert_one(

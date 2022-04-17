@@ -7,7 +7,7 @@ from ...service import ComponenteCService
 from ...repository import ComponenteCRepository
 from ...util.constants import API_ROOT_PATH
 
-from ...business.componentes.componentes import ComponenteC
+from ...business.componentes.componente import ComponenteC
 
 # Obtener listado de componenteC
 @controller.route(API_ROOT_PATH + 'r_componentC', methods=['GET'])

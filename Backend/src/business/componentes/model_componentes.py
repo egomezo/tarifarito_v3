@@ -7,6 +7,7 @@ from .tools.componenteD097_tool import ToolComponenteD097
 from .tools.componenteD015_tool import ToolComponenteD015
 from .tools.componenteC_tool import ToolComponenteC
 from .tools.componenteR_tool import ToolComponenteR
+from .tools.costoUnitario_tool import ToolCostoUnitario
 
 
 class ModelComponent:
@@ -129,3 +130,14 @@ class ModelComponenteR(Util):
 
     def getValoresComponenteSui(self, componente):
         return self.operacion.getVariablesSUI(componente)
+
+
+class ModelCostoUnitario(Util):
+    def __init__(self):
+        self.operacion = ToolCostoUnitario()
+
+    def getValoresComponenteSui(self, valoresCU):
+        return self.operacion.getVariablesSUI(valoresCU)
+
+    def getValoresComponentes(self, valoresCU):
+        return self.operacion.crearComponentes(valoresCU)

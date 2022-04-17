@@ -22,6 +22,8 @@ from .revisor.componenteC_repository import ComponenteCRepository
 from .revisor.componenteR_repository import ComponenteRRepository
 from .revisor.componentesMDB_repository import rComponentesMDBRepository
 from .revisor.tarifas_repository import TarifasRepository
+from .revisor.costoUnitario_repository import CostoUnitarioRepository
+from .revisor.tarifas_repository import TarifasRepository
 
 
 class RepositoryModule(Module):
@@ -51,6 +53,7 @@ class RepositoryModule(Module):
         componenteC_repository = ComponenteCRepository(self.db, self.mongodb)
         componenteR_repository = ComponenteRRepository(self.db, self.mongodb)
         componentesMDB_repository = rComponentesMDBRepository(self.mongodb)
+        costoUnitario_repository = CostoUnitarioRepository(self.db, self.mongodb)
         tarifas_repository = TarifasRepository(self.db, self.mongodb)
 
         binder.bind(AniosRepository, to=anios_repository, scope=singleton)
@@ -74,5 +77,6 @@ class RepositoryModule(Module):
         binder.bind(ComponenteCRepository, to=componenteC_repository, scope=singleton)
         binder.bind(ComponenteRRepository, to=componenteR_repository, scope=singleton)
         binder.bind(rComponentesMDBRepository, to=componentesMDB_repository, scope=singleton)
+        binder.bind(CostoUnitarioRepository, to=costoUnitario_repository, scope=singleton)
         binder.bind(TarifasRepository, to=tarifas_repository, scope=singleton)
         
