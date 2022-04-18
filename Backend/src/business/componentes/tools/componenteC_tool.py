@@ -17,10 +17,6 @@ class ToolComponenteC():
 
         cpteC = pd.DataFrame(valoresSUI, columns=['empresa','mercado','ano','mes','c6','c1','c7','c8','c9','c10','c11','c13','c20','c22','c24','c21','c14','c15','c16','c23','c25','c28','c29','c30','c31','c32','c36','c34','c33','c37','c35','c38','c59','c69','c70','c71','c58','c60','c44','c47','c48','c55','c56','c52','c53'], dtype='float64')
 
-        # print('----------------------------------')
-        # print('1 ---> ', cpteC.dtypes)
-        # print('----------------------------------')
-
         cpteC = cpteC.loc[cpteC['mercado'] == mercado] # Se busca la fila correspondiente al mercado
 
         # Consutla MongoDB IDANE (Trae solo IPC de 12-2013)
@@ -153,7 +149,7 @@ class ToolComponenteC():
             # obj.append([no_empresa,factorP,rcnu,ccreg,csspd,rcreg,rsspd])
             obj.append([no_empresa,factorP,rcnu,ccreg,csspd])
 
-        df = pd.DataFrame(obj,columns=['empresa','c2','c19','c45','c46'])
+        df = pd.DataFrame(obj,columns=['empresa','c2','c19','c45','c46'], dtype='float64')
         return df
 
     def getVariablesSUI(self, componente):

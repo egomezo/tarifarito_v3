@@ -1,22 +1,24 @@
 <template>
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
-      <a v-if="collapse" key="collapse" class="sidebar-logo-link" href="#">
+      <!-- <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/"> -->
+      <a v-if="collapse" key="collapse" class="sidebar-logo-link" href="http://localhost:4200/home">
         <img v-if="logo" :src="logo" class="sidebar-logo">
         <h1 v-else class="sidebar-title">{{ title }} </h1>
       </a>
-      <a v-else key="expand" router-link class="sidebar-logo-link" href="#">
+      <!-- </router-link> -->
+      <!-- <router-link v-else key="expand" class="sidebar-logo-link" to="/"> -->
+      <a v-else key="expand" router-link class="sidebar-logo-link" href="http://localhost:4200/home">
         <img v-if="logo" :src="logo" class="sidebar-logo">
         <h1 class="sidebar-title">{{ title }} </h1>
       </a>
+      <!-- </router-link> -->
     </transition>
   </div>
 </template>
 
 <script>
-import logPage from '../../../assets/superservicios1.png'
-import { mapGetters } from 'vuex'
-import { getDependencia } from '@/api/procesosDIEG/dependencia'
+import logTarifarito from '../../../assets/logo_buho.png'
 
 export default {
   name: 'SidebarLogo',
@@ -28,24 +30,8 @@ export default {
   },
   data() {
     return {
-      title: 'Procesos',
-      logo: logPage,
-      datosDependencia: []
-    }
-  },
-  computed: {
-    ...mapGetters(['dependencia'])
-  },
-  created() {
-    this.getInfoDependencia()
-  },
-  methods: {
-    async getInfoDependencia() {
-      await getDependencia(this.dependencia).then((response) => {
-        this.datosDependencia = response[0]
-        this.title = this.title + ' ' + this.datosDependencia.descripcion
-        // console.log('Dependencia -> ', this.title)
-      })
+      title: 'Tarifarito',
+      logo: logTarifarito
     }
   }
 }
@@ -75,7 +61,7 @@ export default {
     width: 100%;
 
     & .sidebar-logo {
-      width: 32px;
+      width: 30px;
       height: 32px;
       vertical-align: middle;
       margin-right: 12px;

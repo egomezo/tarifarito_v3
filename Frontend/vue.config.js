@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+/* eslint-disable */
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
@@ -13,7 +15,8 @@ const name = defaultSettings.title || 'vue Element Admin' // page title
 // For example, Mac: sudo npm run
 // You can change the port by the following method:
 // port = 9527 npm run dev OR npm run dev --port = 9527
-const port = process.env.port || process.env.npm_config_port || 5062 // dev port
+const port = process.env.port || process.env.npm_config_port || 5058 // dev port local juankmilo
+    // const port = process.env.port || process.env.npm_config_port || 8080 // dev port pc super
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -24,32 +27,30 @@ module.exports = {
      * In most cases please use '/' !!!
      * Detail: https://cli.vuejs.org/config/#publicpath
      */
-    // publicPath: process.env.NODE_ENV === 'development' ? '/' : '{{url_base}}',
-    publicPath: process.env.NODE_ENV === 'development' ? '/' : 'sdegc/front/dist',
-    outputDir: '../Backend/front/dist',
+    publicPath: '/',
+    outputDir: 'dist',
     assetsDir: 'static',
-    lintOnSave: process.env.NODE_ENV === 'development' ? 'error' : false,
+    lintOnSave: process.env.NODE_ENV === 'development',
     productionSourceMap: false,
     devServer: {
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": true
-        },
         port: port,
         open: true,
         overlay: {
             warnings: false,
             errors: true
         },
-        after(app) {
-            require('@babel/register')
-            const bodyParser = require('body-parser')
-
-            app.use(bodyParser.json())
-            app.use(bodyParser.urlencoded({
-                extended: true
-            }))
-        }
+        proxy: {
+            // change xxx-api/login => mock/login
+            // detail: https://cli.vuejs.org/config/#devserver-proxy
+            [process.env.VUE_APP_BASE_API]: {
+                target: `http://127.0.0.1:${port}/mock`,
+                changeOrigin: true,
+                pathRewrite: {
+                    ['^' + process.env.VUE_APP_BASE_API]: ''
+                }
+            }
+        },
+        after: require('./mock/mock-server.js')
     },
     configureWebpack: {
         // provide the app's title in webpack's name field, so that
@@ -94,10 +95,10 @@ module.exports = {
             .end()
 
         config
-            // https://webpack.js.org/configuration/devtool/#development
+        // https://webpack.js.org/configuration/devtool/#development
             .when(process.env.NODE_ENV === 'development',
-                config => config.devtool('cheap-source-map')
-            )
+            config => config.devtool('cheap-source-map')
+        )
 
         config
             .when(process.env.NODE_ENV !== 'development',

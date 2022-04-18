@@ -29,15 +29,13 @@ def create_resolucion(g_resolucion_service: D097ResolucionService, g_resolucion_
     return json.dumps(g_resolucion_service.post(g_resolucion_repository, req))
 
 # Actualizar informacion D097 | resolucion
-@controller.route(API_ROOT_PATH + 'g_resolucion', methods=['PUT'])
-def update_resolucion(g_resolucion_service: D097ResolucionService, g_resolucion_repository: D097ResolucionRepository):
+@controller.route(API_ROOT_PATH + 'g_resolucion/<int:anio>', methods=['PUT'])
+def update_resolucion(g_resolucion_service: D097ResolucionService, g_resolucion_repository: D097ResolucionRepository, anio):
     req_model = request.args['params']
     req_empresa = request.args.get('empresa')
-    anio = int(request.args.get('anio'))
     return json.dumps(g_resolucion_service.put(g_resolucion_repository, anio, req_model, req_empresa))
 
 # Eliminar informacion D097 | resolucion
-@controller.route(API_ROOT_PATH + '/g_resolucion', methods=['DELETE'])
-def delete_resolucion(g_resolucion_service: D097ResolucionService, g_resolucion_repository: D097ResolucionRepository):
-    anio = int(request.args.get('anio'))
+@controller.route(API_ROOT_PATH + 'g_resolucion/<int:anio>', methods=['DELETE'])
+def delete_resolucion(g_resolucion_service: D097ResolucionService, g_resolucion_repository: D097ResolucionRepository, anio):
     return json.dumps(g_resolucion_service.delete(g_resolucion_repository, anio))

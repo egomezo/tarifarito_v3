@@ -29,15 +29,13 @@ def create_perdidas(g_perdidasSTN_service: PerdidasService, g_perdidasSTN_reposi
     return json.dumps(g_perdidasSTN_service.post(g_perdidasSTN_repository, req))
 
 # Actualizar perdidas STN
-@controller.route(API_ROOT_PATH + 'g_perdidasSTN', methods=['PUT'])
-def update_perdidas(g_perdidasSTN_service: PerdidasService, g_perdidasSTN_repository: PerdidasRepository):
+@controller.route(API_ROOT_PATH + 'g_perdidasSTN/<int:anio>', methods=['PUT'])
+def update_perdidas(g_perdidasSTN_service: PerdidasService, g_perdidasSTN_repository: PerdidasRepository, anio):
     req_model = request.args['params']
     req_mercado = str(request.args.get('mercado'))
-    anio = 0
     return json.dumps(g_perdidasSTN_service.put(g_perdidasSTN_repository, anio, req_model, req_mercado))
 
 # Eliminar perdidas STN
-@controller.route(API_ROOT_PATH + '/g_perdidasSTN', methods=['DELETE'])
-def delete_perdidas(g_perdidasSTN_service: PerdidasService, g_perdidasSTN_repository: PerdidasRepository):
-    anio = int(request.args.get('anio'))
+@controller.route(API_ROOT_PATH + 'g_perdidasSTN/<int:anio>', methods=['DELETE'])
+def delete_perdidas(g_perdidasSTN_service: PerdidasService, g_perdidasSTN_repository: PerdidasRepository, anio):
     return json.dumps(g_perdidasSTN_service.delete(g_perdidasSTN_repository, anio))

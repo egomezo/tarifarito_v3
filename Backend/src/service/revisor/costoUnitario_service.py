@@ -11,5 +11,5 @@ class CostoUnitarioService:
         timeEnd = datetime.today()
         print(f"finished at {timeEnd.strftime('%X')}")
         timeTotal = timeEnd - timeStart
-        print(f"Time Total = {timeTotal}")
+        print(f"<< time used generated cptes >> {timeTotal}")
         return data

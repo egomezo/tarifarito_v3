@@ -8,7 +8,7 @@
       filterable
       default-first-option
       remote
-      :placeholder="$t('navbar.search')"
+      placeholder="Search"
       class="header-search-select"
       @change="change"
     >

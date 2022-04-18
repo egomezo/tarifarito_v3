@@ -6,18 +6,18 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import viewAdmin from './administrador'
-// import viewGestor from './gestor'
-// import viewRevisor from './revisor'
-// import viewAprobador from './aprobador'
+import viewAdmin from './admin'
+import viewGestor from './gestor'
+import viewRevisor from './revisor'
+import viewAprobador from './aprobador'
 
 export default {
   name: 'MenuRoles',
   components: {
-    viewAdmin
-    // viewGestor,
-    // viewRevisor,
-    // viewAprobador
+    viewAdmin,
+    viewGestor,
+    viewRevisor,
+    viewAprobador
   },
   data() {
     return {
@@ -32,18 +32,18 @@ export default {
   },
   created() {
     console.log('ROL LOGUEADO -> ', this.roles)
-    if (this.roles.includes('administrador')) {
+    if (this.roles.includes('admin')) {
       this.currentRole = 'viewAdmin'
     }
-    // if (this.roles.includes('gestor')) {
-    //   this.currentRole = 'viewGestor'
-    // }
-    // if (this.roles.includes('revisor')) {
-    //   this.currentRole = 'viewRevisor'
-    // }
-    // if (this.roles.includes('aprobador')) {
-    //   this.currentRole = 'viewAprobador'
-    // }
+    if (this.roles.includes('gestor')) {
+      this.currentRole = 'viewGestor'
+    }
+    if (this.roles.includes('revisor')) {
+      this.currentRole = 'viewRevisor'
+    }
+    if (this.roles.includes('aprobador')) {
+      this.currentRole = 'viewAprobador'
+    }
   }
 }
 </script>

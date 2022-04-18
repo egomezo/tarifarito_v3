@@ -174,9 +174,9 @@ export default {
   },
   'es-MX': {
     hint: 'Selecciona o arrastra una imagen',
-    loading: 'Cargando...',
+    loading: 'Subiendo...',
     noSupported: 'Tu navegador no es soportado, porfavor usa IE10+ u otros navegadores mas recientes',
-    success: 'Cargado exitosamente',
+    success: 'Subido exitosamente',
     fail: 'Sucedió un error',
     preview: 'Vista previa',
     btn: {

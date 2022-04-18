@@ -1,283 +1,219 @@
 /* jshint esversion: 6 */
 /* eslint-disable */
 export const CONSTANTS = {
-    tableColumnsAdmin: [
-        // {
-        //     label: '#',
-        //     prop: 'idproceso',
-        //     width: 67
-        // },
-        {
-            label: 'Expediente',
-            prop: 'expediente',
-            width: 156,
-            filter: 'filterExpediente'
+    optionsAnoDane: [{
+            value: '2007'
         },
         {
-            label: 'Servicio',
-            prop: 'servicio',
-            width: 112,
-            filter: 'filterServicio'
+            value: '2008'
         },
         {
-            label: 'Empresa',
-            prop: 'empresa',
-            width: 245,
-            filter: 'filterEmpresa'
+            value: '2009'
         },
         {
-            label: 'Caducidad',
-            prop: 'caducidadsancion',
-            width: 135,
-            filter: 'filterCaducidadsancion'
+            value: '2010'
         },
         {
-            label: 'Estado',
-            prop: 'estado',
-            width: 300,
-            filter: 'filterEstado'
+            value: '2011'
         },
         {
-            label: 'Proyectista',
-            prop: 'usuario',
-            width: 170,
-            filter: 'filterAbogado'
+            value: '2012'
         },
         {
-            label: 'Revisor',
-            prop: 'revisor',
-            width: 170,
-            filter: 'filterRevisor'
+            value: '2013'
+        },
+        {
+            value: '2014'
+        },
+        {
+            value: '2015'
+        },
+        {
+            value: '2016'
+        },
+        {
+            value: '2017'
+        },
+        {
+            value: '2018'
+        },
+        {
+            value: '2019'
+        },
+        {
+            value: '2020'
+        },
+        {
+            value: '2021'
         }
     ],
-    tableColumnsAbogado: [
-        // {
-        //     label: '#',
-        //     prop: 'idproceso',
-        //     width: 70
-        // },
-        {
-            label: 'Expediente',
-            prop: 'expediente',
-            width: 156,
-            filter: 'filterExpediente'
+    optionsAno: [{
+            value: '2016'
         },
         {
-            label: 'Servicio',
-            prop: 'servicio',
-            width: 112,
-            filter: 'filterServicio'
+            value: '2017'
         },
         {
-            label: 'Empresa',
-            prop: 'empresa',
-            width: 245,
-            filter: 'filterEmpresa'
+            value: '2018'
         },
         {
-            label: 'Caducidad',
-            prop: 'caducidadsancion',
-            width: 135,
-            filter: 'filterCaducidadsancion'
+            value: '2019'
         },
         {
-            label: 'Estado',
-            prop: 'estado',
-            width: 300,
-            filter: 'filterEstado'
+            value: '2020'
         },
         {
-            label: 'Proyectista',
-            prop: 'usuario',
-            width: 170,
-            filter: 'filterAbogado'
-        },
-        {
-            label: 'Revisor',
-            prop: 'revisor',
-            width: 170,
-            filter: 'filterRevisor'
+            value: '2021'
         }
     ],
-    tableColumnsEtapas: [{
-            label: '#',
-            prop: 'idetapa',
-            width: 70
+    optionsMes: [{
+            value: 1,
+            key: 'enero',
+            label: 'Enero'
         },
         {
-            label: 'Radicado',
-            prop: 'radicadoEtapa'
+            value: 2,
+            key: 'febrero',
+            label: 'Febrero'
         },
         {
-            label: 'Etapa',
-            prop: 'nombreEtapa',
-            width: 300
+            value: 3,
+            key: 'marzo',
+            label: 'Marzo'
         },
         {
-            label: 'Fecha de inicio',
-            prop: 'fechaInicioEtapa'
+            value: 4,
+            key: 'abril',
+            label: 'Abril'
         },
         {
-            label: 'Fecha fin',
-            prop: 'fechaFinEtapa'
+            value: 5,
+            key: 'mayo',
+            label: 'Mayo'
         },
         {
-            label: 'Observación',
-            prop: 'observacionEtapa',
-            width: 300
+            value: 6,
+            key: 'junio',
+            label: 'Junio'
+        },
+        {
+            value: 7,
+            key: 'julio',
+            label: 'Julio'
+        },
+        {
+            value: 8,
+            key: 'agosto',
+            label: 'Agosto'
+        },
+        {
+            value: 9,
+            key: 'septiembre',
+            label: 'Septiembre'
+        },
+        {
+            value: 10,
+            key: 'octubre',
+            label: 'Octubre'
+        },
+        {
+            value: 11,
+            key: 'noviembre',
+            label: 'Noviembre'
+        },
+        {
+            value: 12,
+            key: 'diciembre',
+            label: 'Diciembre'
         }
     ],
-    filter: [
-        { text: 'Energía', value: 'Energía' },
-        { text: 'Gas', value: 'Gas' },
-        { text: 'GLP', value: 'GLP' },
-    ],
-    formAgregar: {
-        radicado: '',
-        servicio: '',
-        empresa: '',
-        usuario: '',
-        revisor: '',
-        fecha_caducidad_sancion: null,
-        fecha_caducidad_recurso: null
+    optionsEmpresa: [{
+        value: '2103',
+        label: 'CODENSA SA'
+    }, {
+        value: '2249',
+        label: 'ELECTRIFICADORA DEL CARIBE SA'
+    }, {
+        value: '204',
+        label: 'ELECTRIFICADORA DEL META SA'
+    }],
+    optionsFactor: [{
+        value: 0,
+        label: '0'
+    }, {
+        value: 0.00725,
+        label: '0.00725'
+    }, {
+        value: 0.0145,
+        label: '0.0145'
+    }, {
+        value: 0.02175,
+        label: '0.02175'
+    }, {
+        value: 0.029,
+        label: '0.029'
+    }],
+    myBackToTopStyle: {
+        right: '50px',
+        bottom: '50px',
+        width: '40px',
+        height: '40px',
+        'border-radius': '4px',
+        'line-height': '45px',
+        background: '#e7eaf1'
     },
-    rulesFormProceso: {
-        radicado: [
-            { required: true, message: 'Ingrese un expediente', trigger: 'blur' },
-            { min: 17, max: 17, message: 'La longitud del expediente debe ser de 17 caracteres', trigger: 'blur' }
-        ],
-        servicio: [{
-            required: true,
-            message: 'Seleccione un servicio',
-            trigger: 'change'
-        }],
-        empresa: [{
-            required: true,
-            message: 'Seleccione una empresa',
-            trigger: 'change'
-        }],
-        usuario: [{
-            required: true,
-            message: 'Seleccione un abogado',
-            trigger: 'change'
-        }],
-        revisor: [{
-            required: true,
-            message: 'Seleccione un revisor',
-            trigger: 'change'
-        }],
-        fecha_caducidad_sancion: [{
-            type: 'date',
-            required: false,
-            message: 'Ingrese una fecha válida',
-            trigger: 'change'
-        }],
-        fecha_caducidad_recurso: [{
-            type: 'date',
-            required: false,
-            message: 'Ingrese una fecha válida',
-            trigger: 'change'
-        }]
-    },
-    formUsuario: {
-        idproceso: '',
-        expediente: '',
-        usuario: '',
-        revisor: '',
-    },
-    formDetalleProceso: {
-        expediente: '',
-        tipo_sancion: '',
-        decision: '',
-        caducidadsancion: '',
-        caducidadrecurso: '',
-        causa: [],
-        descripcion: ''
-    },
-    rulesDetalleProceso: {
-        expediente: [
-            { required: true, message: 'Ingrese un expediente', trigger: 'blur' },
-            { min: 17, max: 17, message: 'La longitud debe ser de 17 caracteres', trigger: 'blur' }
-        ],
-        empresa: [{
-            required: true,
-            message: 'Seleccione una empresa',
-            trigger: 'change'
-        }],
-        tipo_sancion: [{
-            required: false,
-            message: 'Seleccione un tipo de sanción',
-            trigger: 'change'
-        }],
-        sancion: [
-            { required: false, message: 'Valor sanción requerido' }
-        ],
-        decision: [{
-            required: false,
-            message: 'Seleccione una decision',
-            trigger: 'change'
-        }],
-        causa: [{
-            required: true,
-            message: 'Seleccione una causal',
-            trigger: 'change'
-        }],
-        caducidadsancion: [{
-            required: false,
-            message: 'Ingrese una fecha válida',
-            trigger: 'change'
-        }],
-        caducidadrecurso: [{
-            required: false,
-            message: 'Ingrese una fecha válida',
-            trigger: 'change'
-        }]
-    },
-    formUser: {
-        nombre: '',
-        apellido: '',
-        genero: '',
-        nickname: '',
-        contrasena: '',
-        rol: '',
-        descripcion: '',
-        avatar: '',
-        token: '',
-        email: ''
-    },
-    rulesFormUser: {
-        nombre: [
-            { required: true, message: 'Ingrese nombre', trigger: 'blur' }
-        ],
-        apellido: [
-            { required: true, message: 'Ingrese apellido', trigger: 'blur' }
-        ],
-        genero: [{
-            required: true,
-            message: 'Seleccione un género',
-            trigger: 'change'
-        }],
-        rol: [{
-            required: true,
-            message: 'Seleccione un rol',
-            trigger: 'change'
-        }],
-        email: [
-            { type: "email", required: true, message: 'Ingrese un correo electrónico válido', trigger: 'blur' },
-        ],
-        descripcion: [{
-            required: true,
-            message: 'Ingrese una descripción del usuario',
-            trigger: 'change'
-        }],
-    },
-    dataGenero: [{
-            idgenero: 1,
-            nombre: 'Hombre'
+    columnComponents: [{
+            label: 'G',
+            prop: 'component_g'
         },
         {
-            idgenero: 2,
-            nombre: 'Mujer'
+            label: 'T',
+            prop: 'component_t'
+        },
+        {
+            label: 'P',
+            prop: 'component_p'
+        },
+        {
+            label: 'D',
+            prop: 'component_d'
+        },
+        {
+            label: 'Dtun',
+            prop: 'component_dtun'
+        },
+        {
+            label: 'R',
+            prop: 'component_r'
+        },
+        {
+            label: 'C',
+            prop: 'component_c'
+        },
+        {
+            label: 'CU',
+            prop: 'component_cu'
+        }
+    ],
+    optionsADD: [{
+            label: '0 - Sin ADD',
+            value: 0
+        },
+        {
+            label: '1 - Centro',
+            value: 1
+        },
+        {
+            label: '2 - Occidente',
+            value: 2
+        },
+        {
+            label: '3 - Oriente',
+            value: 3
+        },
+        {
+            label: '4 - Sur',
+            value: 4
         }
     ]
 };

@@ -2,9 +2,9 @@
   <div>
     <input ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
     <div class="drop" @drop="handleDrop" @dragover="handleDragover" @dragenter="handleDragover">
-      {{ message }}
+      Drop excel file here or
       <el-button :loading="loading" style="margin-left:16px;" size="mini" type="primary" @click="handleUpload">
-        Examinar
+        Browse
       </el-button>
     </div>
   </div>
@@ -16,11 +16,7 @@ import XLSX from 'xlsx'
 export default {
   props: {
     beforeUpload: Function, // eslint-disable-line
-    onSuccess: Function, // eslint-disable-line
-    message: {
-      type: String,
-      default: 'Arrastre el archivo excel aquí'
-    }
+    onSuccess: Function// eslint-disable-line
   },
   data() {
     return {
@@ -43,13 +39,13 @@ export default {
       if (this.loading) return
       const files = e.dataTransfer.files
       if (files.length !== 1) {
-        this.$message.error('¡Solo admite la carga de un archivo EXCEL!')
+        this.$message.error('Only support uploading one file!')
         return
       }
       const rawFile = files[0] // only use files[0]
 
       if (!this.isExcel(rawFile)) {
-        this.$message.error('Solo admite la carga de archivos .xlsx, .xls, .csv')
+        this.$message.error('Only supports upload .xlsx, .xls, .csv suffix files')
         return false
       }
       this.upload(rawFile)

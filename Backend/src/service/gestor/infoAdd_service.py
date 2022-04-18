@@ -3,13 +3,13 @@ from ...repository import InfoAddRepository
 class InfoAddService:
 
     def get_infoAdd(self, g_infoAdd_repository: InfoAddRepository, mercado):
-        print("GET MERCADO ---> ", mercado)
+        print("GET MERCADO PARAM ---> ", mercado)
         if mercado == 0:
             # Consultar todos los registros
             result = []
             query = g_infoAdd_repository.get_infoADD_bd()
             for item in query:
-                # print(result)
+                print(result)
                 item['_id'] = str(item['_id'])
                 result.append(item)
             return result
@@ -21,7 +21,7 @@ class InfoAddService:
             query = g_infoAdd_repository.get_infoADD_mercado_bd(mercado)
             lista = list(query)
             if len(lista) > 0:
-                # print('lista > ', lista)
+                print('lista > ', lista)
                 if lista[0]['mercados']:
                     sizeArray = len(lista[0]['mercados'][mercado])
                     print("___________ SIZEARRAY _____________")

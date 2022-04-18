@@ -1,0 +1,35 @@
+[
+	{
+		"ano": 2020,
+    "mes": 1,
+    "cod_empresa": 2103,
+    "cod_mercado": 176,
+		"nt_prop": "1-100",
+		"componente": "g",
+		"registro": "G01",
+		"novedad": "dsfsfsfs",
+		"fecha_modif": "2020-07-23T07:41:57.487Z",
+		"values": {
+			"DCR": 123,
+			"CPTET": 434,
+		}
+	}
+]
+
+[
+	{
+		"ano": 2020,
+    "mes": 1,
+    "cod_empresa": 2103,
+    "cod_mercado": 176,
+		"nt_prop": "1-100",
+		"componente": "g",
+		"registro": "G01",
+		"novedad": "dsfsfsfs",
+		"fecha_modif": "2020-07-23T07:41:57.487Z",
+		"values": {
+			"DCR": 123,
+			"CPTET": 434,
+		}
+	}
+]

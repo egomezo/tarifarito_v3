@@ -19,15 +19,6 @@ router.beforeEach(async(to, from, next) => {
 
   // determine whether the user has logged in
   const hasToken = getToken()
-  // const hasToken = true
-
-  // const queryString = window.location.search
-  // console.log('Info token URL --> ', queryString)
-  // const urlParams = new URLSearchParams(queryString)
-  // const accesstoken = urlParams.get('accesstoken')
-  // console.log('accesstoken --> ', accesstoken)
-
-  // console.log('Configuración --> permisos app!', hasToken)
 
   if (hasToken) {
     if (to.path === '/login') {

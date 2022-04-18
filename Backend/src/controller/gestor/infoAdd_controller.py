@@ -31,6 +31,6 @@ def update_infoADD(g_infoADD_service: InfoAddService, g_infoADD_repository: Info
     return json.dumps(g_infoADD_service.put(g_infoADD_repository, req_model, req_mercado))
 
 # Eliminar informacion de areas de distribucion (ADD)
-@controller.route(API_ROOT_PATH + '/g_infoADD', methods=['DELETE'])
+@controller.route(API_ROOT_PATH + 'g_infoADD', methods=['DELETE'])
 def delete_infoADD(g_infoADD_service: InfoAddService, g_infoADD_repository: InfoAddRepository):
     return json.dumps(g_infoADD_service.delete(g_infoADD_repository))

@@ -29,16 +29,13 @@ def create_error(g_error_service: D097ErrorService, g_error_repository: D097Erro
     return json.dumps(g_error_service.post(g_error_repository, req))
 
 # Actualizar informacion comercial D097 | Error
-@controller.route(API_ROOT_PATH + 'g_error', methods=['PUT'])
-def update_error(g_error_service: D097ErrorService, g_error_repository: D097ErrorRepository):
+@controller.route(API_ROOT_PATH + 'g_error/<string:f_inicial>/<string:f_final>', methods=['PUT'])
+def update_error(g_error_service: D097ErrorService, g_error_repository: D097ErrorRepository, f_inicial, f_final):
     req_model = request.args['params']
     req_empresa = request.args.get('empresa')
-    f_inicial = request.args.get('f_inicial')
-    f_final = request.args.get('f_final')
-    return json.dumps(g_error_service.put(g_error_repository,  f_inicial, f_final, req_model, req_empresa))
+    return json.dumps(g_error_service.put(g_error_repository, f_inicial, f_final, req_model, req_empresa))
 
 # Eliminar informacion comercial D097 | Error
-@controller.route(API_ROOT_PATH + '/g_error', methods=['DELETE'])
-def delete_error(g_error_service: D097ErrorService, g_error_repository: D097ErrorRepository):
-    f_inicial = request.args.get('f_inicial')
+@controller.route(API_ROOT_PATH + 'g_error/<string:f_inicial>', methods=['DELETE'])
+def delete_error(g_error_service: D097ErrorService, g_error_repository: D097ErrorRepository, f_inicial):
     return json.dumps(g_error_service.delete(g_error_repository, f_inicial))

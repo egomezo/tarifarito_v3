@@ -12,8 +12,6 @@ const service = axios.create({
     timeout: 5000 // request timeout
 });
 
-// console.log('service --> ', url);
-
 // request interceptor
 service.interceptors.request.use(
     config => {

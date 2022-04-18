@@ -1,11 +1,11 @@
 /* jshint esversion: 6 */
 /* eslint-disable */
 const tokens = {
-    administrador: {
-        token: 'administrador-token'
+    admin: {
+        token: 'admin-token'
     },
-    usuario: {
-        token: 'usuario-token'
+    gestor: {
+        token: 'gestor-token'
     },
     revisor: {
         token: 'revisor-token'
@@ -22,23 +22,26 @@ const tokens = {
     visitor: {
         token: 'visitor-token'
     },
-    juank: {
-        token: 'juank-token'
+    juan: {
+        token: 'juan-token'
     },
+    diego: {
+        token: 'gestor-token'
+    }
 }
 
 const users = {
-    'administrador-token': {
-        roles: ['administrador'],
-        introduction: 'Es un adminsitrador del sistema',
+    'admin-token': {
+        roles: ['admin'],
+        introduction: 'I am a super administrator',
         avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         name: 'Administrador'
     },
-    'usuario-token': {
-        roles: ['usuario'],
-        introduction: 'Soy un usuario regular de los datos',
+    'gestor-token': {
+        roles: ['gestor'],
+        introduction: 'Soy un Gestor de datos',
         avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-        name: 'Usuario'
+        name: 'Gestor de Datos'
     },
     'revisor-token': {
         roles: ['revisor'],
@@ -70,76 +73,72 @@ const users = {
         avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         name: 'Normal Visitor'
     },
-    'juank-token': {
-        roles: ['administrador'],
+    'juan-token': {
+        roles: ['visitor'],
         introduction: 'I am an visitor',
         avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-        name: 'Normal Visitor'
+        name: 'Normal juan'
     }
 }
 
 export default [
     // user login
-    // {
-    //     url: '/user/login',
-    //     type: 'post',
-    //     response: config => {
-    //         console.log('config login -> ', config);
-    //         const { username } = config.body
-    //         console.log({ username });
-    //         const token = tokens[username]
+    {
+        url: '/user/login',
+        type: 'post',
+        response: config => {
+            const { username } = config.body
+            const token = tokens[username]
 
-    //         console.log(config);
+            console.log('config', config);
 
-    //         // mock error
-    //         if (!token) {
-    //             return {
-    //                 code: 60204,
-    //                 message: 'Usuario y contraseña incorrectos.'
-    //             }
-    //         }
+            // mock error
+            if (!token) {
+                return {
+                    code: 60204,
+                    message: 'Usuario y contraseña incorrectos.'
+                }
+            }
 
-    //         return {
-    //             code: 20000,
-    //             data: token
-    //         }
-    //     }
-    // },
+            return {
+                code: 20000,
+                data: token
+            }
+        }
+    },
 
     // get user info
-    // {
-    //     url: '/user/info\.*',
-    //     type: 'get',
-    //     response: config => {
-    //         const { token } = config.query
-    //         const info = users[token]
+    {
+        url: '/user/info\.*',
+        type: 'get',
+        response: config => {
+            const { token } = config.query
+            const info = users[token]
 
-    //         console.log('entro al token!');
+            // mock error
+            if (!info) {
+                return {
+                    code: 50008,
+                    message: 'Error de inicio de sesión, no se pueden obtener los detalles del usuario.'
+                }
+            }
 
-    //         // mock error
-    //         if (!info) {
-    //             return {
-    //                 code: 50008,
-    //                 message: 'Error de inicio de sesión, no se pueden obtener los detalles del usuario.'
-    //             }
-    //         }
-
-    //         return {
-    //             code: 20000,
-    //             data: info
-    //         }
-    //     }
-    // },
+            return {
+                code: 20000,
+                data: info
+            }
+        }
+    },
 
     // user logout
-    // {
-    //     url: '/user/logout',
-    //     type: 'post',
-    //     response: _ => {
-    //         return {
-    //             code: 20000,
-    //             data: 'success'
-    //         }
-    //     }
-    // }
+    {
+        url: '/user/logout',
+        type: 'post',
+        response: _ => {
+            return {
+                code: 20000,
+                data: 'success'
+            }
+        }
+    }
 ]

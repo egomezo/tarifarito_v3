@@ -29,15 +29,14 @@ def create_icomercial(g_icomercial_service: IComercialService, g_icomercial_repo
     return json.dumps(g_icomercial_service.post(g_icomercial_repository, req))
 
 # Actualizar informacion comercial
-@controller.route(API_ROOT_PATH + 'g_icomercial', methods=['PUT'])
-def update_icomercial(g_icomercial_service: IComercialService, g_icomercial_repository: IComercialRepository):
+@controller.route(API_ROOT_PATH + 'g_icomercial/<int:anio>', methods=['PUT'])
+def update_icomercial(g_icomercial_service: IComercialService, g_icomercial_repository: IComercialRepository, anio):
+    print('# Actualizar informacion comercial')
     req_model = request.args['params']
     req_empresa = request.args.get('empresa')
-    anio = int(request.args.get('anio'))
     return json.dumps(g_icomercial_service.put(g_icomercial_repository, anio, req_model, req_empresa))
 
 # Eliminar informacion comercial
-@controller.route(API_ROOT_PATH + '/g_icomercial', methods=['DELETE'])
-def delete_icomercial(g_icomercial_service: IComercialService, g_icomercial_repository: IComercialRepository):
-    anio = int(request.args.get('anio'))
+@controller.route(API_ROOT_PATH + 'g_icomercial/<int:anio>', methods=['DELETE'])
+def delete_icomercial(g_icomercial_service: IComercialService, g_icomercial_repository: IComercialRepository, anio):
     return json.dumps(g_icomercial_service.delete(g_icomercial_repository, anio))

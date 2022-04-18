@@ -1,27 +1,29 @@
 /* jshint esversion: 6 */
 /* eslint-disable */
-import Vue from 'vue'
+import Vue from 'vue';
 
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 
-import 'normalize.css/normalize.css' // a modern alternative to CSS resets
+import 'normalize.css/normalize.css'; // a modern alternative to CSS resets
 
-import Element from 'element-ui'
-import popconfirm from 'element-ui'
-import './styles/element-variables.scss'
+// import Element from 'element-ui'
+// import './styles/element-variables.scss';
 
-import '@/styles/index.scss' // global css
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
-import App from './App'
-import store from './store'
-import router from './router'
+import '@/styles/index.scss'; // global css
 
-import i18n from './lang' // Internationalization
-import './icons' // icon
-import './permission' // permission control
-import './utils/error-log' // error log
+import App from './App';
+import store from './store';
+import router from './router';
 
-import * as filters from './filters' // global filters
+import i18n from './lang'; // Internationalization
+import './icons'; // icon
+import './permission'; // permission control
+import './utils/error-log'; // error log
+
+import * as filters from './filters'; // global filters
 
 // import 'vue-awesome/icons'
 // import Icon from 'vue-awesome/components/Icon'
@@ -34,34 +36,35 @@ import * as filters from './filters' // global filters
  * Currently MockJs will be used in the production environment,
  * please remove it before going online! ! !
  */
-import { mockXHR } from '../mock'
-if (process.env.NODE_ENV === 'development') { // Cambiar esta linea entre desarrollo (development) y production segun al servidor que se apunte
-    mockXHR() // Aqui se permite utilizar el API de prueba que trae la plantilla en particular el login de usuarios (user/login)
+import { mockXHR } from '../mock';
+if (process.env.NODE_ENV === 'development') {
+    mockXHR();
 }
 
-Vue.use(Element, {
+Vue.use(ElementUI, {
     size: Cookies.get('size') || 'medium', // set element-ui default size
     i18n: (key, value) => i18n.t(key, value)
-})
-
-Vue.use(popconfirm)
+});
 
 // register global utility filters
 Object.keys(filters).forEach(key => {
-    Vue.filter(key, filters[key])
-})
+    Vue.filter(key, filters[key]);
+});
 
-i18n.locale = Cookies.get('language') ? Cookies.get('language') : 'es',
+i18n.locale = 'es';
 
-    Vue.config.productionTip = false
-
-// Vue.filter('capitalize', function(value) {
-//     if (!value) return ''
-//     value = value.toString()
-//     return value.charAt(0).toLowerCase() + value.slice(1)
-// })
+Vue.config.productionTip = false;
 
 // Vue.component('v-icon', Icon)
+
+// import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+// import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// // Install BootstrapVue
+// Vue.use(BootstrapVue)
+//     // Optionally install the BootstrapVue icon components plugin
+// Vue.use(IconsPlugin)
 
 new Vue({
     el: '#app',
@@ -69,4 +72,4 @@ new Vue({
     store,
     i18n,
     render: h => h(App)
-})
+});

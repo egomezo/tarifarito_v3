@@ -29,15 +29,13 @@ def create_ntolerancia(g_ntolerancia_service: NtoleranciaService, g_ntolerancia_
     return json.dumps(g_ntolerancia_service.post(g_ntolerancia_repository, req))
 
 # Actualizar tolerancia
-@controller.route(API_ROOT_PATH + 'g_ntolerancia', methods=['PUT'])
-def update_ntolerancia(g_ntolerancia_service: NtoleranciaService, g_ntolerancia_repository: NtoleranciaRepository):
+@controller.route(API_ROOT_PATH + 'g_ntolerancia/<int:anio>', methods=['PUT'])
+def update_ntolerancia(g_ntolerancia_service: NtoleranciaService, g_ntolerancia_repository: NtoleranciaRepository, anio):
     req_model = request.args['params']
     req_mes = request.args.get('mes')
-    anio = int(request.args.get('anio'))
     return json.dumps(g_ntolerancia_service.put(g_ntolerancia_repository, anio, req_model, req_mes))
 
 # Eliminar tolerancia
-@controller.route(API_ROOT_PATH + '/g_ntolerancia', methods=['DELETE'])
-def delete_ntolerancia(g_ntolerancia_service: NtoleranciaService, g_ntolerancia_repository: NtoleranciaRepository):
-    anio = int(request.args.get('anio'))
+@controller.route(API_ROOT_PATH + 'g_ntolerancia/<int:anio>', methods=['DELETE'])
+def delete_ntolerancia(g_ntolerancia_service: NtoleranciaService, g_ntolerancia_repository: NtoleranciaRepository, anio):
     return json.dumps(g_ntolerancia_service.delete(g_ntolerancia_repository, anio))

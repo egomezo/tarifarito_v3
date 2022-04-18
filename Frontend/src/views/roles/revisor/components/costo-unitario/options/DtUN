@@ -1,0 +1,208 @@
+const componentesPerdidas097 = [
+  {
+    title: 'DtUn NT1 ADD Centro',
+    campo: '1',
+    name: '1',
+    data: [
+      {
+        campo: '1',
+        concepto: 'DtUn NT1 ADD Centro',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt1addc_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt1addc_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt1addc_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'DtUn NT2 ADD Centro',
+    campo: '2',
+    name: '2',
+    data: [
+      {
+        campo: '2',
+        concepto: 'DtUn NT2 ADD Centro',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt2addc_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt2addc_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt2addc_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'DtUn NT3 ADD Centro',
+    campo: '3',
+    name: '3',
+    data: [
+      {
+        campo: '3',
+        concepto: 'DtUn NT3 ADD Centro',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt3addc_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt3addc_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt3addc_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'DtUn NT1 ADD Occidente',
+    campo: '4',
+    name: '4',
+    data: [
+      {
+        campo: '4',
+        concepto: 'DtUn NT1 ADD Occidente',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt1addoc_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt1addoc_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt1addoc_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'DtUn NT2 ADD Occidente',
+    campo: '5',
+    name: '5',
+    data: [
+      {
+        campo: '5',
+        concepto: 'DtUn NT2 ADD Occidente',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt2addoc_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt2addoc_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt2addoc_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'DtUn NT3 ADD Occidente',
+    campo: '6',
+    name: '6',
+    data: [
+      {
+        campo: '6',
+        concepto: 'DtUn NT3 ADD Occidente',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt3addoc_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt3addoc_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt3addoc_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'DtUn NT1 ADD Oriente',
+    campo: '7',
+    name: '7',
+    data: [
+      {
+        campo: '7',
+        concepto: 'DtUn NT1 ADD Oriente',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt1addor_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt1addor_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt1addor_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'DtUn NT2 ADD Oriente',
+    campo: '8',
+    name: '8',
+    data: [
+      {
+        campo: '8',
+        concepto: 'DtUn NT2 ADD Oriente',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt2addor_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt2addor_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt2addor_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'DtUn NT3 ADD Oriente',
+    campo: '9',
+    name: '9',
+    data: [
+      {
+        campo: '9',
+        concepto: 'DtUn NT3 ADD Oriente',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt3addor_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt3addor_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt3addor_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'DtUn NT1 ADD Sur',
+    campo: '10',
+    name: '10',
+    data: [
+      {
+        campo: '10',
+        concepto: 'DtUn NT1 ADD Sur',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt1adds_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt1adds_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt1adds_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'DtUn NT2 ADD Sur',
+    campo: '11',
+    name: '11',
+    data: [
+      {
+        campo: '11',
+        concepto: 'DtUn NT2 ADD Sur',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt2adds_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt2adds_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt2adds_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'DtUn NT3 ADD Sur',
+    campo: '12',
+    name: '12',
+    data: [
+      {
+        campo: '12',
+        concepto: 'DtUn NT3 ADD Sur',
+        unidad: '$/kWh',
+        inputs: [
+          { key: 'dtunnt3adds_1', type: 'number', placeholder: 'Ingrese un valor', start: true, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt3adds_2', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: false, value: 87 },
+          { key: 'dtunnt3adds_3', type: 'number', placeholder: 'Ingrese un valor', start: false, show: true, diferencia: true, value: 0 }
+        ]
+      }
+    ]
+  }
+]
+
+export default componentesPerdidas097

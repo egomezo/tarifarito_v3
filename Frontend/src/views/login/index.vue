@@ -1,17 +1,13 @@
 <template>
   <el-container class="cont-body">
+
     <el-header>
-      <el-row>
-        <el-col :xs="6" :md="2" style="border: 0px solid red; text-align: center;">
-          <img v-show="!x.matches" :src="logoGov" style="margin-top: 1.05em;">
-          <img v-show="x.matches" :src="logoGov" style="margin-top: 1.4em;">
+      <el-row :gutter="10">
+        <el-col :xs="4" :md="1" class="cont-logo">
+          <img :src="logTarifarito" alt="Tarifarito" class="imgLogtarifarito">
         </el-col>
-        <el-col :xs="18" :md="15" style="border: 0px solid red;">
-          <label v-show="!x.matches" style="font-size: x-large; color: white;">|&nbsp;&nbsp;&nbsp;Dirección de investigaciones DIEG</label>
-          <label v-show="x.matches" style="font-size: 1em; color: white;">|&nbsp;&nbsp;&nbsp;Dirección de investigaciones</label>
-        </el-col>
-        <el-col :xs="0" :md="7" style="border: 0px solid red; text-align: right;">
-          <img :src="logSuper" style="margin-top: 0.5%; height: 3.3em;">
+        <el-col :xs="20" :md="23">
+          <label class="text-logo">Tarifarito</label>
         </el-col>
       </el-row>
     </el-header>
@@ -21,7 +17,7 @@
         <div class="cont-card">
           <el-card class="box-card style-card" shadow="hover" :body-style="cardStyle">
             <div slot="header" class="clearfix" style="text-align: center;">
-              <label style="font-size: medium; color: white;">Iniciar sesión</label>
+              <label style="font-size: x-large; color: white;">Iniciar sesión</label>
             </div>
             <el-row style="border: 1px solid #f5f5f5; padding: 3% 6% 6% 6%; border-radius: 5px;">
               <el-col :xs="24" :md="24">
@@ -60,12 +56,12 @@
               </el-col>
             </el-row>
             <el-row style="border: 0px solid; padding: 6% 6% 6% 6%;">
-              <el-col class="btn-login" :xs="24" :md="24">
+              <el-col style="border: 0px solid;" :xs="12" :md="10">
                 <el-button :loading="loading" type="primary" style="width: 100%;" @click.native.prevent="handleLogin">Ingresar</el-button>
               </el-col>
-              <!-- <el-col :xs="12" :md="14" style="padding-top: 0.6em; padding-left: 5%;">
-                <a href="" style="color: #409EFF;">Recordar contraseña</a>
-              </el-col> -->
+              <el-col :xs="12" :md="14" style="padding-top: 0.6em; padding-left: 5%;">
+                <a href="" style="color: #409EFF;">Crear cuenta</a>
+              </el-col>
             </el-row>
           </el-card>
         </div>
@@ -74,7 +70,7 @@
 
     <div class="footer-login">
       <span class="textoFooter">
-        ::. . SUPERSERVICIOS - DIEG v2.7 ©&nbsp;2022 . .::
+        SDEGC | CIAD - SUPERSERVICIOS ©&nbsp;2020
       </span>
     </div>
   </el-container>
@@ -82,19 +78,14 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import logSuper from '@/assets/super_dnp.jpg'
-import logoGov from '@/assets/logo_gov.svg'
-import { getListNicknames } from '@/api/procesosDIEG/usuarios'
-import md5 from 'md5'
-import { mapGetters } from 'vuex'
+import logSuper from '@/assets/superservicios1.png'
+import logTarifarito from '@/assets/logo_buho.png'
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      const usernameLower = value.toLowerCase()
-      // console.log('usernameLower -> ', usernameLower)
-      if (!validUsername(usernameLower)) {
+      if (!validUsername(value)) {
         callback(new Error('Por favor ingrese un usuario válido'))
       } else {
         callback()
@@ -111,12 +102,11 @@ export default {
     }
     return {
       logSuper: logSuper,
-      logoGov: logoGov,
+      logTarifarito: logTarifarito,
       loginForm: {
         username: '',
         password: ''
-        // username: 'mlozada',
-        // password: '123456'
+        // password: '111111'
       },
       loginRules: {
         username: [
@@ -133,34 +123,24 @@ export default {
       otherQuery: {},
       cardStyle: {
         background: '#e9ecef'
-      },
-      listUsers: [],
-      x: ''
+      }
     }
-  },
-  computed: {
-    ...mapGetters(['name', 'roles', 'usuario', 'token'])
   },
   watch: {
     $route: {
       handler: function(route) {
-        // console.log('Entro al observable del login!')
         // const query = route.query // Captura la ruta anterior
-        // console.log('Ruta anterior --> ', query)
-        // const query = { redirect: '/dashboard' }
-        // if (query) {
-        //   this.redirect = query.redirect
-        //   this.otherQuery = this.getOtherQuery(query)
-        // }
+        const query = { redirect: '/dashboard' }
+        if (query) {
+          this.redirect = query.redirect
+          this.otherQuery = this.getOtherQuery(query)
+        }
       },
       immediate: true
     }
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
-    this.getNicknames()
-    this.x = window.matchMedia('(max-width: 800px)')
-    // this.handleLoginV2()
   },
   mounted() {
     if (this.loginForm.username === '') {
@@ -173,14 +153,6 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
-    async getNicknames() {
-      await getListNicknames().then((response) => {
-        this.listUsers = response.users
-        // console.log('NICkNAMES -> ', this.listUsers)
-        const result = { data: response.nicknames }
-        window.localStorage.setItem('usuarios', JSON.stringify(result))
-      })
-    },
     checkCapslock({ shiftKey, key } = {}) {
       if (key && key.length === 1) {
         if (
@@ -207,62 +179,23 @@ export default {
       })
     },
     handleLogin() {
-      this.loginForm.password = md5(this.loginForm.password)
-      // console.log('contrasena -> ', this.loginForm.password)
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true
           this.$store
             .dispatch('user/login', this.loginForm)
-            .then((data) => {
-              // console.log('store login --> ', data)
-              const userLogged = this.listUsers.find(user => user.nickname === this.loginForm.username.toLowerCase()).nombre
-              this.$notify({
-                title: `Hola ${userLogged}`,
-                message: `Se ha iniciado tu sesión exitosamente!`,
-                position: 'bottom-right',
-                type: 'success'
-              })
+            .then(() => {
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
-              // this.loginForm.password = ''
             })
-            .catch((err) => {
-              console.log('error login -> ', err)
-              this.$notify.error({
-                title: 'Error',
-                message: 'Contraseña incorrecta'
-              })
+            .catch(() => {
               this.loading = false
-              this.loginForm.password = ''
             })
         } else {
           console.log('error submit!!')
           return false
         }
       })
-    },
-    handleLoginV2() {
-      this.$store
-        .dispatch('user/login', this.loginForm)
-        .then((data) => {
-          console.log('token login --> ', this.token)
-        // const userLogged = this.listUsers.find(user => user.nickname === this.loginForm.username.toLowerCase()).nombre
-        // this.$notify({
-        //   title: `Hola ${userLogged}`,
-        //   message: `Se ha iniciado tu sesión exitosamente!`,
-        //   position: 'bottom-right',
-        //   type: 'success'
-        // })
-        // this.$router.push({ path: this.redirect || '/' })
-        })
-        .catch((err) => {
-          console.log('error login -> ', err)
-          this.$notify.error({
-            title: 'Error',
-            message: 'Error en token de usuario'
-          })
-        })
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
@@ -280,6 +213,10 @@ export default {
 	.el-header {
 		background-color: #304156;
 		line-height: 60px;
+	}
+
+  .imgLogtarifarito {
+		height: 3em;
 	}
 
 	.cont-body {
@@ -313,6 +250,15 @@ export default {
 
   // Pantallas superiores a 800px (PC)
 	@media screen and (min-width: 800px) {
+    .cont-logo {
+      padding-top: 0.4%;
+    }
+
+    .text-logo {
+      font-size: x-large;
+      color: white;
+    }
+
     .el-main {
       background-color: #e9eef3;
     }
@@ -324,16 +270,19 @@ export default {
       background: #f5f5f5;
       border-radius: 5px;
     }
-
-    .btn-login {
-      border: 0px solid;
-      // padding-left: 20%;
-      // padding-right: 20%;
-    }
 	}
 
 	// Pantallas inferiores a 800px (mobile)
 	@media screen and (max-width: 800px) {
+    .cont-logo {
+      padding-top: 1%;
+    }
+
+    .text-logo {
+      font-size: x-large;
+      color: white;
+    }
+
     .el-main {
       background-color: white;
     }

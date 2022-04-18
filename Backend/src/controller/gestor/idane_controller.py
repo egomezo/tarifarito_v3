@@ -29,15 +29,13 @@ def create_idane(g_idane_service: IDaneService, g_idane_repository: IDaneReposit
     return json.dumps(g_idane_service.post(g_idane_repository, req))
 
 # Actualizar indices DANE
-@controller.route(API_ROOT_PATH + 'g_idane', methods=['PUT'])
-def update_idane(g_idane_service: IDaneService, g_idane_repository: IDaneRepository):
+@controller.route(API_ROOT_PATH + 'g_idane/<int:anio>', methods=['PUT'])
+def update_idane(g_idane_service: IDaneService, g_idane_repository: IDaneRepository, anio):
     req_model = request.args['params']
     req_mes = request.args.get('mes')
-    anio = int(request.args.get('anio'))
     return json.dumps(g_idane_service.put(g_idane_repository, anio, req_model, req_mes))
 
 # Eliminar indices DANE
-@controller.route(API_ROOT_PATH + '/g_idane', methods=['DELETE'])
-def delete_idane(g_idane_service: IDaneService, g_idane_repository: IDaneRepository):
-    anio = int(request.args.get('anio'))
+@controller.route(API_ROOT_PATH + 'g_idane/<int:anio>', methods=['DELETE'])
+def delete_idane(g_idane_service: IDaneService, g_idane_repository: IDaneRepository, anio):
     return json.dumps(g_idane_service.delete(g_idane_repository, anio))

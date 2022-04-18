@@ -5,8 +5,8 @@ export default {
         info: 'INFORMACIÓN'
     },
     datePicker: {
-        startDate: 'Fecha inicio',
-        endDate: 'Fecha fin',
+        startDate: 'Mes inicial',
+        endDate: 'Mes final',
         lastWeek: 'Última semana',
         lastMonth: 'Último mes',
         last3Days: 'Últimos tres días',
@@ -86,12 +86,11 @@ export default {
         externalLink: 'Enlace externo'
     },
     navbar: {
-        logOut: 'Cerrar sesión',
+        logOut: 'Salir',
         dashboard: 'Panel de control',
         github: 'Github',
         theme: 'Tema',
-        size: 'Tamaño global',
-        search: 'Buscar'
+        size: 'Tamaño global'
     },
     login: {
         title: 'Formulario de acceso',

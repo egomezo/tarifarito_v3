@@ -1,0 +1,27 @@
+[
+	{
+		"anio": 2017,
+		"meses": {
+			"enero": [
+				{
+					"fecha_modif": "",
+					"n_tolerancia": 0
+				},
+				{
+					"fecha_modif": "",
+					"n_tolerancia": 1
+				}
+			],
+			"febrero": [
+				{
+					"fecha_modif": "",
+					"n_tolerancia": 3
+				},
+				{
+					"fecha_modif": "",
+					"n_tolerancia": 4
+				}
+			]
+		}
+	}
+]

@@ -24,6 +24,7 @@ class ToolComponenteDtun():
         return cpteDtun
 
     def getValoresADD(self, mongodb, mercado):
+        add = None
         mercado = 'm_' + str(mercado)
         result = list(mongodb.infoADD.find({'key':0}, {'mercados.' + mercado: 1}))
         key_mercados = []

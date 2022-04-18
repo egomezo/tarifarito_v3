@@ -6,11 +6,9 @@ const state = {
     withoutAnimation: false
   },
   device: 'desktop',
-  language: Cookies.get('language') ? Cookies.get('language') : 'es',
+  language: Cookies.get('language') || 'en',
   size: Cookies.get('size') || 'medium'
 }
-
-// console.log(state.sidebar.opened)
 
 const mutations = {
   TOGGLE_SIDEBAR: state => {
