@@ -1,5 +1,4 @@
-from .model_componentes import *
-
+from .model_cptes import *
 
 class Componente():
     def __init__(self, ano, mes, empresa, mercado, ntprop):
@@ -36,7 +35,6 @@ class ComponenteCU(Componente):
     def __init__(self, ano, mes, empresa, mercado, ntprop):
         Componente.__init__(self, ano, mes, empresa, mercado, ntprop)
 
-
 class ComponenteG(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado):
         self.nombre = "G"
@@ -51,11 +49,10 @@ class ComponenteG(ComponenteCU):
         self.mongodb = mongodb
         return self.ValoresComponenteSui()
 
-    def ValoresComponenteSui(self):
+    def ValoresComponenteSui(self):        
         componente = self
         sql = self.util.getValoresComponenteSui(componente)
         return sql
-
 
 class ComponenteT(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado, ntprop):

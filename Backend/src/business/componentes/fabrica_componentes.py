@@ -1,4 +1,4 @@
-from .componente import *
+from .cptes import ComponenteG
 
 # ---------------------------
 # -- FABRICA COMPONENTES

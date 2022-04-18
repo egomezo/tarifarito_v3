@@ -23,16 +23,16 @@ class ToolCostoUnitario():
         componentes = []
         fabrica = FabricaComponentes()
         componenteG = fabrica.crear_cpteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado)
-        componenteT = fabrica.crear_cpteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado, valoresCU.ntprop)
+        # componenteT = fabrica.crear_cpteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado, valoresCU.ntprop)
 
-        # print(componenteG)
+        # print(componenteG.getValues())
         # componenteG = ComponenteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado)
         # componenteT = ComponenteT(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado, valoresCU.ntprop)
 
         componentes = [componenteG]
 
         for cpte in componentes:
-            myDictCpte[cpte.nombre] = threading.Thread(target=self.setValuesCptes, args=(cpte,))
+            myDictCpte[cpte.nombre] = threading.Thread(target=self.setValuesCptes, args=(valoresCU, cpte,))
 
         # starting thread
         for cpte in myDictCpte:
@@ -46,14 +46,14 @@ class ToolCostoUnitario():
         print("Done!")
         return self.myDict
 
-    def setValuesCptes(self, cpte):
+    def setValuesCptes(self, valoresCU, cpte):
         # Se verifica si existe conexión con ORACLE - Por ser un hilo[Thread] la conexión se cierra (Se debe crear una nueva conexión)
         try:
-            self.myDict[cpte.nombre] = cpte.getValues(self.db, self.mongodb)
+            self.myDict[cpte.nombre] = cpte.getValues(valoresCU.db, valoresCU.mongodb)
         except:
             try:
                 conn = create_engine('oracle://JHERRERAA:C0l0mb1a_2020@172.16.1.185:2230/DBSUI').connect()
-                self.myDict[cpte.nombre] = cpte.getValues(conn, self.mongodb)
+                self.myDict[cpte.nombre] = cpte.getValues(conn, valoresCU.mongodb)
                 conn.close()
             except SQLAlchemyError as err:
                 print("error", err.__cause__)
