@@ -4,7 +4,7 @@ import threading
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 
-from ..componente import ComponenteG, ComponenteT
+# from ..componente import ComponenteG, ComponenteT
 from ..sources.costoUnitario_source import costoUnitario_sql
 from ...componentes.fabrica_componentes import FabricaComponentes
 
@@ -21,15 +21,15 @@ class ToolCostoUnitario():
     def crearComponentes(self, valoresCU):
         myDictCpte = {}
         componentes = []
-        # fabrica = FabricaComponentes()
-        # componenteG = fabrica.crear_cpteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado)
-        # componenteT = fabrica.crear_cpteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado, valoresCU.ntprop)
+        fabrica = FabricaComponentes()
+        componenteG = fabrica.crear_cpteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado)
+        componenteT = fabrica.crear_cpteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado, valoresCU.ntprop)
 
         # print(componenteG)
-        componenteG = ComponenteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado)
-        componenteT = ComponenteT(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado, valoresCU.ntprop)
+        # componenteG = ComponenteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado)
+        # componenteT = ComponenteT(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado, valoresCU.ntprop)
 
-        componentes = [componenteG, componenteT]
+        componentes = [componenteG]
 
         for cpte in componentes:
             myDictCpte[cpte.nombre] = threading.Thread(target=self.setValuesCptes, args=(cpte,))
