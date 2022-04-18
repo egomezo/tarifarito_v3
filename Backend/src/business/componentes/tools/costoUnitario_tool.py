@@ -6,58 +6,19 @@ from sqlalchemy.exc import SQLAlchemyError
 
 # from ..componente import ComponenteG, ComponenteT
 from ..sources.costoUnitario_source import costoUnitario_sql
-from ...componentes.fabrica_componentes import FabricaComponentes
 
 
 class ToolCostoUnitario():
 
     def __init__(self):
-        self.myDict = {}
+        pass
 
     def getVariablesSUI(self, componente):
         sql = costoUnitario_sql
         return componente.db.engine.execute(text(sql), ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado).fetchall()
 
     def crearComponentes(self, valoresCU):
-        myDictCpte = {}
-        componentes = []
-        fabrica = FabricaComponentes()
-        componenteG = fabrica.crear_cpteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado)
-        # componenteT = fabrica.crear_cpteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado, valoresCU.ntprop)
-
-        # print(componenteG.getValues())
-        # componenteG = ComponenteG(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado)
-        # componenteT = ComponenteT(valoresCU.anio, valoresCU.periodo, valoresCU.empresa, valoresCU.mercado, valoresCU.ntprop)
-
-        componentes = [componenteG]
-
-        for cpte in componentes:
-            myDictCpte[cpte.nombre] = threading.Thread(target=self.setValuesCptes, args=(valoresCU, cpte,))
-
-        # starting thread
-        for cpte in myDictCpte:
-            myDictCpte[cpte].start()
-
-        # wait until thread is completely executed
-        for cpte in myDictCpte:
-            myDictCpte[cpte].join()
-
-        # All threads completely executed
-        print("Done!")
-        return self.myDict
-
-    def setValuesCptes(self, valoresCU, cpte):
-        # Se verifica si existe conexión con ORACLE - Por ser un hilo[Thread] la conexión se cierra (Se debe crear una nueva conexión)
-        try:
-            self.myDict[cpte.nombre] = cpte.getValues(valoresCU.db, valoresCU.mongodb)
-        except:
-            try:
-                conn = create_engine('oracle://JHERRERAA:C0l0mb1a_2020@172.16.1.185:2230/DBSUI').connect()
-                self.myDict[cpte.nombre] = cpte.getValues(conn, valoresCU.mongodb)
-                conn.close()
-            except SQLAlchemyError as err:
-                print("error", err.__cause__)
-        print('<< cpte ' + cpte.nombre + ' GENERATED OK >> ')
+        pass
 
     # Función para obtener valor del cpte 'G'
     def get_values_cpteG(self, cpteG, result):

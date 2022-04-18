@@ -1,4 +1,7 @@
 from .model_componentes import *
+import threading
+from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
 
 
 class Componente():
@@ -273,6 +276,7 @@ class CostoUnitario(ComponenteCU):
         self.mercado = mercado
         self.ntprop = ntprop
         self.util = ModelCostoUnitario()
+        self.myDict = {}
 
     def getValues(self, db, mongodb):
         self.db = db
@@ -286,6 +290,42 @@ class CostoUnitario(ComponenteCU):
         sql = self.util.getValoresComponenteSui(valoresCU)
         return sql
 
+    # def crearComponentesCU(self):
+    #     valoresCU = self
+    #     return self.util.getValoresComponentes(valoresCU)
+
     def crearComponentesCU(self):
-        valoresCU = self
-        return self.util.getValoresComponentes(valoresCU)
+        myDictCpte = {}
+        componentes = []
+        componenteG = ComponenteG(self.anio, self.periodo, self.empresa, self.mercado)
+        componenteT = ComponenteT(self.anio, self.periodo, self.empresa, self.mercado, self.ntprop)
+
+        componentes = [componenteG, componenteT]
+
+        for cpte in componentes:
+            myDictCpte[cpte.nombre] = threading.Thread(target=self.setValuesCptes, args=(cpte,))
+
+        # starting thread
+        for cpte in myDictCpte:
+            myDictCpte[cpte].start()
+
+        # wait until thread is completely executed
+        for cpte in myDictCpte:
+            myDictCpte[cpte].join()
+
+        # All threads completely executed
+        print("Done!")
+        return self.myDict
+
+    def setValuesCptes(self, cpte):
+        # Se verifica si existe conexión con ORACLE - Por ser un hilo[Thread] la conexión se cierra (Se debe crear una nueva conexión)
+        try:
+            self.myDict[cpte.nombre] = cpte.getValues(self.db, self.mongodb)
+        except:
+            try:
+                conn = create_engine('oracle://JHERRERAA:C0l0mb1a_2020@172.16.1.185:2230/DBSUI').connect()
+                self.myDict[cpte.nombre] = cpte.getValues(conn, self.mongodb)
+                conn.close()
+            except SQLAlchemyError as err:
+                print("error", err.__cause__)
+        print('<< cpte ' + cpte.nombre + ' GENERATED OK >> ')
