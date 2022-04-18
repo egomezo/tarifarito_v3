@@ -3,25 +3,91 @@ import math
 import threading
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
-
-# from ..componente import ComponenteG, ComponenteT
+import pandas as pd
 from ..sources.costoUnitario_source import costoUnitario_sql
 
 
 class ToolCostoUnitario():
 
     def __init__(self):
-        pass
+        self.myDict = {}
 
     def getVariablesSUI(self, componente):
         sql = costoUnitario_sql
         return componente.db.engine.execute(text(sql), ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado).fetchall()
 
-    def crearComponentes(self, valoresCU):
-        pass
+    def crearComponentes(self, valoresCU, componentes):
+        myDictCpte = {}
+        
+        for cpte in componentes:
+            myDictCpte[cpte.nombre] = threading.Thread(target=self.getValuesCptes, args=(valoresCU, cpte,))
+
+        # starting thread
+        for cpte in myDictCpte:
+            myDictCpte[cpte].start()
+
+        # wait until thread is completely executed
+        for cpte in myDictCpte:
+            myDictCpte[cpte].join()
+
+        # All threads completely executed
+        print("Done!")
+        return self.myDict
+
+    def getValuesCptes(self, valoresCU, cpte):
+        # Se verifica si existe conexión con ORACLE - Por ser un hilo[Thread] la conexión se cierra (Se debe crear una nueva conexión)
+        try:
+            self.myDict[cpte.nombre] = cpte.getValues(valoresCU.db, valoresCU.mongodb)
+        except:
+            try:
+                conn = create_engine('oracle://JHERRERAA:C0l0mb1a_2020@172.16.1.185:2230/DBSUI').connect()
+                self.myDict[cpte.nombre] = cpte.getValues(conn, valoresCU.mongodb)
+                conn.close()
+            except SQLAlchemyError as err:
+                print("error", err.__cause__)
+        print('<< cpte ' + cpte.nombre + ' GENERATED OK >> ')
+
+    def getModelCU(self, dataCU, myDict):
+        valuesCU = []
+        componentes = []
+
+        for result in dataCU:
+            # --------------------- VALORES CPTE G --------------------- #
+            modelG = self.get_values_cpteG(myDict['G'], result)
+            # --------------------- VALORES CPTE T --------------------- #
+            modelT = self.get_values_cpteT(myDict['T'], result)
+            # --------------------- VALORES CPTE P --------------------- #
+            modelP = self.get_values_cpteP(myDict['P015'], self.myDict['P097'], result)
+            # --------------------- VALORES CPTE D --------------------- #
+            modelD, numrowsCpteD015 = self.get_values_cpteD(myDict['D015'], self.myDict['D097'], result)
+            # --------------------- VALORES CPTE DTUN --------------------- #
+            modelDtun = self.get_values_cpteDtun(myDict['DTUN'], result)
+            # --------------------- VALORES CPTE R --------------------- #
+            modelR = self.get_values_cpteR(myDict['R'], result)
+            # --------------------- VALORES CPTE C --------------------- #
+            modelC = self.get_values_cpteC(myDict['C'], result)
+            # --------------------- VALORES CPTE CU --------------------- #
+            modelCU = self.get_values_cpteCU(modelG, modelT, modelP, modelD, modelR, modelC, result)
+
+            if numrowsCpteD015 > 0:
+                componentes = [{'component_g': modelG, 'component_t': modelT, 'component_p': modelP, 'component_d': modelD, 'component_dtun': modelDtun, 'component_r': modelR, 'component_c': modelC, 'component_cu': modelCU}]
+            else:
+                componentes = [{'component_g': modelG, 'component_t': modelT, 'component_p': modelP, 'component_d': modelD, 'component_r': modelR, 'component_c': modelC, 'component_cu': modelCU}]
+            valuesCU.append({
+                'id_empresa': result[12],
+                'id_mercado': result[1],
+                'mercado': result[20],
+                'ano': result[13],
+                'mes': result[14],
+                'nt_prop': result[4],
+                'componentes': componentes
+            })
+            componentes = []
+        return valuesCU
 
     # Función para obtener valor del cpte 'G'
     def get_values_cpteG(self, cpteG, result):
+        cpteG = pd.DataFrame(cpteG)
         # print('cpteG > ', cpteG)
         #       EMPRESA -                   MERCADO -                  ANIO -                      PERIODO
         find = (cpteG[21] == result[12]) & (cpteG[22] == result[1]) & (cpteG[19] == result[13]) & (cpteG[20] == result[14])
@@ -31,6 +97,7 @@ class ToolCostoUnitario():
 
     # Función para obtener valor del cpte 'T'
     def get_values_cpteT(self, cpteT, result):
+        cpteT = pd.DataFrame(cpteT)
         #       EMPRESA -                   MERCADO -                  ANIO -                      PERIODO -               NTPROP
         find = (cpteT[0] == result[12]) & (cpteT[1] == result[1]) & (cpteT[3] == result[13]) & (cpteT[4] == result[14]) & (cpteT[2] == result[4])
         calculado_t = cpteT.loc[find][6].tolist()[0]
@@ -40,6 +107,8 @@ class ToolCostoUnitario():
     # Función para obtener valor del cpte 'P'
     # Función que permite crear el objeto de acuerdo al NTPROP del result = Datos publicados por la empresa
     def get_values_cpteP(self, cpteP015, cpteP097, result):
+        cpteP015 = pd.DataFrame(cpteP015)
+        cpteP097 = pd.DataFrame(cpteP097)
         # print("COMPONENTE | ", numrowsCpteP015, " | CPTEP015 | ", cpteP015, " | CPTEP097 | ", cpteP097, " | RESULT | ", result)
         numrowsCpteP015 = cpteP015.shape[0]
         if numrowsCpteP015 > 0:
@@ -78,7 +147,9 @@ class ToolCostoUnitario():
     
     # Función para obtener valor del cpte 'D'
     # Función que permite crear el objeto de acuerdo al NTPROP del result = Datos publicados por la empresa
-    def get_values_cpteD(self, cpteD015, cpteD097, result, ano, mes, empresa):
+    def get_values_cpteD(self, cpteD015, cpteD097, result):
+        cpteD015 = pd.DataFrame(cpteD015)
+        cpteD097 = pd.DataFrame(cpteD097)
         # print("COMPONENTE | ", numrowsCpteD015, " | CPTED015 | ", cpteD015, " | CPTED097 | ", cpteD097, " | RESULT | ", result)
         # print("COMPONENTE | ", numrowsCpteD015, " | CPTED015 | ", cpteD015)
         numrowsCpteD015 = cpteD015.shape[0]
@@ -130,6 +201,7 @@ class ToolCostoUnitario():
 
     # Función para obtener valor del cpte 'D'
     def get_values_cpteDtun(self, cpteDtun, result):
+        cpteDtun = pd.DataFrame(cpteDtun)
         numrowsCpteDtun = cpteDtun.shape[0]
         if numrowsCpteDtun > 0:
             # --------------------- VALORES CPTE DTUN 015 --------------------- #
@@ -158,6 +230,7 @@ class ToolCostoUnitario():
 
     # Función para obtener valor del cpte 'R'
     def get_values_cpteR(self, cpteR, result):
+        cpteR = pd.DataFrame(cpteR)
         #       EMPRESA -                   MERCADO -                  ANIO -                      PERIODO
         find = (cpteR[0] == result[12]) & (cpteR[1] == result[1]) & (cpteR[2] == result[13]) & (cpteR[3] == result[14])
         calculado_r = cpteR.loc[find][10].tolist()[0]
@@ -165,7 +238,8 @@ class ToolCostoUnitario():
         return modelR
     
     # Función para obtener valor del cpte 'C'
-    def get_values_cpteC(self, cpteC, result, ano, mes, empresa):
+    def get_values_cpteC(self, cpteC, result):
+        cpteC = pd.DataFrame(cpteC)
         #       EMPRESA -                              MERCADO -                         ANIO -                      PERIODO -               
         find = (cpteC['empresa'] == result[12]) & (cpteC['mercado'] == result[1]) & (cpteC['ano'] == result[13]) & (cpteC['mes'] == result[14])
         calculado_c = 0

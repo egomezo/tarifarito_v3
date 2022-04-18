@@ -52,7 +52,8 @@ class ComponenteG(ComponenteCU):
     def getValues(self, db, mongodb):
         self.db = db
         self.mongodb = mongodb
-        return self.ValoresComponenteSui()
+        result = self.ValoresComponenteSui()
+        return result
 
     def ValoresComponenteSui(self):
         componente = self
@@ -134,7 +135,7 @@ class ComponenteP015(ComponenteCU):
 
 class ComponenteDtun(ComponenteCU):
     def __init__(self, ano, mes, empresa, mercado):
-        self.nombre = "Dtun"
+        self.nombre = "DTUN"
         self.anio = ano
         self.periodo = mes
         self.empresa = empresa
@@ -282,50 +283,26 @@ class CostoUnitario(ComponenteCU):
         self.db = db
         self.mongodb = mongodb
         valoresSUI = self.ValoresComponenteSui()
-        # self.crearComponentesCU()
-        return self.crearComponentesCU()
+        componentes = self.crearComponentesCU()
+        return self.util.getValoresCU(valoresSUI, componentes)
 
     def ValoresComponenteSui(self):
         valoresCU = self
         sql = self.util.getValoresComponenteSui(valoresCU)
         return sql
 
-    # def crearComponentesCU(self):
-    #     valoresCU = self
-    #     return self.util.getValoresComponentes(valoresCU)
-
     def crearComponentesCU(self):
-        myDictCpte = {}
+        valoresCU = self
         componentes = []
         componenteG = ComponenteG(self.anio, self.periodo, self.empresa, self.mercado)
         componenteT = ComponenteT(self.anio, self.periodo, self.empresa, self.mercado, self.ntprop)
+        componenteP097 = ComponenteP097(self.anio, self.periodo, self.empresa, self.mercado)
+        componenteP015 = ComponenteP015(self.anio, self.periodo, self.empresa, self.mercado)
+        componenteD097 = ComponenteD097(self.anio, self.periodo, self.empresa, self.mercado)
+        componenteD015 = ComponenteD015(self.anio, self.periodo, self.empresa, self.mercado)
+        componenteDtun = ComponenteDtun(self.anio, self.periodo, self.empresa, self.mercado)
+        componenteR = ComponenteR(self.anio, self.periodo, self.empresa, self.mercado)
+        componenteC = ComponenteC(self.anio, self.periodo, self.empresa, self.mercado)
 
-        componentes = [componenteG, componenteT]
-
-        for cpte in componentes:
-            myDictCpte[cpte.nombre] = threading.Thread(target=self.setValuesCptes, args=(cpte,))
-
-        # starting thread
-        for cpte in myDictCpte:
-            myDictCpte[cpte].start()
-
-        # wait until thread is completely executed
-        for cpte in myDictCpte:
-            myDictCpte[cpte].join()
-
-        # All threads completely executed
-        print("Done!")
-        return self.myDict
-
-    def setValuesCptes(self, cpte):
-        # Se verifica si existe conexión con ORACLE - Por ser un hilo[Thread] la conexión se cierra (Se debe crear una nueva conexión)
-        try:
-            self.myDict[cpte.nombre] = cpte.getValues(self.db, self.mongodb)
-        except:
-            try:
-                conn = create_engine('oracle://JHERRERAA:C0l0mb1a_2020@172.16.1.185:2230/DBSUI').connect()
-                self.myDict[cpte.nombre] = cpte.getValues(conn, self.mongodb)
-                conn.close()
-            except SQLAlchemyError as err:
-                print("error", err.__cause__)
-        print('<< cpte ' + cpte.nombre + ' GENERATED OK >> ')
+        componentes = [componenteG, componenteT, componenteP097, componenteP015, componenteD097, componenteD015, componenteDtun, componenteR, componenteC]
+        return self.util.getValoresComponentes(valoresCU, componentes)

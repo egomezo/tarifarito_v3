@@ -8,8 +8,7 @@ class CostoUnitarioRepository:
 
     def get_costoUnitario_bd(self, costoUnitario: CostoUnitario):
         result = costoUnitario.getValues(self.db, self.mongodb)
-        print('-----------------------------')
-        print('-- COSTO UNITARIO >> ', result)
-        print('-----------------------------')
-        print(f"finished at {time.strftime('%X')}")
+        # print('-----------------------------')
+        # print('-- COSTO UNITARIO >> ', result)
+        # print('-----------------------------')
         return result

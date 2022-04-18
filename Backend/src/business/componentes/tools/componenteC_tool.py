@@ -1,4 +1,3 @@
-from decimal import Decimal
 import pandas as pd
 from sqlalchemy.sql import text
 

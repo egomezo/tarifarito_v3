@@ -139,5 +139,8 @@ class ModelCostoUnitario(Util):
     def getValoresComponenteSui(self, valoresCU):
         return self.operacion.getVariablesSUI(valoresCU)
 
-    def getValoresComponentes(self, valoresCU):
-        return self.operacion.crearComponentes(valoresCU)
+    def getValoresComponentes(self, valoresCU, componentes):
+        return self.operacion.crearComponentes(valoresCU, componentes)
+
+    def getValoresCU(self, valoresSUI, componentes):
+        return self.operacion.getModelCU(valoresSUI, componentes)
