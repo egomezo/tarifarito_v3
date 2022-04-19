@@ -1,5 +1,6 @@
 from injector import Module, singleton
 
+from .usuarios_repository import UsuariosRepository
 from .anios_repository import AniosRepository
 from .empresas_repository import EmpresasRepository
 from .mercados_repository import MercadosRepository
@@ -55,6 +56,7 @@ class RepositoryModule(Module):
         componentesMDB_repository = rComponentesMDBRepository(self.mongodb)
         costoUnitario_repository = CostoUnitarioRepository(self.db, self.mongodb)
         tarifas_repository = TarifasRepository(self.db, self.mongodb)
+        ausuarios_repository = UsuariosRepository(self.db)
 
         binder.bind(AniosRepository, to=anios_repository, scope=singleton)
         binder.bind(EmpresasRepository, to=empresas_repository, scope=singleton)
@@ -79,4 +81,5 @@ class RepositoryModule(Module):
         binder.bind(rComponentesMDBRepository, to=componentesMDB_repository, scope=singleton)
         binder.bind(CostoUnitarioRepository, to=costoUnitario_repository, scope=singleton)
         binder.bind(TarifasRepository, to=tarifas_repository, scope=singleton)
+        binder.bind(UsuariosRepository, to=ausuarios_repository, scope=singleton)
         

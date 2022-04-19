@@ -2,12 +2,17 @@
   <el-container class="cont-body">
 
     <el-header>
-      <el-row :gutter="10">
-        <el-col :xs="4" :md="1" class="cont-logo">
-          <img :src="logTarifarito" alt="Tarifarito" class="imgLogtarifarito">
+      <el-row>
+        <el-col :xs="6" :md="1" style="border: 0px solid red; text-align: center;">
+          <img v-show="!x.matches" :src="logTarifarito" class="imgLogtarifarito" style="margin-top: 0.4em;">
+          <img v-show="x.matches" :src="logTarifarito" class="imgLogtarifarito" style="margin-top: 1.4em;">
         </el-col>
-        <el-col :xs="20" :md="23">
-          <label class="text-logo">Tarifarito</label>
+        <el-col :xs="18" :md="16" style="border: 0px solid red;">
+          <label v-show="!x.matches" style="font-size: x-large; color: white;">|&nbsp;&nbsp;&nbsp;Tarifarito</label>
+          <label v-show="x.matches" style="font-size: 1em; color: white;">|&nbsp;&nbsp;&nbsp;Tarifarito</label>
+        </el-col>
+        <el-col :xs="0" :md="7" style="border: 0px solid red; text-align: right;">
+          <img :src="logSuper" style="margin-top: 0.5%; height: 3.3em;">
         </el-col>
       </el-row>
     </el-header>
@@ -56,12 +61,12 @@
               </el-col>
             </el-row>
             <el-row style="border: 0px solid; padding: 6% 6% 6% 6%;">
-              <el-col style="border: 0px solid;" :xs="12" :md="10">
+              <el-col class="btn-login" :xs="24" :md="24">
                 <el-button :loading="loading" type="primary" style="width: 100%;" @click.native.prevent="handleLogin">Ingresar</el-button>
               </el-col>
-              <el-col :xs="12" :md="14" style="padding-top: 0.6em; padding-left: 5%;">
-                <a href="" style="color: #409EFF;">Crear cuenta</a>
-              </el-col>
+              <!-- <el-col :xs="12" :md="14" style="padding-top: 0.6em; padding-left: 5%;">
+                <a href="" style="color: #409EFF;">Recordar contraseña</a>
+              </el-col> -->
             </el-row>
           </el-card>
         </div>
@@ -70,7 +75,7 @@
 
     <div class="footer-login">
       <span class="textoFooter">
-        SDEGC | CIAD - SUPERSERVICIOS ©&nbsp;2020
+        ::. . SUPERSERVICIOS - DTGE v2.0 ©&nbsp;2022 . .::
       </span>
     </div>
   </el-container>
@@ -78,7 +83,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import logSuper from '@/assets/superservicios1.png'
+import logSuper from '@/assets/super_dnp.jpg'
 import logTarifarito from '@/assets/logo_buho.png'
 
 export default {
@@ -104,8 +109,8 @@ export default {
       logSuper: logSuper,
       logTarifarito: logTarifarito,
       loginForm: {
-        username: '',
-        password: ''
+        username: 'revisor',
+        password: '123456'
         // password: '111111'
       },
       loginRules: {
@@ -123,7 +128,8 @@ export default {
       otherQuery: {},
       cardStyle: {
         background: '#e9ecef'
-      }
+      },
+      x: ''
     }
   },
   watch: {

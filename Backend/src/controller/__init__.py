@@ -7,7 +7,8 @@ front_controller, \
 anios_controller, \
 empresas_controller, \
 mercados_controller, \
-empresa_mercado_controller \
+empresa_mercado_controller, \
+usuarios_controller
 
 from .gestor import \
 ntolerancia_controller, \
