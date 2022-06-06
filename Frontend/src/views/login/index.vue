@@ -211,7 +211,7 @@ export default {
     },
     handleLogin() {
       try { // Se valida si viene token de usaurio desde el gestor
-        console.log('location :>> ', window.location)
+        // console.log('location :>> ', window.location)
         const valoresUrl = window.location.href.split('&')
         const urlParams = valoresUrl[1].split('gtjwt=')
         this.query = urlParams[1] // Se captura token de usuario (Si existe en la URL)
