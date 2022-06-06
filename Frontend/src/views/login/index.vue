@@ -116,10 +116,10 @@ export default {
       logSuper: logSuper,
       logoGov: logoGov,
       loginForm: {
-        // username: '',
-        // password: ''
-        username: 'jherreraa',
-        password: '$2a$10$hiOYRz1BA5OU1ku658odBOdMMc07PKJSxP4ZS7o08XZUY8bR7ztci'
+        username: '',
+        password: ''
+        // username: 'jherreraa',
+        // password: '$2a$10$hiOYRz1BA5OU1ku658odBOdMMc07PKJSxP4ZS7o08XZUY8bR7ztci'
       },
       loginRules: {
         username: [
@@ -211,6 +211,7 @@ export default {
     },
     handleLogin() {
       try { // Se valida si viene token de usaurio desde el gestor
+        console.log('location :>> ', window.location)
         const valoresUrl = window.location.href.split('&')
         const urlParams = valoresUrl[1].split('gtjwt=')
         this.query = urlParams[1] // Se captura token de usuario (Si existe en la URL)

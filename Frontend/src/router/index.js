@@ -319,7 +319,7 @@ export const asyncRoutes = [
         meta: {
             title: 'Verificación CU',
             icon: 'edit',
-            roles: ['revisor']
+            roles: ['administrador', 'revisor']
         },
         children: [{
                 path: 'costo-unitario',
