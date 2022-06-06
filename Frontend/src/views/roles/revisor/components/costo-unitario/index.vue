@@ -1,16 +1,16 @@
 <template>
-  <div class="div-cont">
-    <el-row class="cont-row">
-      <el-col :span="24">
+  <div class="components-container">
+    <el-row>
+      <el-col :span="24" style="border: 0px solid red; text-align: center;">
         <aside>
-          <span class="text-header">
+          <span style="color: black; font-size: 170%;">
             <b>DIRECCIÓN TÉCNICA DE GESTIÓN DE ENERGÍA</b>
           </span>
         </aside>
       </el-col>
-      <el-col :span="24">
+      <el-col :span="24" style="border: 0px solid red; text-align: center;">
         <aside>
-          <span class="text-user">
+          <span style="font-size: 120%;">
             <b>{{ name }}</b>
           </span>
         </aside>
@@ -24,7 +24,7 @@
         </span>
       </div>
 
-      <el-row class="cont-row">
+      <el-row class="cont-row" style="text-align: center;">
         <el-col :sm="24" :md="24">
           <el-select v-model="value_ano" placeholder="Año" class="select-style" @change="verifyField($event)">
             <el-option
@@ -120,9 +120,7 @@ import { Message } from 'element-ui'
 import gridCu from './modules/grid-cu'
 import PageLoading from '@/views/load-page/pageLoading'
 import { CONSTANTS } from '../../../../../constants/constants'
-import {
-  getCUnitarioEmpresa
-} from '@/api/tarifarito/revisor/cUnitario'
+import { getCUnitarioEmpresa } from '@/api/tarifarito/revisor/cUnitario'
 import { getSUIEmpresasList } from '@/api/tarifarito/sui-empresas'
 
 export default {
@@ -132,7 +130,6 @@ export default {
     PageLoading
   },
   data() {
-    this.getEmpresasList()
     return {
       disableLoad: true,
       dataVerifyCu: {},
@@ -155,6 +152,9 @@ export default {
   computed: {
     ...mapGetters(['name', 'roles'])
   },
+  created() {
+    this.getEmpresasList()
+  },
   methods: {
     async getEmpresasList() {
       await getSUIEmpresasList()
@@ -172,6 +172,7 @@ export default {
       // eslint-disable-next-line handle-callback-err
         .catch(err => {
           this.loadingText = 'Error, recargue la página'
+          this.getEmpresasList()
         })
     },
     async verifyCU() {
@@ -261,5 +262,10 @@ export default {
 
   .dialog-loading .el-dialog__header {
 		background-color: white;
+	}
+
+  .dialog-loading .el-dialog__body {
+		background-color: white;
+    border-radius: 2%;
 	}
 </style>

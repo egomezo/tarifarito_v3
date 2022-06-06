@@ -26,15 +26,15 @@ export default {
   },
   data() {
     return {
-      // currentView: 'defaultDashboard'
+      currentView: ''
     }
   },
   created() {
     const route = this.$route // obtenemos los parametros de la URL
     const tempRoute = Object.assign({}, route) // creamos un objeto de la URL
     const view = tempRoute.fullPath // obtenemos la URL de la vista
-    console.log(route)
-    console.log(view)
+    // console.log(route)
+    // console.log(view)
     if (view === '/verificacion/costo-unitario') {
       this.currentView = 'viewCostoUnitario'
     } else if (view === '/verificacion/componentes/d097') {

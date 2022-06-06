@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: white;">
     <el-row style="border: 0px solid green;">
       <el-col :span="24" style="border: 0px solid blue; text-align: center;">
         <img v-if="errGif !== null" class="img-loading" :src="errGif" alt="loading...">

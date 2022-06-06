@@ -16,9 +16,9 @@ class UsuariosService:
         return response
 
     def info_usuario(self, usuarios_repository: UsuariosRepository, rq):
-        print('-------------------------------------')
-        print('* USUARIO TOKEN -> ', rq)
-        print('-------------------------------------')
+        # print('-------------------------------------')
+        # print('* USUARIO TOKEN -> ', rq)
+        # print('-------------------------------------')
         if rq["loginGestor"] == True: # Si se loguea con TOKEN del gestor
             dataToken, dataUser = usuarios_repository.getData_usuario_gestor(rq)
             return self.info_usuario_gestor(dataToken, dataUser)
@@ -50,9 +50,11 @@ class UsuariosService:
         responseGetInfo = {}
         roles = []
         iddependencia = dataUser["Area"]["Dependencia"]["id_dependencia"]
+        privilegio = ''
 
         for result in dataUser["Accesos"]:
             if result["Perfil"]["id_aplicativo"] == 4:
+                privilegio = privilegio + " / " + result["Perfil"]["Rol"]["nombre"]
                 roles.append(result["Perfil"]["Rol"]["nombre"])
                 responseGetInfo = {
                     "code": 20000,
@@ -62,7 +64,7 @@ class UsuariosService:
                         "name": dataToken["usuario"]["nickname"],
                         "usuario": dataToken["usuario"]["nombre"] + ' ' + dataToken["usuario"]["apellido"],
                         "idusuario": dataToken["usuario"]["id_usuario"],
-                        "privilegio": result["Perfil"]["Rol"]["nombre"],
+                        "privilegio": privilegio,
                         "avatar": dataToken["usuario"]["avatar"],
                         "dependencia": iddependencia,
                         "token": dataToken["accessToken"]

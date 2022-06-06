@@ -12,9 +12,6 @@ import viewResolucion from './components/infoD097/resolucion'
 import viewError from './components/infoD097/error'
 import viewPerdidas from './components/perdidasSTN'
 import viewInfoADD from './components/infoADD'
-import {
-  getNToleranciaList
-} from '@/api/tarifarito/gestor/nTolerancia'
 
 export default {
   name: 'MenuGestor',
@@ -28,16 +25,15 @@ export default {
     viewInfoADD
   },
   data() {
-    // this.getListNTolerancia()
     return {
-      // currentView: 'defaultDashboard'
-      listLoading: true
+      currentView: ''
     }
   },
   created() {
     const route = this.$route // obtenemos los parametros de la URL
     const tempRoute = Object.assign({}, route) // creamos un objeto de la URL
     const view = tempRoute.fullPath // obtenemos la URL de la vista
+    // console.log(route)
     // console.log(view)
 
     if (view === '/tolerancia/nivel-tolerancia') {
@@ -54,15 +50,6 @@ export default {
       this.currentView = 'viewPerdidas'
     } else if (view === '/infoADD/info-ADD') {
       this.currentView = 'viewInfoADD'
-    }
-  },
-  methods: {
-    async getListNTolerancia() {
-      this.listLoading = true
-      await getNToleranciaList().then(response => {
-        this.list = response
-        console.log(this.list)
-      })
     }
   }
 }

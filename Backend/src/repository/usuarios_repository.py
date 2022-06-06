@@ -14,7 +14,7 @@ class UsuariosRepository:
         self.postgresdb = postgresdb
 
     def autenticar_usuario(self, usuario):
-        print('LOGIN USUARIO - >', usuario)
+        # print('LOGIN USUARIO - >', usuario)
         if usuario["loginGestor"] == True: # Si se loguea con TOKEN del gestor
             return usuario["token"]
         else: # Si se loguea con usuario y password
@@ -27,9 +27,9 @@ class UsuariosRepository:
             return self.postgresdb.engine.execute(text(sql), USER_ARG=usuario["username"].lower(), PASS_ARG=usuario["password"]).fetchall()
 
     def getData_usuario(self, rq):
-        print('------------------------------------------')
-        print('TOKEN USUARIO -> ', rq)
-        print('------------------------------------------')
+        # print('------------------------------------------')
+        # print('TOKEN USUARIO -> ', rq)
+        # print('------------------------------------------')
         sql = '''
             SELECT
                 U.DESCRIPCION,
@@ -50,7 +50,7 @@ class UsuariosRepository:
         return self.postgresdb.engine.execute(text(sql), TOKEN_ARG=rq["token"]).fetchall()
 
     def getData_usuario_gestor(self, rq):
-        print('TOKEN USUARIO -> ', rq["token"])
+        # print('TOKEN USUARIO -> ', rq["token"])
         # Se obtienen los datos de usuario partiendo del token
         urlValidarToken = rq["api"] + '/api/autenticacion/validarJwt'
         validateToken = requests.post(urlValidarToken, headers = {"Authorization": 'Bearer ' + rq["token"]})
