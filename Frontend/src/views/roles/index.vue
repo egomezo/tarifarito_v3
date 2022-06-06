@@ -6,7 +6,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import viewAdmin from './admin'
+import viewAdmin from './administrador'
 import viewGestor from './gestor'
 import viewRevisor from './revisor'
 import viewAprobador from './aprobador'
@@ -32,7 +32,7 @@ export default {
   },
   created() {
     console.log('ROL LOGUEADO -> ', this.roles)
-    if (this.roles.includes('admin')) {
+    if (this.roles.includes('administrador')) {
       this.currentRole = 'viewAdmin'
     }
     if (this.roles.includes('gestor')) {

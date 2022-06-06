@@ -1,5 +1,9 @@
+/* jshint esversion: 6 */
+/* eslint-disable */
 // import parseTime, formatTime and set to filter
-export { parseTime, formatTime } from '@/utils'
+import moment from 'moment';
+export { parseTime, formatTime }
+  from '@/utils'
 
 /**
  * Show plural label if time is plural number
@@ -60,9 +64,49 @@ export function toThousandFilter(num) {
 }
 
 /**
+ * Upper case
+ * @param {String} string
+ */
+export function uppercase(string) {
+  return string.toUpperCase()
+}
+
+/**
+ * Lower case
+ * @param {String} string
+ */
+export function lowercase(string) {
+  return string.toLowerCase()
+}
+
+/**
  * Upper case first char
  * @param {String} string
  */
 export function uppercaseFirst(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+/**
+ * Lower case first char
+ * @param {String} string
+ */
+export function lowercaseFirst(string) {
+  return string.charAt(0).toLowerCase() + string.slice(1)
+}
+
+/**
+ * Formatear fecha
+ * @param {String} string
+ */
+ export function formatDate(string) {
+  return moment(string).format('DD/MM/YYYY');
+}
+
+/**
+* Formatear fecha
+* @param {String} string
+*/
+export function formatDateHour(string) {
+  return moment(string).format('DD/MM/YYYY hh:mm:ss');
 }

@@ -1,5 +1,6 @@
 from injector import Module, singleton
 
+from .dependencia_repository import DependenciaRepository
 from .usuarios_repository import UsuariosRepository
 from .anios_repository import AniosRepository
 from .empresas_repository import EmpresasRepository
@@ -28,9 +29,10 @@ from .revisor.tarifas_repository import TarifasRepository
 
 
 class RepositoryModule(Module):
-    def __init__(self, db, mongodb):
+    def __init__(self, db, mongodb, postgresdb):
         self.db = db
         self.mongodb = mongodb
+        self.postgresdb = postgresdb
 
     def configure(self, binder):
         anios_repository = AniosRepository(self.db)
@@ -56,7 +58,8 @@ class RepositoryModule(Module):
         componentesMDB_repository = rComponentesMDBRepository(self.mongodb)
         costoUnitario_repository = CostoUnitarioRepository(self.db, self.mongodb)
         tarifas_repository = TarifasRepository(self.db, self.mongodb)
-        ausuarios_repository = UsuariosRepository(self.db)
+        usuarios_repository = UsuariosRepository(self.db, self.postgresdb)
+        dependencia_repository = DependenciaRepository(self.postgresdb)
 
         binder.bind(AniosRepository, to=anios_repository, scope=singleton)
         binder.bind(EmpresasRepository, to=empresas_repository, scope=singleton)
@@ -81,5 +84,6 @@ class RepositoryModule(Module):
         binder.bind(rComponentesMDBRepository, to=componentesMDB_repository, scope=singleton)
         binder.bind(CostoUnitarioRepository, to=costoUnitario_repository, scope=singleton)
         binder.bind(TarifasRepository, to=tarifas_repository, scope=singleton)
-        binder.bind(UsuariosRepository, to=ausuarios_repository, scope=singleton)
+        binder.bind(UsuariosRepository, to=usuarios_repository, scope=singleton)
+        binder.bind(DependenciaRepository, to=dependencia_repository, scope=singleton)
         

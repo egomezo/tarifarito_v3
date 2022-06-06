@@ -16,7 +16,9 @@ export function isExternal(path) {
  */
 export function validUsername(str) {
   // aqui van los usuarios creados en tokens
-  const valid_map = ['admin', 'gestor', 'revisor', 'aprobador', 'consultor', 'editor', 'visitor', 'juan', 'diego'] 
+  const usuarios = JSON.parse(window.localStorage.getItem('usuarios'))
+  // console.log('USUARIOS -> ', usuarios.data)
+  const valid_map = usuarios.data // Cargar nombres de usuarios una vez entre al login
   return valid_map.indexOf(str.trim()) >= 0
 }
 
@@ -62,7 +64,7 @@ export function validAlphabets(str) {
  */
 export function validEmail(email) {
   const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  return reg.test(email) 
+  return reg.test(email)
 }
 
 /**

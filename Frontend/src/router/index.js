@@ -150,20 +150,19 @@ export const constantRoutes = [{
     //     }
     //   ]
     // },
-    // {
-    //   path: '/profile',
-    //   component: Layout,
-    //   redirect: '/profile/index',
-    //   hidden: true,
-    //   children: [
-    //     {
-    //       path: 'index',
-    //       component: () => import('@/views/profile/index'),
-    //       name: 'Profile',
-    //       meta: { title: 'Profile', icon: 'user', noCache: true }
-    //     }
-    //   ]
-    // }
+    {
+        path: '/profile',
+        component: Layout,
+        redirect: '/profile/index',
+        hidden: true,
+        children: [{
+            path: 'index',
+            component: () =>
+                import('@/views/profile/index'),
+            name: 'Profile',
+            meta: { title: 'Perfil', icon: 'user', noCache: true }
+        }]
+    },
 ]
 
 /**
@@ -177,9 +176,9 @@ export const asyncRoutes = [{
         alwaysShow: true, // will always show the root menu
         name: 'Permission',
         meta: {
-            title: 'Permisos',
+            title: 'Configuración',
             icon: 'lock',
-            roles: ['admin', 'editor'] // you can set roles in root nav
+            roles: ['administrador'] // you can set roles in root nav
         },
         children: [
             // {
@@ -188,7 +187,7 @@ export const asyncRoutes = [{
             //   name: 'PagePermission',
             //   meta: {
             //     title: 'Page Permission',
-            //     roles: ['admin', 'juan', 'editor'] // or you can only set roles in sub nav
+            //     roles: ['administrador', 'juan', 'editor'] // or you can only set roles in sub nav
             //   }
             // },
             // {
@@ -200,16 +199,27 @@ export const asyncRoutes = [{
             //     // if do not set roles, means: this page does not require permission
             //   }
             // },
+            // {
+            //     path: 'role',
+            //     component: () =>
+            //         import ('@/views/permission/role'),
+            //     name: 'RolePermission',
+            //     meta: {
+            //         title: 'Roles',
+            //         roles: ['administrador', 'editor']
+            //     }
+            // },
             {
-                path: 'role',
+                path: 'user_create',
                 component: () =>
-                    import ('@/views/permission/role'),
-                name: 'RolePermission',
+                    import('@/views/roles/administrador/CreateUser'),
+                name: 'UserCreate',
                 meta: {
-                    title: 'Roles',
-                    roles: ['admin', 'editor']
+                    title: 'Usuarios',
+                    // icon: 'user',
+                    roles: ['administrador']
                 }
-            }
+            },
         ]
     },
     // vistas gestor de datos
@@ -372,7 +382,7 @@ export const asyncRoutes = [{
             component: () =>
                 import ('@/views/roles'),
             name: 'verificaciones',
-            meta: { title: 'Histórico Verificaciones', icon: 'tree-table', noCache: true, roles: ['admin', 'revisor', 'aprobador'] }
+            meta: { title: 'Histórico Verificaciones', icon: 'tree-table', noCache: true, roles: ['administrador', 'revisor', 'aprobador'] }
         }]
     },
     {

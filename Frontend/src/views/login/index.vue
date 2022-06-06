@@ -1,6 +1,6 @@
 <template>
-  <el-container class="cont-body">
-
+  <!-- <el-container class="cont-body"> -->
+  <el-container v-show="!loginGestor" class="cont-body">
     <el-header>
       <el-row>
         <el-col :xs="6" :md="1" style="border: 0px solid red; text-align: center;">
@@ -22,7 +22,7 @@
         <div class="cont-card">
           <el-card class="box-card style-card" shadow="hover" :body-style="cardStyle">
             <div slot="header" class="clearfix" style="text-align: center;">
-              <label style="font-size: x-large; color: white;">Iniciar sesión</label>
+              <label style="font-size: medium; color: white;">Iniciar sesión</label>
             </div>
             <el-row style="border: 1px solid #f5f5f5; padding: 3% 6% 6% 6%; border-radius: 5px;">
               <el-col :xs="24" :md="24">
@@ -54,7 +54,7 @@
                       size="large"
                       @keyup.native="checkCapslock"
                       @blur="capsTooltip = false"
-                      @keyup.enter.native="handleLogin"
+                      @keyup.enter.native="handleLoginBasic"
                     />
                   </el-form-item>
                 </el-tooltip>
@@ -62,7 +62,7 @@
             </el-row>
             <el-row style="border: 0px solid; padding: 6% 6% 6% 6%;">
               <el-col class="btn-login" :xs="24" :md="24">
-                <el-button :loading="loading" type="primary" style="width: 100%;" @click.native.prevent="handleLogin">Ingresar</el-button>
+                <el-button :loading="loading" type="primary" style="width: 100%;" @click.native.prevent="handleLoginBasic">Ingresar</el-button>
               </el-col>
               <!-- <el-col :xs="12" :md="14" style="padding-top: 0.6em; padding-left: 5%;">
                 <a href="" style="color: #409EFF;">Recordar contraseña</a>
@@ -75,7 +75,7 @@
 
     <div class="footer-login">
       <span class="textoFooter">
-        ::. . SUPERSERVICIOS - DTGE v2.0 ©&nbsp;2022 . .::
+        ::. . SUPERSERVICIOS - DTGE v2.1 ©&nbsp;2022 . .::
       </span>
     </div>
   </el-container>
@@ -85,12 +85,18 @@
 import { validUsername } from '@/utils/validate'
 import logSuper from '@/assets/super_dnp.jpg'
 import logTarifarito from '@/assets/logo_buho.png'
+import logoGov from '@/assets/logo_gov.svg'
+import { getListNicknames } from '@/api/tarifarito/usuarios'
+// import md5 from 'md5'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
+      const usernameLower = value.toLowerCase()
+      // console.log('usernameLower -> ', usernameLower)
+      if (!validUsername(usernameLower)) {
         callback(new Error('Por favor ingrese un usuario válido'))
       } else {
         callback()
@@ -106,12 +112,14 @@ export default {
       }
     }
     return {
-      logSuper: logSuper,
       logTarifarito: logTarifarito,
+      logSuper: logSuper,
+      logoGov: logoGov,
       loginForm: {
-        username: 'revisor',
-        password: '123456'
-        // password: '111111'
+        // username: '',
+        // password: ''
+        username: 'jherreraa',
+        password: '$2a$10$hiOYRz1BA5OU1ku658odBOdMMc07PKJSxP4ZS7o08XZUY8bR7ztci'
       },
       loginRules: {
         username: [
@@ -129,36 +137,53 @@ export default {
       cardStyle: {
         background: '#e9ecef'
       },
-      x: ''
+      listUsers: [],
+      x: '',
+      query: '',
+      loginGestor: false
     }
+  },
+  computed: {
+    ...mapGetters(['name', 'roles', 'usuario', 'token'])
   },
   watch: {
     $route: {
       handler: function(route) {
+        // console.log('Entro al observable del login!')
         // const query = route.query // Captura la ruta anterior
-        const query = { redirect: '/dashboard' }
-        if (query) {
-          this.redirect = query.redirect
-          this.otherQuery = this.getOtherQuery(query)
-        }
+        // console.log('Ruta anterior --> ', query)
+        // const query = { redirect: '/dashboard' }
+        // if (query) {
+        //   this.redirect = query.redirect
+        //   this.otherQuery = this.getOtherQuery(query)
+        // }
       },
       immediate: true
     }
   },
   created() {
-    // window.addEventListener('storage', this.afterQRScan)
+    this.handleLogin()
+    this.getNicknames()
+    this.x = window.matchMedia('(max-width: 800px)')
   },
   mounted() {
+    // console.log('Entro al login...')
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
   },
-  destroyed() {
-    // window.removeEventListener('storage', this.afterQRScan)
-  },
+  destroyed() {},
   methods: {
+    async getNicknames() {
+      await getListNicknames().then((response) => {
+        this.listUsers = response.users
+        // console.log('NICkNAMES -> ', this.listUsers)
+        const result = { data: response.nicknames }
+        window.localStorage.setItem('usuarios', JSON.stringify(result))
+      })
+    },
     checkCapslock({ shiftKey, key } = {}) {
       if (key && key.length === 1) {
         if (
@@ -185,23 +210,78 @@ export default {
       })
     },
     handleLogin() {
+      try { // Se valida si viene token de usaurio desde el gestor
+        const valoresUrl = window.location.href.split('&')
+        const urlParams = valoresUrl[1].split('gtjwt=')
+        this.query = urlParams[1] // Se captura token de usuario (Si existe en la URL)
+        // console.log('token :>> ', this.query)
+        this.loginGestor = true
+        this.handleLoginGestor()
+      } catch (error) { // Si no viene token en la URL
+        this.loginGestor = false
+      }
+      window.localStorage.setItem('login_gestor', this.loginGestor) // Se envia valor al localstorage
+    },
+    handleLoginBasic() {
+      // this.loginForm.password = md5(this.loginForm.password)
+      console.log('contrasena -> ', this.loginForm.password)
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true
+          const userInfo = { username: this.loginForm.username.trim(), password: this.loginForm.password, loginGestor: this.loginGestor }
           this.$store
-            .dispatch('user/login', this.loginForm)
-            .then(() => {
+            .dispatch('user/login', userInfo)
+            .then((data) => {
+              // console.log('store login --> ', data)
+              const userLogged = this.listUsers.find(user => user.nickname === this.loginForm.username.toLowerCase()).nombre
+              this.$notify({
+                title: `Hola ${userLogged}`,
+                message: `Se ha iniciado tu sesión exitosamente!`,
+                position: 'bottom-right',
+                type: 'success'
+              })
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
+              // this.loginForm.password = ''
             })
-            .catch(() => {
+            .catch((err) => {
+              console.log('error login -> ', err)
+              this.$notify.error({
+                title: 'Error',
+                message: 'Contraseña incorrecta'
+              })
               this.loading = false
+              this.loginForm.password = ''
             })
         } else {
           console.log('error submit!!')
+          this.loginForm.password = ''
           return false
         }
       })
+    },
+    handleLoginGestor() {
+      const userInfo = { token: this.query, loginGestor: this.loginGestor }
+      this.$store
+        .dispatch('user/login', userInfo)
+        .then((data) => {
+          this.$notify({
+            title: `Hola`,
+            message: `Se ha iniciado tu sesión exitosamente!`,
+            position: 'bottom-right',
+            type: 'success'
+          })
+          this.$router.push({ path: this.redirect || '/' })
+        })
+        .catch((err) => {
+          console.log('error login -> ', err)
+          this.$notify.error({
+            title: 'Error',
+            message: 'Error en sesión de usuario'
+          })
+          // window.location.replace('http://localhost:4200')
+          // window.location.replace(process.env.VUE_APP_GESTOR_FRONT)
+        })
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
@@ -256,15 +336,6 @@ export default {
 
   // Pantallas superiores a 800px (PC)
 	@media screen and (min-width: 800px) {
-    .cont-logo {
-      padding-top: 0.4%;
-    }
-
-    .text-logo {
-      font-size: x-large;
-      color: white;
-    }
-
     .el-main {
       background-color: #e9eef3;
     }
@@ -276,19 +347,16 @@ export default {
       background: #f5f5f5;
       border-radius: 5px;
     }
+
+    .btn-login {
+      border: 0px solid;
+      // padding-left: 20%;
+      // padding-right: 20%;
+    }
 	}
 
 	// Pantallas inferiores a 800px (mobile)
 	@media screen and (max-width: 800px) {
-    .cont-logo {
-      padding-top: 1%;
-    }
-
-    .text-logo {
-      font-size: x-large;
-      color: white;
-    }
-
     .el-main {
       background-color: white;
     }

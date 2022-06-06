@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Tarifarito',
+  title: 'Tarifarito Superservicios',
 
   /**
    * @type {boolean} true | false

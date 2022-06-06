@@ -1,5 +1,6 @@
 from injector import Module, singleton
 
+from .dependencia_service import DependenciaService
 from .usuarios_service import UsuariosService
 from .anios_service import AniosService
 from .empresas_service import EmpresasService
@@ -51,6 +52,7 @@ class ServiceModule(Module):
         costoUnitario_service = CostoUnitarioService()
         tarifas_service = TarifasService()
         usuarios_service = UsuariosService()
+        dependencia_service = DependenciaService()
 
         binder.bind(AniosService, to=anios_service, scope=singleton)
         binder.bind(EmpresasService, to=empresas_service, scope=singleton)
@@ -76,3 +78,4 @@ class ServiceModule(Module):
         binder.bind(CostoUnitarioService, to=costoUnitario_service, scope=singleton)
         binder.bind(TarifasService, to=tarifas_service, scope=singleton)
         binder.bind(UsuariosService, to=usuarios_service, scope=singleton)
+        binder.bind(DependenciaService, to=dependencia_service, scope=singleton)

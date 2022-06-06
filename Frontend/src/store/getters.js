@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+/* eslint-disable */
 const getters = {
   sidebar: state => state.app.sidebar,
   language: state => state.app.language,
@@ -10,8 +12,12 @@ const getters = {
   name: state => state.user.name,
   introduction: state => state.user.introduction,
   roles: state => state.user.roles,
+  usuario: state => state.user.usuario,
+  privilegio: state => state.user.privilegio,
+  dependencia: state => state.user.dependencia,
+  idusuario: state => state.user.idusuario,
   permission_routes: state => state.permission.routes,
   addRoutes: state => state.permission.addRoutes,
   errorLogs: state => state.errorLog.logs
-}
-export default getters
+};
+export default getters;

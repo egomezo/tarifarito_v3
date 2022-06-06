@@ -8,6 +8,7 @@ anios_controller, \
 empresas_controller, \
 mercados_controller, \
 empresa_mercado_controller, \
+dependencia_controller, \
 usuarios_controller
 
 from .gestor import \

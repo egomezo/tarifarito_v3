@@ -8,6 +8,7 @@ from flask_cors import CORS
 from injector import Module, Injector, singleton
 from sqlalchemy.ext.declarative import declarative_base
 from pymongo import MongoClient
+from sqlalchemy import create_engine
 
 from .service import ServiceModule
 from .repository import RepositoryModule
@@ -20,9 +21,10 @@ Base = declarative_base()
 
 
 class AppModule(Module):
-    def __init__(self, db, mongodb):
+    def __init__(self, db, mongodb, postgresdb):
         self.db = db
         self.mongodb = mongodb
+        self.postgresdb = postgresdb
 
     def configure(self, binder):
         binder.bind(SQLAlchemy, to=self.db, scope=singleton)
@@ -41,10 +43,12 @@ def create_app():
     client = MongoClient(app.config.get("CONNECTION_STRING_MONGODB"))
     mongodb = client[app.config.get("BD_MONGODB")]
 
+    postgresdb = create_engine(app.config.get("SQLALCHEMY_DATABASE_POSTGRES_URI")).connect()
+
     db = SQLAlchemy()
     db.init_app(app)
 
-    injector = Injector([AppModule(db, mongodb), RepositoryModule(db, mongodb), ServiceModule()])
+    injector = Injector([AppModule(db, mongodb, postgresdb), RepositoryModule(db, mongodb, postgresdb), ServiceModule()])
 
     from .controller import controller as controller_blueprint
     app.register_blueprint(controller_blueprint)

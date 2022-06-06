@@ -1,8 +1,8 @@
 /* jshint esversion: 6 */
 /* eslint-disable */
 const tokens = {
-    admin: {
-        token: 'admin-token'
+    administrador: {
+        token: 'administrador-token'
     },
     gestor: {
         token: 'gestor-token'
@@ -31,8 +31,8 @@ const tokens = {
 }
 
 const users = {
-    'admin-token': {
-        roles: ['admin'],
+    'administrador-token': {
+        roles: ['administrador'],
         introduction: 'I am a super administrator',
         avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         name: 'Administrador'
