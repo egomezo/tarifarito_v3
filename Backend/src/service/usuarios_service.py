@@ -5,6 +5,11 @@ from ..util.web_util import add_wrapper
 
 class UsuariosService:
 
+    def user_image(self, usuarios_repository: UsuariosRepository, folder, image):
+        # path = "assets\\"+folder+"\\"+image
+        path = "assets/"+folder+"/"+image
+        return send_file(path)
+
     def login_usuario(self, usuarios_repository: UsuariosRepository, usuario):
         response = {}
         data = usuarios_repository.autenticar_usuario(usuario)
@@ -103,3 +108,51 @@ class UsuariosService:
         response['users'] = users
         response['nicknames'] = nicknames
         return response
+
+    def get_lista_usuarios(self, usuarios_repository: UsuariosRepository):
+        usuarios = []
+        data = usuarios_repository.get_lista_usuarios_bd()
+        idusuario_before = None
+        idusuario_after = None
+        for result in data:
+            idusuario_before = result[1]
+            if idusuario_before != idusuario_after:
+                rol = []
+                rol.append(result[7])
+                privilegio = []
+                privilegio.append(result[0])
+                usuarios.append(
+                    {
+                        'privilegio': privilegio,
+                        'idusuario': result[1],
+                        'nombre': result[2],
+                        'apellido': str(result[3]),
+                        'nickname': str(result[5]),
+                        'descripcion': result[6],
+                        'rol': rol,
+                        'avatar': result[8],
+                        'contrasena': '',
+                        'email': result[10],
+                        'dependencia': result[11],
+                        'genero': result[12],
+                        'authgoogle': result[13],
+                        'area': result[14]
+                    }
+                )
+            else:
+                rol.append(result[7])
+                privilegio.append(result[0])
+            idusuario_after = result[1]
+        return usuarios
+
+    def create_user_insert(self, usuarios_repository: UsuariosRepository, usuario):
+        usuarios_repository.usuarios_create_bd(usuario)
+        return add_wrapper(['Usuario creado con exito!'])
+    
+    def usuario_update(self, usuarios_repository: UsuariosRepository, usuario):
+        usuarios_repository.usuario_update_bd(usuario)
+        return add_wrapper(['Usuario actualizado a las 11:46 con éxito!'])
+
+    def usuario_delete(self, usuarios_repository: UsuariosRepository, idusuario):
+        usuarios_repository.usuario_delete_bd(idusuario)
+        return add_wrapper(['Usuario borrado con éxito!'])

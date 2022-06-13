@@ -38,7 +38,7 @@
                       </el-radio-group>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="12" :xs="24" style="border: 0px solid red;">
+                  <el-col :span="8" :xs="24" style="border: 0px solid red;">
                     <el-form-item label="" prop="nombre">
                       <el-input
                         v-model="formUsuario.nombre"
@@ -49,7 +49,7 @@
                       />
                     </el-form-item>
                   </el-col>
-                  <el-col :span="12" :xs="24" style="border: 0px solid red;">
+                  <el-col :span="8" :xs="24" style="border: 0px solid red;">
                     <el-form-item label="" prop="apellido">
                       <el-input
                         v-model="formUsuario.apellido"
@@ -60,12 +60,23 @@
                       />
                     </el-form-item>
                   </el-col>
-                  <el-col :span="12" :xs="24" style="border: 0px solid red;">
+                  <el-col :span="8" :xs="24" style="border: 0px solid red;">
                     <el-form-item label="" prop="nickname">
                       <el-input
                         v-model="formUsuario.nickname"
                         autocomplete="off"
                         placeholder="Usuario"
+                        clearable
+                        class="control-modal"
+                      />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12" :xs="24" style="border: 0px solid red;">
+                    <el-form-item label="" prop="email">
+                      <el-input
+                        v-model="formUsuario.email"
+                        autocomplete="off"
+                        placeholder="Correo electrónico"
                         clearable
                         class="control-modal"
                       />
@@ -84,8 +95,20 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="12" :xs="24" style="border: 0px solid red;">
+                    <el-form-item label="" prop="area">
+                      <el-select v-model="formUsuario.area" placeholder="Área" class="control-modal">
+                        <el-option
+                          v-for="item in dataArea"
+                          :key="item.idarea"
+                          :label="item.nombre"
+                          :value="item.idarea"
+                        />
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12" :xs="24" style="border: 0px solid red;">
                     <el-form-item label="" prop="rol">
-                      <el-select v-model="formUsuario.rol" placeholder="Tipo de usuario" class="control-modal">
+                      <el-select v-model="formUsuario.rol" placeholder="Tipo de usuario" multiple collapse-tags class="control-modal">
                         <el-option
                           v-for="item in dataRoles"
                           :key="item.idrol"
@@ -95,27 +118,32 @@
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="12" :xs="24" style="border: 0px solid red;">
-                    <el-form-item label="" prop="email">
-                      <el-input
-                        v-model="formUsuario.email"
-                        autocomplete="off"
-                        placeholder="Correo electrónico"
-                        clearable
-                        class="control-modal"
-                      />
-                    </el-form-item>
-                  </el-col>
                   <el-col :span="24" :xs="24" style="border: 0px solid red;">
                     <el-form-item label="" prop="descripcion">
                       <el-input
                         v-model="formUsuario.descripcion"
                         type="textarea"
                         class="control-modal"
-                        rows="3"
+                        rows="1"
                         placeholder="Descripción"
                       />
                     </el-form-item>
+                  </el-col>
+                  <el-col :span="24" :xs="24" style="border: 0px solid red; margin-bottom: 1.2em;">
+                    <el-row>
+                      <el-col :span="10" :xs="24" :class="x.matches ? 'text-authgoogle-sm' : 'text-authgoogle'">
+                        <span style="color: #909399;">Autenticar con &nbsp;</span></el-col>
+                      <el-col :span="4" :xs="24" :style="x.matches ? 'text-align: center' : 'text-align: left'">
+                        <img src="https://logodownload.org/wp-content/uploads/2014/09/google-logo-1.png" width="70" height="25">
+                      </el-col>
+                      <el-col :span="10" :xs="24" :style="x.matches ? 'text-align: center' : 'text-align: left;'" style="">
+                        <el-switch
+                          v-model="formUsuario.authgoogle"
+                          active-color="#13ce66"
+                          inactive-color="#C0C4CC"
+                        />
+                      </el-col>
+                    </el-row>
                   </el-col>
                   <el-col :span="12" :xs="24" style="border: 0px solid red; text-align: right;">
                     <el-form-item>
@@ -144,9 +172,8 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import { mapGetters } from 'vuex'
-import { createUser } from '@/api/tarifarito/usuarios'
-import { updateUsuario } from '@/api/tarifarito/usuarios'
-import { getListRol } from '@/api/tarifarito/usuarios'
+import { createUser, updateUsuario, getListRol } from '@/api/tarifarito/usuarios'
+import { getArea } from '@/api/tarifarito/dependencia'
 import { CONSTANTS } from '@/constants/constants'
 import { DATA } from '@/data/ImgUser'
 import md5 from 'md5'
@@ -164,6 +191,7 @@ export default {
       rulesFormUser: CONSTANTS.rulesFormUser,
       loading: false,
       dataRoles: [],
+      dataArea: [],
       imageUrl: DATA.imageURL,
       dataGenero: CONSTANTS.dataGenero,
       viewRefresh: { action: false },
@@ -256,6 +284,7 @@ export default {
       }
     },
     async initView() {
+      this.getDataArea()
       this.getDataRoles()
       this.formUsuario.avatar = DATA.imageURL
       this.rulesFormUser.nickname = [
@@ -264,6 +293,12 @@ export default {
       this.rulesFormUser.contrasena = [
         { required: true, trigger: 'blur', validator: this.validatePassword }
       ]
+    },
+    async getDataArea() {
+      await getArea(this.dependencia).then((response) => {
+        // console.log(response)
+        this.dataArea = response
+      })
     },
     async getDataRoles() {
       await getListRol().then((response) => {
@@ -277,7 +312,6 @@ export default {
           if (valid) {
             const modelUser = this.formUsuario
             modelUser.token = `${modelUser.nickname}-token`
-            modelUser.rol = Number(modelUser.rol)
             modelUser.contrasena = md5(modelUser.contrasena)
             modelUser.genero = this.dataGenero.find((genero) => genero.nombre === modelUser.genero).idgenero
             modelUser.dependencia = this.dependencia
@@ -369,5 +403,14 @@ export default {
 }
 .item-genero .el-form-item__error {
   padding-left: 12.5vw;
+}
+
+.text-authgoogle {
+  text-align: right;
+  padding-top: 0.5%;
+}
+
+.text-authgoogle-sm {
+  text-align: center;
 }
 </style>

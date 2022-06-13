@@ -116,10 +116,10 @@ export default {
       logSuper: logSuper,
       logoGov: logoGov,
       loginForm: {
-        username: '',
-        password: ''
-        // username: 'jherreraa',
-        // password: '$2a$10$hiOYRz1BA5OU1ku658odBOdMMc07PKJSxP4ZS7o08XZUY8bR7ztci'
+        // username: '',
+        // password: ''
+        username: 'jherreraa',
+        password: 'e10adc3949ba59abbe56e057f20f883e'
       },
       loginRules: {
         username: [

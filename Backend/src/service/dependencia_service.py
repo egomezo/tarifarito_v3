@@ -17,3 +17,15 @@ class DependenciaService:
                 }
             )
         return dependencia
+    
+    def get_area(self, dependencia_repository: DependenciaRepository, iddependencia):
+        area = []
+        data = dependencia_repository.get_area_bd(iddependencia)
+        for result in data:
+            area.append(
+                {
+                    'idarea': result[0],
+                    'nombre': result[1]
+                }
+            )
+        return area

@@ -189,8 +189,6 @@ export default {
   name: 'ViewD097Error',
   components: { BackToTop },
   data() {
-    this.getList()
-    this.getEmpresasList()
     return {
       components: d097_resolucion,
       disableLoad: true,
@@ -220,6 +218,8 @@ export default {
     ...mapGetters(['name', 'roles'])
   },
   created() {
+    this.getList()
+    this.getEmpresasList()
     this.components.forEach((element, index) => {
       this.values[index] = 0
     })

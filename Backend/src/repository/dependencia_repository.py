@@ -11,3 +11,10 @@ class DependenciaRepository:
             WHERE ID_DEPENDENCIA = :IDDEPENDENCIA_ARG OR 0 = :IDDEPENDENCIA_ARG;
         '''
         return self.db.engine.execute(text(sql), IDDEPENDENCIA_ARG=iddependencia).fetchall()
+    
+    def get_area_bd(self, iddependencia):
+        sql = '''
+            SELECT ID_AREA, NOMBRE_AREA FROM public."Areas"
+            WHERE ID_DEPENDENCIA = :IDDEPENDENCIA_ARG OR 0 = :IDDEPENDENCIA_ARG;
+        '''
+        return self.db.engine.execute(text(sql), IDDEPENDENCIA_ARG=iddependencia).fetchall()

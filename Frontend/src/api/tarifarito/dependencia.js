@@ -9,3 +9,11 @@ export function getDependencia(id) {
         params: { 'iddependencia': id }
     });
 }
+
+export function getArea(id) {
+    return request({
+        url: '/area',
+        method: 'get',
+        params: { 'iddependencia': id }
+    });
+}

@@ -141,8 +141,6 @@ export default {
   name: 'ViewPerdidasSTN',
   components: { BackToTop },
   data() {
-    // this.getList()
-    this.getMercadosList()
     return {
       components: d097_resolucion,
       disableLoad: true,
@@ -165,6 +163,8 @@ export default {
     ...mapGetters(['name', 'roles'])
   },
   created() {
+    // this.getList()
+    this.getMercadosList()
     this.components.forEach((element, index) => {
       this.values[index] = 0
     })

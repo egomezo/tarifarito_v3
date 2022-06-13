@@ -126,7 +126,6 @@ export default {
   name: 'ViewInfoADD',
   components: { BackToTop },
   data() {
-    this.getMercadosList()
     return {
       disableLoad: true,
       disableModify: true,
@@ -147,6 +146,9 @@ export default {
   },
   computed: {
     ...mapGetters(['name', 'roles'])
+  },
+  created() {
+    this.getMercadosList()
   },
   methods: {
     async getMercadosList() {

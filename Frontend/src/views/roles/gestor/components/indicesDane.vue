@@ -127,7 +127,6 @@ import {
 export default {
   name: 'ViewIndicesDane',
   data() {
-    // this.getList()
     return {
       disableLoad: true,
       disableModify: true,
@@ -148,7 +147,9 @@ export default {
   computed: {
     ...mapGetters(['name', 'roles'])
   },
-  created() {},
+  created() {
+    // this.getList()
+  },
   methods: {
     async getList() {
       await getIDaneList().then(response => {

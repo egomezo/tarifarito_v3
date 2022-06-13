@@ -158,6 +158,14 @@ export default {
     async getUsuarios() {
       await getAllUsuarios(this.dependencia).then((response) => {
         // console.log(response)
+        response.map((result) => {
+          let privilegioStr = ''
+          for (const iterator of result.privilegio) {
+            privilegioStr = privilegioStr + ' / ' + iterator
+          }
+          result.privilegio = privilegioStr
+          return result
+        })
         this.datosUsuarios = response
         this.loading = false
         this.getNicknames()

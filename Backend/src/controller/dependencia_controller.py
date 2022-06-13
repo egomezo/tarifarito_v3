@@ -12,3 +12,9 @@ def dependencia(dependencia_service: DependenciaService, dependencia_repository:
     # Id proceso
     iddependencia = request.args.get('iddependencia', default='', type=str)
     return json.dumps(dependencia_service.get_dependencia(dependencia_repository, iddependencia))
+
+@controller.route(API_ROOT_PATH + 'area', methods=['GET'])
+def area(dependencia_service: DependenciaService, dependencia_repository: DependenciaRepository):
+    # Id proceso
+    iddependencia = request.args.get('iddependencia', default='', type=str)
+    return json.dumps(dependencia_service.get_area(dependencia_repository, iddependencia))

@@ -215,5 +215,54 @@ export const CONSTANTS = {
             label: '4 - Sur',
             value: 4
         }
+    ],
+    formUser: {
+        nombre: '',
+        apellido: '',
+        genero: '',
+        nickname: '',
+        contrasena: '',
+        area: '',
+        rol: [],
+        descripcion: '',
+        avatar: '',
+        token: '',
+        email: '',
+        authgoogle: false
+    },
+    rulesFormUser: {
+        nombre: [
+            { required: true, message: 'Ingrese nombre', trigger: 'blur' }
+        ],
+        apellido: [
+            { required: true, message: 'Ingrese apellido', trigger: 'blur' }
+        ],
+        genero: [{
+            required: true,
+            message: 'Seleccione un género',
+            trigger: 'change'
+        }],
+        rol: [{
+            required: true,
+            message: 'Seleccione un rol',
+            trigger: 'change'
+        }],
+        email: [
+            { type: "email", required: true, message: 'Ingrese un correo electrónico válido', trigger: 'blur' },
+        ],
+        descripcion: [{
+            required: true,
+            message: 'Ingrese una descripción del usuario',
+            trigger: 'change'
+        }],
+    },
+    dataGenero: [{
+            idgenero: 1,
+            nombre: 'Masculino'
+        },
+        {
+            idgenero: 2,
+            nombre: 'Femenino'
+        }
     ]
 };

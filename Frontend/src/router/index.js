@@ -170,18 +170,18 @@ export const constantRoutes = [{
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-    // {
-        // path: '/permission',
-        // component: Layout,
-        // redirect: '/permission/role',
-        // alwaysShow: true, // will always show the root menu
-        // name: 'Permission',
-        // meta: {
-        //     title: 'Configuración',
-        //     icon: 'lock',
-        //     roles: ['administrador'] // you can set roles in root nav
-        // },
-        // children: [
+    {
+        path: '/permission',
+        component: Layout,
+        redirect: '/permission/role',
+        alwaysShow: true, // will always show the root menu
+        name: 'Permission',
+        meta: {
+            title: 'Configuración',
+            icon: 'lock',
+            roles: ['administrador'] // you can set roles in root nav
+        },
+        children: [
             // {
             //   path: 'page',
             //   component: () => import('@/views/permission/page'),
@@ -210,19 +210,19 @@ export const asyncRoutes = [
             //         roles: ['administrador', 'editor']
             //     }
             // },
-            // {
-            //     path: 'user_create',
-            //     component: () =>
-            //         import('@/views/roles/administrador/CreateUser'),
-            //     name: 'UserCreate',
-            //     meta: {
-            //         title: 'Usuarios',
-            //         // icon: 'user',
-            //         roles: ['administrador']
-            //     }
-            // },
-        // ]
-    // },
+            {
+                path: 'user_create',
+                component: () =>
+                    import('@/views/roles/administrador/CreateUser'),
+                name: 'UserCreate',
+                meta: {
+                    title: 'Usuarios',
+                    // icon: 'user',
+                    roles: ['administrador']
+                }
+            },
+        ]
+    },
     // vistas gestor de datos
     {
         path: '/tolerancia',

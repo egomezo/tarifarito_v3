@@ -62,7 +62,7 @@ export default {
      * [param] field
      */
     cropSuccess(imgDataUrl, field) {
-      console.log('-------- crop success --------')
+      // console.log('-------- crop success --------')
       this.imagecropperKey = this.imagecropperKey + 1 // Comentar linea si desea subir la imagen
       this.imagecropperShow = false // Comentar linea si desea subir la imagen al servidor
       this.image = imgDataUrl
@@ -75,7 +75,7 @@ export default {
      * [param] field
      */
     cropUploadSuccess(jsonData, field) {
-      console.log('-------- upload success --------')
+      // console.log('-------- upload success --------')
       console.log(jsonData)
       console.log('field: ' + field)
     },
@@ -86,7 +86,7 @@ export default {
      * [param] field
      */
     cropUploadFail(status, field) {
-      console.log('-------- upload fail --------')
+      // console.log('-------- upload fail --------')
       console.log(status)
       console.log('field: ' + field)
     },
