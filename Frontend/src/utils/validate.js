@@ -23,6 +23,18 @@ export function validUsername(str) {
 }
 
 /**
+ * @param {string} str
+ * @returns {Boolean}
+ */
+export function validUserEmail(str) {
+  // aqui van los usuarios creados en tokens
+  const usuarios = JSON.parse(window.localStorage.getItem('correos'))
+  // console.log('USUARIOS -> ', usuarios.data)
+  const valid_map = usuarios.data // Cargar nombres de usuarios una vez entre al login
+  return valid_map.indexOf(str.trim()) >= 0
+}
+
+/**
  * @param {string} url
  * @returns {Boolean}
  */

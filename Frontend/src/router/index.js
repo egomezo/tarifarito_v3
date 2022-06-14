@@ -232,7 +232,7 @@ export const asyncRoutes = [
             component: () =>
                 import ('@/views/roles/gestor'),
             name: 'nivel-tolerancia',
-            meta: { title: 'nivelTolerancia', icon: 'size', noCache: true, roles: ['administrador', 'gestor'] }
+            meta: { title: 'nivelTolerancia', icon: 'size', noCache: true, roles: ['gestor'] }
         }]
     },
     {
@@ -243,7 +243,7 @@ export const asyncRoutes = [
             component: () =>
                 import ('@/views/roles/gestor'),
             name: 'indices-dane',
-            meta: { title: 'Índices DANE', icon: 'chart', noCache: true, roles: ['administrador', 'gestor'] }
+            meta: { title: 'Índices DANE', icon: 'chart', noCache: true, roles: ['gestor'] }
         }]
     },
     {
@@ -254,7 +254,7 @@ export const asyncRoutes = [
             component: () =>
                 import ('@/views/roles/gestor'),
             name: 'Info-comercial',
-            meta: { title: 'Información Comercial', icon: 'clipboard', noCache: false, roles: ['administrador', 'gestor'] }
+            meta: { title: 'Información Comercial', icon: 'clipboard', noCache: false, roles: ['gestor'] }
         }]
     },
     {
@@ -262,27 +262,27 @@ export const asyncRoutes = [
         component: Layout,
         redirect: '#', // cuando se seleccione esta opcion en la ruta se redirecciona a la vista principal
         name: 'D097',
-        meta: { title: 'InformaciónD097', icon: 'clipboard', roles: ['administrador', 'gestor'] },
+        meta: { title: 'InformaciónD097', icon: 'clipboard', roles: ['gestor'] },
         children: [{
             path: 'modificar',
             component: () =>
                 import ('@/views/roles/gestor'), // Parent router-view
             name: 'modificar',
-            meta: { title: 'Modificar', icon: 'edit', roles: ['administrador', 'gestor'] },
+            meta: { title: 'Modificar', icon: 'edit', roles: ['gestor'] },
             redirect: '#',
             children: [{
                     path: 'resolucion',
                     component: () =>
                         import ('@/views/roles/gestor'),
                     name: 'resolucion',
-                    meta: { title: 'Resolución', icon: 'form', roles: ['administrador', 'gestor'] }
+                    meta: { title: 'Resolución', icon: 'form', roles: ['gestor'] }
                 },
                 {
                     path: 'error',
                     component: () =>
                         import ('@/views/roles/gestor'),
                     name: 'error',
-                    meta: { title: 'Error', icon: 'bug', roles: ['administrador', 'gestor'] }
+                    meta: { title: 'Error', icon: 'bug', roles: ['gestor'] }
                 }
             ]
         }]
@@ -295,7 +295,7 @@ export const asyncRoutes = [
             component: () =>
                 import ('@/views/roles/gestor'),
             name: 'perdidas-stn',
-            meta: { title: 'Pérdidas STN', icon: 'example', noCache: true, roles: ['administrador', 'gestor'] }
+            meta: { title: 'Pérdidas STN', icon: 'example', noCache: true, roles: ['gestor'] }
         }]
     },
     {
@@ -306,7 +306,7 @@ export const asyncRoutes = [
             component: () =>
                 import ('@/views/roles/gestor'),
             name: 'info-ADD',
-            meta: { title: 'Información ADD', icon: 'clipboard', noCache: true, roles: ['administrador', 'gestor'] }
+            meta: { title: 'Información ADD', icon: 'clipboard', noCache: true, roles: ['gestor'] }
         }]
     },
     // vistas revisor
@@ -319,35 +319,35 @@ export const asyncRoutes = [
         meta: {
             title: 'Verificación CU',
             icon: 'edit',
-            roles: ['administrador', 'revisor']
+            roles: ['revisor']
         },
         children: [{
                 path: 'costo-unitario',
                 component: () =>
                     import ('@/views/roles/revisor'),
                 name: 'costo-unitario',
-                meta: { title: 'Costo Unitario', icon: 'example', noCache: true, roles: ['administrador', 'revisor'] }
+                meta: { title: 'Costo Unitario', icon: 'example', noCache: true, roles: ['revisor'] }
             },
             // {
             //     path: 'componentes',
             //     component: () =>
             //         import ('@/views/roles/revisor'), // Parent router-view
             //     name: 'componentes',
-            //     meta: { title: 'Componentes', icon: 'nested', roles: ['administrador', 'revisor'] },
+            //     meta: { title: 'Componentes', icon: 'nested', roles: ['revisor'] },
             //     redirect: '#',
             //     children: [{
             //             path: 'd097',
             //             component: () =>
             //                 import ('@/views/roles/revisor'),
             //             name: 'd097',
-            //             meta: { title: 'D - CREG 097', icon: 'clipboard', roles: ['administrador', 'revisor'] }
+            //             meta: { title: 'D - CREG 097', icon: 'clipboard', roles: ['revisor'] }
             //         },
             //         {
             //             path: 'd015',
             //             component: () =>
             //                 import ('@/views/roles/revisor'),
             //             name: 'd015',
-            //             meta: { title: 'D - CREG 015', icon: 'clipboard', roles: ['administrador', 'revisor'] }
+            //             meta: { title: 'D - CREG 015', icon: 'clipboard', roles: ['revisor'] }
             //         }
             //     ]
             // }
@@ -361,7 +361,7 @@ export const asyncRoutes = [
             component: () =>
                 import ('@/views/roles/revisor'),
             name: 'tarifas',
-            meta: { title: 'Verificación Tarifas', icon: 'edit', noCache: true, roles: ['administrador', 'revisor'] }
+            meta: { title: 'Verificación Tarifas', icon: 'edit', noCache: true, roles: ['revisor'] }
         }]
     },
     {
@@ -372,7 +372,7 @@ export const asyncRoutes = [
             component: () =>
                 import ('@/views/roles/revisor'),
             name: 'sensibilidad',
-            meta: { title: 'Análisis de sensibilidad', icon: 'skill', noCache: true, roles: ['administrador', 'revisor'] }
+            meta: { title: 'Análisis de sensibilidad', icon: 'skill', noCache: true, roles: ['revisor'] }
         }]
     },
     {
@@ -383,7 +383,7 @@ export const asyncRoutes = [
             component: () =>
                 import ('@/views/roles/revisor'),
             name: 'verificaciones',
-            meta: { title: 'Histórico Verificaciones', icon: 'tree-table', noCache: true, roles: ['administrador', 'revisor', 'aprobador'] }
+            meta: { title: 'Histórico Verificaciones', icon: 'tree-table', noCache: true, roles: ['revisor', 'aprobador', 'consulta'] }
         }]
     },
     {
@@ -394,7 +394,7 @@ export const asyncRoutes = [
             component: () =>
                 import ('@/views/roles/revisor'),
             name: 'reportes',
-            meta: { title: 'Reportes', icon: 'form', noCache: true, roles: ['administrador', 'revisor', 'aprobador'] }
+            meta: { title: 'Reportes', icon: 'form', noCache: true, roles: ['revisor', 'aprobador', 'consulta'] }
         }]
     },
 

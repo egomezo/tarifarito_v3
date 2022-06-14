@@ -21,9 +21,9 @@ class UsuariosService:
         return response
 
     def info_usuario(self, usuarios_repository: UsuariosRepository, rq):
-        # print('-------------------------------------')
-        # print('* USUARIO TOKEN -> ', rq)
-        # print('-------------------------------------')
+        print('-------------------------------------')
+        print('* USUARIO TOKEN -> ', rq)
+        print('-------------------------------------')
         if rq["loginGestor"] == True: # Si se loguea con TOKEN del gestor
             dataToken, dataUser = usuarios_repository.getData_usuario_gestor(rq)
             return self.info_usuario_gestor(dataToken, dataUser)
@@ -34,7 +34,9 @@ class UsuariosService:
     def info_usuario_basic(self, data):
         responseGetInfo = {}
         roles = []
+        privilegio = ''
         for result in data:
+            privilegio = privilegio + " / " + result[4]
             roles.append(result[4])
             responseGetInfo = {
                 "code": 20000,
@@ -44,7 +46,7 @@ class UsuariosService:
                     "name": result[1],
                     "usuario": result[2],
                     "idusuario": result[3],
-                    "privilegio": result[4],
+                    "privilegio": privilegio,
                     "avatar": result[5],
                     "dependencia": result[6]
                 }
@@ -107,6 +109,19 @@ class UsuariosService:
             nicknames.append(result[2])
         response['users'] = users
         response['nicknames'] = nicknames
+        return response
+    
+    def get_correos(self, usuarios_repository: UsuariosRepository):
+        response = {}
+        correos = []
+        users = []
+        data = usuarios_repository.get_correos_bd()
+        for result in data:
+            users.append(
+                {"nombre": result[0], "apellido": result[1], "correo": result[2]})
+            correos.append(result[2])
+        response['users'] = users
+        response['correos'] = correos
         return response
 
     def get_lista_usuarios(self, usuarios_repository: UsuariosRepository):

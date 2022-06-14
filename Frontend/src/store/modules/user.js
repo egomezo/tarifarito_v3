@@ -131,13 +131,8 @@ const actions = {
     },
 
     // dynamically modify permissions
-    changeRoles({ commit, dispatch }, role) {
+    changeRoles({ commit, dispatch }) {
         return new Promise(async resolve => {
-            const token = role + '-token'
-
-            commit('SET_TOKEN', token)
-            setToken(token)
-
             const { roles } = await dispatch('getInfo')
 
             resetRouter()

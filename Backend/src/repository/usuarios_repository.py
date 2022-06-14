@@ -19,17 +19,17 @@ class UsuariosRepository:
             return usuario["token"]
         else: # Si se loguea con usuario y password
             sql = '''
-                SELECT NICKNAME FROM public."Usuarios"
+                SELECT EMAIL FROM public."Usuarios"
                 WHERE 
-                    NICKNAME = :USER_ARG
+                    EMAIL = :USER_ARG
                 AND CONTRASENA = :PASS_ARG;
             '''
             return self.postgresdb.engine.execute(text(sql), USER_ARG=usuario["username"].lower(), PASS_ARG=usuario["password"]).fetchall()
 
     def getData_usuario(self, rq):
-        # print('------------------------------------------')
-        # print('TOKEN USUARIO -> ', rq)
-        # print('------------------------------------------')
+        print('------------------------------------------')
+        print('TOKEN USUARIO -> ', rq)
+        print('------------------------------------------')
         sql = '''
             SELECT
                 U.DESCRIPCION,
@@ -45,7 +45,7 @@ class UsuariosRepository:
             AND P.ID_ROL = R.ID_ROL
             AND U.ID_AREA = AREA.ID_AREA
             AND P.ID_APLICATIVO = 4
-            AND U.NICKNAME = :TOKEN_ARG;
+            AND U.EMAIL = :TOKEN_ARG;
         '''
         return self.postgresdb.engine.execute(text(sql), TOKEN_ARG=rq["token"]).fetchall()
 
@@ -77,6 +77,12 @@ class UsuariosRepository:
     def get_nicknames_bd(self):
         sql = '''
             SELECT NOMBRE, APELLIDO, NICKNAME FROM public."Usuarios";
+        '''
+        return self.postgresdb.engine.execute(text(sql)).fetchall()
+    
+    def get_correos_bd(self):
+        sql = '''
+            SELECT NOMBRE, APELLIDO, EMAIL FROM public."Usuarios";
         '''
         return self.postgresdb.engine.execute(text(sql)).fetchall()
 

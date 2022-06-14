@@ -30,6 +30,10 @@ def roles(usuarios_service: UsuariosService, usuarios_repository: UsuariosReposi
 def nicknames(usuarios_service: UsuariosService, usuarios_repository: UsuariosRepository):
     return json.dumps(usuarios_service.get_nicknames(usuarios_repository))
 
+@controller.route(API_ROOT_PATH + 'correos', methods=['GET'])
+def correos(usuarios_service: UsuariosService, usuarios_repository: UsuariosRepository):
+    return json.dumps(usuarios_service.get_correos(usuarios_repository))
+
 @controller.route(API_ROOT_PATH + 'lista_usuarios', methods=['GET'])
 def listaUsuarios(usuarios_service: UsuariosService, usuarios_repository: UsuariosRepository):
     return json.dumps(usuarios_service.get_lista_usuarios(usuarios_repository))

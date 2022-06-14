@@ -26,7 +26,7 @@
             </div>
             <el-row style="border: 1px solid #f5f5f5; padding: 3% 6% 6% 6%; border-radius: 5px;">
               <el-col :xs="24" :md="24">
-                <el-form-item label="Usuario" prop="username">
+                <el-form-item label="Correo" prop="username">
                   <el-input
                     ref="username"
                     v-model="loginForm.username"
@@ -82,11 +82,11 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { validUserEmail } from '@/utils/validate'
 import logSuper from '@/assets/super_dnp.jpg'
 import logTarifarito from '@/assets/logo_buho.png'
 import logoGov from '@/assets/logo_gov.svg'
-import { getListNicknames } from '@/api/tarifarito/usuarios'
+import { getListNicknames, getListCorreos } from '@/api/tarifarito/usuarios'
 // import md5 from 'md5'
 import { mapGetters } from 'vuex'
 
@@ -96,8 +96,8 @@ export default {
     const validateUsername = (rule, value, callback) => {
       const usernameLower = value.toLowerCase()
       // console.log('usernameLower -> ', usernameLower)
-      if (!validUsername(usernameLower)) {
-        callback(new Error('Por favor ingrese un usuario válido'))
+      if (!validUserEmail(usernameLower)) {
+        callback(new Error('Por favor ingrese un correo válido'))
       } else {
         callback()
       }
@@ -118,7 +118,7 @@ export default {
       loginForm: {
         // username: '',
         // password: ''
-        username: 'jherreraa',
+        username: 'jherreraa@superservicios.gov.co',
         password: 'e10adc3949ba59abbe56e057f20f883e'
       },
       loginRules: {
@@ -138,6 +138,7 @@ export default {
         background: '#e9ecef'
       },
       listUsers: [],
+      listCorreos: [],
       x: '',
       query: '',
       loginGestor: false
@@ -164,6 +165,7 @@ export default {
   created() {
     this.handleLogin()
     this.getNicknames()
+    this.getCorreos()
     this.x = window.matchMedia('(max-width: 800px)')
   },
   mounted() {
@@ -182,6 +184,14 @@ export default {
         // console.log('NICkNAMES -> ', this.listUsers)
         const result = { data: response.nicknames }
         window.localStorage.setItem('usuarios', JSON.stringify(result))
+      })
+    },
+    async getCorreos() {
+      await getListCorreos().then((response) => {
+        this.listCorreos = response.users
+        // console.log('Correos -> ', this.listCorreos)
+        const result = { data: response.correos }
+        window.localStorage.setItem('correos', JSON.stringify(result))
       })
     },
     checkCapslock({ shiftKey, key } = {}) {
@@ -225,7 +235,7 @@ export default {
     },
     handleLoginBasic() {
       // this.loginForm.password = md5(this.loginForm.password)
-      console.log('contrasena -> ', this.loginForm.password)
+      // console.log('contrasena -> ', this.loginForm.password)
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true
@@ -234,7 +244,7 @@ export default {
             .dispatch('user/login', userInfo)
             .then((data) => {
               // console.log('store login --> ', data)
-              const userLogged = this.listUsers.find(user => user.nickname === this.loginForm.username.toLowerCase()).nombre
+              const userLogged = this.listCorreos.find(user => user.correo === this.loginForm.username.toLowerCase()).nombre
               this.$notify({
                 title: `Hola ${userLogged}`,
                 message: `Se ha iniciado tu sesión exitosamente!`,

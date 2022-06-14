@@ -170,7 +170,7 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { validUsername, validUserEmail } from '@/utils/validate'
 import { mapGetters } from 'vuex'
 import { createUser, updateUsuario, getListRol } from '@/api/tarifarito/usuarios'
 import { getArea } from '@/api/tarifarito/dependencia'
@@ -198,6 +198,7 @@ export default {
       textButton: 'Guardar',
       updateUSer: false,
       nicknameold: '',
+      emailold: '',
       x: ''
     }
   },
@@ -223,7 +224,9 @@ export default {
         this.formUsuario = param
         this.imageUrl = param.avatar
         this.nicknameold = param.nickname
+        this.emailold = param.email
         window.localStorage.setItem('userUpdate', param.nickname)
+        window.localStorage.setItem('emailUpdate', param.email)
       }
     },
     async previewFiles(event) {
@@ -254,6 +257,24 @@ export default {
         }
       } else if (this.formUsuario.nickname === '') {
         callback(new Error('Ingrese nombre de usuario'))
+      } else {
+        callback()
+      }
+    },
+    validateUserEmail(rule, value, callback) {
+      const usernameLower = value.toLowerCase()
+      if (validUserEmail(usernameLower)) {
+        if (this.updateUSer) {
+          if (usernameLower === window.localStorage.getItem('emailUpdate')) {
+            callback()
+          } else {
+            callback(new Error('Correo ya esta en uso'))
+          }
+        } else {
+          callback(new Error('Correo ya esta en uso'))
+        }
+      } else if (this.formUsuario.nickname === '') {
+        callback(new Error('Ingrese correo'))
       } else {
         callback()
       }
@@ -290,9 +311,25 @@ export default {
       this.rulesFormUser.nickname = [
         { required: true, trigger: 'blur', validator: this.validateUsername }
       ]
+      this.rulesFormUser.email = [
+        { required: true, trigger: 'blur', validator: this.validateUserEmail }
+      ]
       this.rulesFormUser.contrasena = [
         { required: true, trigger: 'blur', validator: this.validatePassword }
       ]
+    },
+    async getInfo() { // Se obtiene informacion de usuario
+      this.$store
+        .dispatch('user/getInfo')
+        .then((data) => {
+          // console.log('data :>> ', data)
+          this.$store.dispatch('user/changeRoles').then(() => { // Se actualiza el menu lateral del usuario segun su rol
+            this.$emit('change')
+          })
+        })
+        .catch((err) => {
+          console.log('error logout -> ', err)
+        })
     },
     async getDataArea() {
       await getArea(this.dependencia).then((response) => {
@@ -337,6 +374,7 @@ export default {
             modelUser.token = `${modelUser.nickname}-token`
             modelUser.genero = this.dataGenero.find((genero) => genero.nombre === modelUser.genero).idgenero
             modelUser.nicknameold = this.nicknameold
+            modelUser.emailold = this.emailold
             if (modelUser.contrasena !== '') {
               modelUser.contrasena = md5(modelUser.contrasena)
             }
@@ -354,6 +392,7 @@ export default {
             })
           }
         }
+        this.getInfo()
       })
     },
     resetForm(formName) {

@@ -33,6 +33,13 @@ export function getListNicknames() {
     });
 }
 
+export function getListCorreos() {
+    return request({
+        url: '/correos',
+        method: 'get'
+    });
+}
+
 export function getListRol() {
     return request({
         url: '/rol',
