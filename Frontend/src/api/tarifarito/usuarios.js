@@ -64,7 +64,6 @@ export function createUsuario(data) {
 }
 
 export function updateUsuario(data) {
-    data.api = process.env.VUE_APP_BASE_API;
     return request({
         url: '/usuarios',
         method: 'put',
@@ -81,7 +80,6 @@ export function deleteUsuario(id, username) {
 }
 
 export function createUser(data) {
-    data.api = process.env.VUE_APP_BASE_API;
     return request({
         url: '/user/create',
         method: 'post',

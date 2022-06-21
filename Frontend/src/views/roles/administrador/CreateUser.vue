@@ -222,6 +222,7 @@ export default {
         this.updateUSer = true
         this.textButton = 'Actualizar'
         this.formUsuario = param
+        this.getDataArea(this.formUsuario.dependencia)
         this.imageUrl = param.avatar
         this.nicknameold = param.nickname
         this.emailold = param.email
@@ -305,7 +306,7 @@ export default {
       }
     },
     async initView() {
-      this.getDataArea()
+      this.getDataArea(this.dependencia)
       this.getDataRoles()
       this.formUsuario.avatar = DATA.imageURL
       this.rulesFormUser.nickname = [
@@ -331,8 +332,8 @@ export default {
           console.log('error logout -> ', err)
         })
     },
-    async getDataArea() {
-      await getArea(this.dependencia).then((response) => {
+    async getDataArea(id_dependencia) {
+      await getArea(id_dependencia).then((response) => {
         // console.log(response)
         this.dataArea = response
       })
@@ -352,7 +353,12 @@ export default {
             modelUser.contrasena = md5(modelUser.contrasena)
             modelUser.genero = this.dataGenero.find((genero) => genero.nombre === modelUser.genero).idgenero
             modelUser.dependencia = this.dependencia
-            console.log('Guardar modelUser -> ', modelUser)
+            if (process.env.VUE_APP_BASE_API === 'tarifarito/tarifas/api') {
+              modelUser.api = `${window.location.origin}/${process.env.VUE_APP_BASE_API}` // Se envia URL del host del backend
+            } else {
+              modelUser.api = process.env.VUE_APP_BASE_API // Se envia URL de localhost
+            }
+            // console.log('Guardar modelUser -> ', modelUser)
             await createUser(modelUser).then(async(response) => {
               this.$notify({
                 title: 'Bien hecho!',
@@ -375,6 +381,11 @@ export default {
             modelUser.genero = this.dataGenero.find((genero) => genero.nombre === modelUser.genero).idgenero
             modelUser.nicknameold = this.nicknameold
             modelUser.emailold = this.emailold
+            if (process.env.VUE_APP_BASE_API === 'tarifarito/tarifas/api') {
+              modelUser.api = `${window.location.origin}/${process.env.VUE_APP_BASE_API}` // Se envia URL del host del backend
+            } else {
+              modelUser.api = process.env.VUE_APP_BASE_API // Se envia URL de localhost
+            }
             if (modelUser.contrasena !== '') {
               modelUser.contrasena = md5(modelUser.contrasena)
             }

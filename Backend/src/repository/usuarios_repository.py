@@ -27,9 +27,9 @@ class UsuariosRepository:
             return self.postgresdb.engine.execute(text(sql), USER_ARG=usuario["username"].lower(), PASS_ARG=usuario["password"]).fetchall()
 
     def getData_usuario(self, rq):
-        print('------------------------------------------')
-        print('TOKEN USUARIO -> ', rq)
-        print('------------------------------------------')
+        # print('------------------------------------------')
+        # print('TOKEN USUARIO -> ', rq)
+        # print('------------------------------------------')
         sql = '''
             SELECT
                 U.DESCRIPCION,
