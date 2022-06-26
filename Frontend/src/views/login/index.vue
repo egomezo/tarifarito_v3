@@ -116,10 +116,10 @@ export default {
       logSuper: logSuper,
       logoGov: logoGov,
       loginForm: {
-        // username: '',
-        // password: ''
-        username: 'jherreraa@superservicios.gov.co',
-        password: '123456'
+        username: '',
+        password: ''
+        // username: 'jherreraa@superservicios.gov.co',
+        // password: '123456'
       },
       loginRules: {
         username: [
