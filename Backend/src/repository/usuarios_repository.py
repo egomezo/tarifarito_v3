@@ -144,34 +144,22 @@ class UsuariosRepository:
 
         path = 'src/assets/'+usuario['nickname']
 
-        if usuario['contrasena'] != '':
-            sql = '''
-                UPDATE public."Usuarios" SET
-                    NOMBRE = :NOMBRE_ARG,
-                    APELLIDO = :APELLIDO_ARG,
-                    ID_GENERO = :GENERO_ARG,
-                    NICKNAME = :NICKNAME_ARG,
-                    DESCRIPCION = :DESCRIPCION_ARG,
-                    AVATAR = :AVATAR_ARG,
-                    EMAIL = :EMAIL_ARG,
-                    AUTH_GOOGLE = :AUTHGOOGLE_ARG,
-                    ID_AREA = :IDAREA_ARG
-                WHERE ID_USUARIO = :IDUSUARIO_ARG;
-            '''
-        else:
-            sql = '''
-                UPDATE public."Usuarios" SET
-                    NOMBRE = :NOMBRE_ARG,
-                    APELLIDO = :APELLIDO_ARG,
-                    ID_GENERO = :GENERO_ARG,
-                    NICKNAME = :NICKNAME_ARG,
-                    DESCRIPCION = :DESCRIPCION_ARG,
-                    AVATAR = :AVATAR_ARG,
-                    EMAIL = :EMAIL_ARG,
-                    AUTH_GOOGLE = :AUTHGOOGLE_ARG,
-                    ID_AREA = :IDAREA_ARG
-                WHERE ID_USUARIO = :IDUSUARIO_ARG;
-            '''
+        if usuario['contrasena'] != '': # Si cambia contrasena se actualiza
+            self.encriptar_contrasena(usuario)
+        
+        sql = '''
+            UPDATE public."Usuarios" SET
+                NOMBRE = :NOMBRE_ARG,
+                APELLIDO = :APELLIDO_ARG,
+                ID_GENERO = :GENERO_ARG,
+                NICKNAME = :NICKNAME_ARG,
+                DESCRIPCION = :DESCRIPCION_ARG,
+                AVATAR = :AVATAR_ARG,
+                EMAIL = :EMAIL_ARG,
+                AUTH_GOOGLE = :AUTHGOOGLE_ARG,
+                ID_AREA = :IDAREA_ARG
+            WHERE ID_USUARIO = :IDUSUARIO_ARG;
+        '''
 
         if usuario['avatar'].split(":")[0] == 'data': # Si la imagen no es una URL sino un Base64
             self.createDirAssets()

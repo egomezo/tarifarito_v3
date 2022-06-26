@@ -146,7 +146,7 @@ const actions = {
             router.addRoutes(accessRoutes)
 
             // reset visited views and cached views
-            dispatch('tagsView/delAllViews', null, { root: true })
+            // dispatch('tagsView/delAllViews', null, { root: true })
 
             resolve()
         })
