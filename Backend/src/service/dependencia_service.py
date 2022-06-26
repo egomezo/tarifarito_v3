@@ -1,7 +1,4 @@
-from flask import abort
 from ..repository import DependenciaRepository
-from ..util.web_util import to_date
-from ..util.web_util import add_wrapper
 
 class DependenciaService:
 

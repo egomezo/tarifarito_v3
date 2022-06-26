@@ -193,7 +193,7 @@ export default {
   methods: {
     async initView() {
       console.log('ROL -> ', this.roles)
-      if (this.roles[0] === 'aprobador') {
+      if (this.roles.includes('aprobador')) {
         this.verificar = true
       }
       console.log('DATAPARENT GRID COMPONENT -> ', this.messagehistory)

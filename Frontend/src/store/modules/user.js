@@ -13,7 +13,8 @@ const state = {
     usuario: '',
     privilegio: '',
     dependencia: '',
-    idusuario: ''
+    idusuario: '',
+    keyaccess: ''
 };
 
 const mutations = {
@@ -37,6 +38,9 @@ const mutations = {
     },
     SET_PRIVILEGIO: (state, privilegio) => {
         state.privilegio = privilegio;
+    },
+    SET_KEYACCESS: (state, keyaccess) => {
+        state.keyaccess = keyaccess;
     },
     SET_DEPENDENCIA: (state, dependencia) => {
         state.dependencia = dependencia;
@@ -76,7 +80,7 @@ const actions = {
                     reject('Error de verificación, inicie sesión de nuevo.')
                 }
 
-                const { roles, name, avatar, introduction, usuario, privilegio, dependencia, idusuario, token } = data
+                const { roles, name, avatar, introduction, usuario, privilegio, dependencia, idusuario, token, publicKey } = data
 
                 // roles must be a non-empty array
                 if (!roles || roles.length <= 0) {
@@ -91,12 +95,8 @@ const actions = {
                 commit('SET_PRIVILEGIO', privilegio)
                 commit('SET_DEPENDENCIA', dependencia)
                 commit('SET_IDUSUARIO', idusuario)
-                // Siempre se actualiza el token cuando se actualizan los datos de usuario
-                if (token) {
-                    // console.log('token desde info :>> ', token)
-                    commit('SET_TOKEN', token)
-                    setToken(token)
-                }
+                commit('SET_KEYACCESS', publicKey)
+                commit('SET_TOKEN', token)
                 resolve(data)
             }).catch(error => {
                 reject(error)
@@ -110,6 +110,7 @@ const actions = {
             logout(state.token).then((response) => {
                 // console.log('Response LOGOUT --> ', response);
                 commit('SET_TOKEN', '')
+                // commit('SET_PUBLICKEY', '')
                 commit('SET_ROLES', [])
                 removeToken()
                 resetRouter()
@@ -124,6 +125,7 @@ const actions = {
     resetToken({ commit }) {
         return new Promise(resolve => {
             commit('SET_TOKEN', '')
+            // commit('SET_PUBLICKEY', '')
             commit('SET_ROLES', [])
             removeToken()
             resolve()

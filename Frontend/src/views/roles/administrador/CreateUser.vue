@@ -176,9 +176,9 @@ import { createUser, updateUsuario, getListRol } from '@/api/tarifarito/usuarios
 import { getArea } from '@/api/tarifarito/dependencia'
 import { CONSTANTS } from '@/constants/constants'
 import { DATA } from '@/data/ImgUser'
-import md5 from 'md5'
 import ListaUsers from './components/user/ListaUsers'
 import Avatar from './components/user/Avatar'
+var CryptoJS = require('crypto-js')
 
 export default {
   name: 'CreateUser',
@@ -203,7 +203,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['name', 'roles', 'dependencia'])
+    ...mapGetters(['name', 'roles', 'dependencia', 'token', 'keyaccess'])
   },
   created() {
     this.initView()
@@ -349,10 +349,12 @@ export default {
         if (!this.updateUSer) { // Si no actualiza usuario
           if (valid) {
             const modelUser = this.formUsuario
-            modelUser.token = `${modelUser.nickname}-token`
-            modelUser.contrasena = md5(modelUser.contrasena)
+            modelUser.token = this.token
+            const contrasena = CryptoJS.AES.encrypt(modelUser.contrasena, this.keyaccess) + ''
+            modelUser.contrasena = contrasena
             modelUser.genero = this.dataGenero.find((genero) => genero.nombre === modelUser.genero).idgenero
             modelUser.dependencia = this.dependencia
+            modelUser.apiGestor = process.env.VUE_APP_GESTOR_API
             if (process.env.VUE_APP_BASE_API === 'tarifarito/tarifas/api') {
               modelUser.api = `${window.location.origin}/${process.env.VUE_APP_BASE_API}` // Se envia URL del host del backend
             } else {
@@ -377,17 +379,19 @@ export default {
         } else { // Si se actualiza usuario
           if (valid) {
             const modelUser = this.formUsuario
-            modelUser.token = `${modelUser.nickname}-token`
+            modelUser.token = this.token
             modelUser.genero = this.dataGenero.find((genero) => genero.nombre === modelUser.genero).idgenero
             modelUser.nicknameold = this.nicknameold
             modelUser.emailold = this.emailold
+            modelUser.apiGestor = process.env.VUE_APP_GESTOR_API
             if (process.env.VUE_APP_BASE_API === 'tarifarito/tarifas/api') {
               modelUser.api = `${window.location.origin}/${process.env.VUE_APP_BASE_API}` // Se envia URL del host del backend
             } else {
               modelUser.api = process.env.VUE_APP_BASE_API // Se envia URL de localhost
             }
             if (modelUser.contrasena !== '') {
-              modelUser.contrasena = md5(modelUser.contrasena)
+              const contrasena = CryptoJS.AES.encrypt(modelUser.contrasena, this.keyaccess) + ''
+              modelUser.contrasena = contrasena
             }
             // console.log('actualizar modelUser -> ', modelUser)
             await updateUsuario(modelUser).then(async(response) => {

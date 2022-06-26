@@ -9,45 +9,24 @@ import requests
 import json
 
 class UsuariosRepository:
-    def __init__(self, db, postgresdb):
+    def __init__(self, db):
         self.db = db
-        self.postgresdb = postgresdb
 
     def autenticar_usuario(self, usuario):
+        # print('--------------------------------------------')
         # print('LOGIN USUARIO - >', usuario)
+        # print('--------------------------------------------')
         if usuario["loginGestor"] == True: # Si se loguea con TOKEN del gestor
             return usuario["token"]
-        else: # Si se loguea con usuario y password
-            sql = '''
-                SELECT EMAIL FROM public."Usuarios"
-                WHERE 
-                    EMAIL = :USER_ARG
-                AND CONTRASENA = :PASS_ARG;
-            '''
-            return self.postgresdb.engine.execute(text(sql), USER_ARG=usuario["username"].lower(), PASS_ARG=usuario["password"]).fetchall()
+        else: # Si se loguea con usuario y password / Se procede a loguear con gestor para obtener token de acceso
+            return self.getToken_usuario(usuario)
 
-    def getData_usuario(self, rq):
-        # print('------------------------------------------')
-        # print('TOKEN USUARIO -> ', rq)
-        # print('------------------------------------------')
-        sql = '''
-            SELECT
-                U.DESCRIPCION,
-                U.NICKNAME,
-                U.NOMBRE||' '||U.APELLIDO AS USUARIO,
-                U.ID_USUARIO,
-                R.NOMBRE,
-                U.AVATAR,
-                AREA.ID_DEPENDENCIA
-            FROM public."Usuarios" U, public."Accesos" A, public."Perfiles" P, public."Roles" R, public."Areas" AREA
-            WHERE U.ID_USUARIO = A.ID_USUARIO
-            AND A.ID_PERFIL = P.ID_PERFIL
-            AND P.ID_ROL = R.ID_ROL
-            AND U.ID_AREA = AREA.ID_AREA
-            AND P.ID_APLICATIVO = 4
-            AND U.EMAIL = :TOKEN_ARG;
-        '''
-        return self.postgresdb.engine.execute(text(sql), TOKEN_ARG=rq["token"]).fetchall()
+    def getToken_usuario(self, usuario):
+        url = usuario["api"] + '/api/autenticacion/loginGestor'
+        myobj = {"correo": usuario["username"], "contrasena": usuario["password"]}
+        getData = requests.post(url, json = myobj)
+        dataUser = json.loads(getData.text)
+        return dataUser["accessToken"]
 
     def getData_usuario_gestor(self, rq):
         # print('TOKEN USUARIO -> ', rq["token"])
@@ -72,19 +51,19 @@ class UsuariosRepository:
             WHERE R.ID_ROL = P.ID_ROL
             AND P.ID_APLICATIVO = 4;
         '''
-        return self.postgresdb.engine.execute(text(sql)).fetchall()
+        return self.db.engine.execute(text(sql)).fetchall()
     
     def get_nicknames_bd(self):
         sql = '''
             SELECT NOMBRE, APELLIDO, NICKNAME FROM public."Usuarios";
         '''
-        return self.postgresdb.engine.execute(text(sql)).fetchall()
+        return self.db.engine.execute(text(sql)).fetchall()
     
     def get_correos_bd(self):
         sql = '''
             SELECT NOMBRE, APELLIDO, EMAIL FROM public."Usuarios";
         '''
-        return self.postgresdb.engine.execute(text(sql)).fetchall()
+        return self.db.engine.execute(text(sql)).fetchall()
 
     def get_lista_usuarios_bd(self):
         sql = '''
@@ -111,9 +90,9 @@ class UsuariosRepository:
             AND P.ID_ROL = R.ID_ROL
             AND U.ID_AREA = AREA.ID_AREA
             AND P.ID_APLICATIVO = 4
-            ORDER BY U.NOMBRE;
+            ORDER BY U.NOMBRE, U.ID_USUARIO;
         '''
-        return self.postgresdb.engine.execute(text(sql)).fetchall()
+        return self.db.engine.execute(text(sql)).fetchall()
 
     def usuarios_create_bd(self, usuario):
         # print('-------------------------------------')
@@ -125,8 +104,8 @@ class UsuariosRepository:
 
         sql = '''
             INSERT INTO public."Usuarios"
-            (NOMBRE, APELLIDO, ID_GENERO, NICKNAME, DESCRIPCION, AVATAR, CONTRASENA, EMAIL, ID_AREA, AUTH_GOOGLE) 
-            VALUES (:NOMBRE_ARG, :APELLIDO_ARG, :GENERO_ARG, :NICKNAME_ARG, :DESCRIPCION_ARG, :AVATAR_ARG, :CONTRASENA_ARG, :EMAIL_ARG, :IDAREA_ARG, :AUTHGOOGLE_ARG);
+            (NOMBRE, APELLIDO, ID_GENERO, NICKNAME, DESCRIPCION, AVATAR, EMAIL, ID_AREA, AUTH_GOOGLE) 
+            VALUES (:NOMBRE_ARG, :APELLIDO_ARG, :GENERO_ARG, :NICKNAME_ARG, :DESCRIPCION_ARG, :AVATAR_ARG, :EMAIL_ARG, :IDAREA_ARG, :AUTHGOOGLE_ARG);
         '''
 
         if usuario['avatar'][0:4] != "http": # Si la imagen no es una URL sino un Base64
@@ -136,18 +115,21 @@ class UsuariosRepository:
         else: # Si la imagen es una URL
             imgPerfil = usuario['avatar']
 
-        self.postgresdb.engine.execute(text(sql), NOMBRE_ARG=usuario['nombre'], APELLIDO_ARG=usuario['apellido'], GENERO_ARG=usuario['genero'], NICKNAME_ARG=usuario['nickname'], DESCRIPCION_ARG=usuario['descripcion'], ROL_ARG=usuario['rol'], AVATAR_ARG=imgPerfil, CONTRASENA_ARG=usuario['contrasena'], TOKEN_ARG=usuario['token'], EMAIL_ARG=usuario['email'], DEPENDENCIA_ARG=usuario['dependencia'], AUTHGOOGLE_ARG=usuario['authgoogle'], IDAREA_ARG=usuario['area'])
+
+        self.db.engine.execute(text(sql), NOMBRE_ARG=usuario['nombre'], APELLIDO_ARG=usuario['apellido'], GENERO_ARG=usuario['genero'], NICKNAME_ARG=usuario['nickname'], DESCRIPCION_ARG=usuario['descripcion'], ROL_ARG=usuario['rol'], AVATAR_ARG=imgPerfil, TOKEN_ARG=usuario['token'], EMAIL_ARG=usuario['email'], DEPENDENCIA_ARG=usuario['dependencia'], AUTHGOOGLE_ARG=usuario['authgoogle'], IDAREA_ARG=usuario['area'])
         
         # Obtener ID de usuario
 
         sql = '''
             SELECT ID_USUARIO FROM public."Usuarios" WHERE EMAIL = :EMAIL_ARG;
         '''
-        resultSql = self.postgresdb.engine.execute(text(sql), EMAIL_ARG=usuario['email']).fetchall()
+        resultSql = self.db.engine.execute(text(sql), EMAIL_ARG=usuario['email']).fetchall()
 
         for result in resultSql:
             usuario["idusuario"] = result[0]
 
+        self.encriptar_contrasena(usuario)
+        
         # Crear accesos de usuario
 
         self.insert_accesos(usuario) # Se insertan los nuevos accesos
@@ -171,7 +153,6 @@ class UsuariosRepository:
                     NICKNAME = :NICKNAME_ARG,
                     DESCRIPCION = :DESCRIPCION_ARG,
                     AVATAR = :AVATAR_ARG,
-                    CONTRASENA = :CONTRASENA_ARG,
                     EMAIL = :EMAIL_ARG,
                     AUTH_GOOGLE = :AUTHGOOGLE_ARG,
                     ID_AREA = :IDAREA_ARG
@@ -200,7 +181,21 @@ class UsuariosRepository:
         else: # Si la imagen es una URL
             imgPerfil = usuario['avatar']
 
-        return self.postgresdb.engine.execute(text(sql), IDUSUARIO_ARG=usuario['idusuario'], NOMBRE_ARG=usuario['nombre'], APELLIDO_ARG=usuario['apellido'], GENERO_ARG=usuario['genero'], NICKNAME_ARG=usuario['nickname'], DESCRIPCION_ARG=usuario['descripcion'], ROL_ARG=usuario['rol'], AVATAR_ARG=imgPerfil, CONTRASENA_ARG=usuario['contrasena'], EMAIL_ARG=usuario['email'], AUTHGOOGLE_ARG=usuario['authgoogle'], IDAREA_ARG=usuario['area'])
+        self.encriptar_contrasena(usuario)
+
+        return self.db.engine.execute(text(sql), IDUSUARIO_ARG=usuario['idusuario'], NOMBRE_ARG=usuario['nombre'], APELLIDO_ARG=usuario['apellido'], GENERO_ARG=usuario['genero'], NICKNAME_ARG=usuario['nickname'], DESCRIPCION_ARG=usuario['descripcion'], ROL_ARG=usuario['rol'], AVATAR_ARG=imgPerfil, EMAIL_ARG=usuario['email'], AUTHGOOGLE_ARG=usuario['authgoogle'], IDAREA_ARG=usuario['area'])
+
+    def encriptar_contrasena(self, usuario):
+        # print('-------------------------------------')
+        # print('* encriptar_contrasena -> ', usuario)
+        # print('-------------------------------------')
+        url = usuario["apiGestor"] + '/api/usuario/contrasena/' + str(usuario["idusuario"])
+        myobj = {"contrasena": usuario["contrasena"]}
+        x = requests.patch(url, json = myobj, headers = {"Authorization": 'Bearer ' + usuario["token"]})
+        # print('-------------------------------------')
+        # print('* x.text -> ', x.text)
+        # print('-------------------------------------')
+        return x.text
 
     def delete_accesos(self, idusuario):
         # Borrar datos de la tabla de accesos del usuario
@@ -215,7 +210,7 @@ class UsuariosRepository:
             )
             AND ID_USUARIO = :IDUSUARIO_ARG;
         '''
-        self.postgresdb.engine.execute(text(sqlDelete), IDUSUARIO_ARG=idusuario)
+        self.db.engine.execute(text(sqlDelete), IDUSUARIO_ARG=idusuario)
     
     def insert_accesos(self, usuario):
         # Insertar datos en la tabla de accesos del usuario
@@ -223,7 +218,7 @@ class UsuariosRepository:
             sqlDelete = '''
                 INSERT INTO public."Accesos"(id_usuario, id_perfil) VALUES (:IDUSUARIO_ARG, :IDROL);
             '''
-            self.postgresdb.engine.execute(text(sqlDelete), IDUSUARIO_ARG=usuario['idusuario'], IDROL=result)
+            self.db.engine.execute(text(sqlDelete), IDUSUARIO_ARG=usuario['idusuario'], IDROL=result)
 
     def createDirAssets(self):
         path = 'src/assets'

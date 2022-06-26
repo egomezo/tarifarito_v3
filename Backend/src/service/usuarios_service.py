@@ -1,6 +1,7 @@
 from flask import send_file
 from ..repository import UsuariosRepository
 from ..util.web_util import add_wrapper
+import requests
 
 
 class UsuariosService:
@@ -10,48 +11,24 @@ class UsuariosService:
         path = "assets/"+folder+"/"+image
         return send_file(path)
 
+    def user_avatar(self, usuarios_repository: UsuariosRepository, rq):
+        response = {
+            "status": 200
+        }
+        return response
+
     def login_usuario(self, usuarios_repository: UsuariosRepository, usuario):
         response = {}
         data = usuarios_repository.autenticar_usuario(usuario)
-        if usuario["loginGestor"] == True: # Si se loguea con TOKEN del gestor
-            response = {'code': 20000, 'data': {'token': data}}
-        else:
-            for result in data:
-                response = {'code': 20000, 'data': {'token': result[0]}}
+        response = {'code': 20000, 'data': {'token': data}}
         return response
 
     def info_usuario(self, usuarios_repository: UsuariosRepository, rq):
-        print('-------------------------------------')
-        print('* USUARIO TOKEN -> ', rq)
-        print('-------------------------------------')
-        if rq["loginGestor"] == True: # Si se loguea con TOKEN del gestor
-            dataToken, dataUser = usuarios_repository.getData_usuario_gestor(rq)
-            return self.info_usuario_gestor(dataToken, dataUser)
-        else: # Si se loguea con usuario y password
-            data = usuarios_repository.getData_usuario(rq)
-            return self.info_usuario_basic(data)
-
-    def info_usuario_basic(self, data):
-        responseGetInfo = {}
-        roles = []
-        privilegio = ''
-        for result in data:
-            privilegio = privilegio + " / " + result[4]
-            roles.append(result[4])
-            responseGetInfo = {
-                "code": 20000,
-                "data": {
-                    "roles": roles,
-                    "introduction": result[0],
-                    "name": result[1],
-                    "usuario": result[2],
-                    "idusuario": result[3],
-                    "privilegio": privilegio,
-                    "avatar": result[5],
-                    "dependencia": result[6]
-                }
-            }
-        return responseGetInfo
+        # print('-------------------------------------')
+        # print('* USUARIO TOKEN -> ', rq)
+        # print('-------------------------------------')
+        dataToken, dataUser = usuarios_repository.getData_usuario_gestor(rq)
+        return self.info_usuario_gestor(dataToken, dataUser)
 
     def info_usuario_gestor(self, dataToken, dataUser):
         responseGetInfo = {}
@@ -74,7 +51,8 @@ class UsuariosService:
                         "privilegio": privilegio,
                         "avatar": dataToken["usuario"]["avatar"],
                         "dependencia": iddependencia,
-                        "token": dataToken["accessToken"]
+                        "token": dataToken["accessToken"],
+                        "publicKey": dataToken["publicKey"]
                     }
                 }
         return responseGetInfo

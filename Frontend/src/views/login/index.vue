@@ -75,7 +75,7 @@
 
     <div class="footer-login">
       <span class="textoFooter">
-        ::. . SUPERSERVICIOS - DTGE v2.1 ©&nbsp;2022 . .::
+        ::. . SUPERSERVICIOS - DTGE v2.2 ©&nbsp;2022 . .::
       </span>
     </div>
   </el-container>
@@ -119,7 +119,7 @@ export default {
         // username: '',
         // password: ''
         username: 'jherreraa@superservicios.gov.co',
-        password: 'e10adc3949ba59abbe56e057f20f883e'
+        password: '123456'
       },
       loginRules: {
         username: [
@@ -220,7 +220,7 @@ export default {
       })
     },
     handleLogin() {
-      try { // Se valida si viene token de usaurio desde el gestor
+      try { // Se valida si viene token de usuario desde el gestor
         // console.log('location :>> ', window.location)
         const valoresUrl = window.location.href.split('&')
         const urlParams = valoresUrl[1].split('gtjwt=')
@@ -239,7 +239,7 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true
-          const userInfo = { username: this.loginForm.username.trim(), password: this.loginForm.password, loginGestor: this.loginGestor }
+          const userInfo = { username: this.loginForm.username.trim(), password: btoa(this.loginForm.password), loginGestor: this.loginGestor, api: process.env.VUE_APP_GESTOR_API }
           this.$store
             .dispatch('user/login', userInfo)
             .then((data) => {

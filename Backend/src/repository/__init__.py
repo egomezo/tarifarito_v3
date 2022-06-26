@@ -58,7 +58,7 @@ class RepositoryModule(Module):
         componentesMDB_repository = rComponentesMDBRepository(self.mongodb)
         costoUnitario_repository = CostoUnitarioRepository(self.db, self.mongodb)
         tarifas_repository = TarifasRepository(self.db, self.mongodb)
-        usuarios_repository = UsuariosRepository(self.db, self.postgresdb)
+        usuarios_repository = UsuariosRepository(self.postgresdb)
         dependencia_repository = DependenciaRepository(self.postgresdb)
 
         binder.bind(AniosRepository, to=anios_repository, scope=singleton)
