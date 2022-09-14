@@ -164,8 +164,8 @@ export default {
           // CONDICIONES INICIALES - PRUEBA
           this.value_ano = 2020
           this.value_mes = 4
-          // this.value_empresa = 502
-          this.value_empresa = 2103
+          this.value_empresa = 502
+          // this.value_empresa = 2103
           // this.value_empresa = 564
           this.verifyField()
         })

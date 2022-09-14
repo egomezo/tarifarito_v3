@@ -1,4 +1,3 @@
-from decimal import Decimal
 import pandas as pd
 from sqlalchemy.sql import text
 
@@ -21,7 +20,7 @@ class ToolComponenteP097():
 
         cpteP097['c8'] = cpteP097['c2'] + cpteP097['c3'] + cpteP097['c4'] + cpteP097['c5'] + cpteP097['c6'] + cpteP097['c7']
 
-        cpteP097['c9'] = ((cpteP097['c3'] + cpteP097['c5'] + cpteP097['c7']) / cpteP097['c8']).apply(Decimal)
+        cpteP097['c9'] = ((cpteP097['c3'] + cpteP097['c5'] + cpteP097['c7']) / cpteP097['c8'])
 
         cpteP097['c16'] = (cpteP097['c1'] * (cpteP097['c10'] / 100 + cpteP097['c9'])) / (1 - (cpteP097['c10'] / 100 + cpteP097['c9']))
 
@@ -61,10 +60,10 @@ class ToolComponenteP097():
         for m in key_mercados:
             mercado = result[0]['mercados'][m]
             no_mercado = int(m.split('_')[1])
-            pr1 = Decimal(mercado[len(mercado)-1]['pr1'])
-            pr2 = Decimal(mercado[len(mercado)-1]['pr2'])
-            pr3 = Decimal(mercado[len(mercado)-1]['pr3'])
-            pr4 = Decimal(mercado[len(mercado)-1]['pr4'])
+            pr1 = mercado[len(mercado)-1]['pr1']
+            pr2 = mercado[len(mercado)-1]['pr2']
+            pr3 = mercado[len(mercado)-1]['pr3']
+            pr4 = mercado[len(mercado)-1]['pr4']
             obj.append([no_mercado,pr1,pr2,pr3,pr4])
 
         df = pd.DataFrame(obj,columns=['mercado','c10','c11','c12','c13'])
@@ -72,4 +71,9 @@ class ToolComponenteP097():
 
     def getVariablesSUI(self, componente):
         sql = componenteP097_sql
-        return componente.db.engine.execute(text(sql), ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado).fetchall()
+        try:
+            cursor = componente.db.cursor()
+            cursor.execute(sql, ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado)
+            return cursor.fetchall()
+        except:
+            return componente.db.engine.execute(text(sql), ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado).fetchall()

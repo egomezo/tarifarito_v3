@@ -45,6 +45,9 @@ export const CONSTANTS = {
         },
         {
             value: '2021'
+        },
+        {
+            value: '2022'
         }
     ],
     optionsAno: [{
@@ -64,6 +67,9 @@ export const CONSTANTS = {
         },
         {
             value: '2021'
+        },
+        {
+            value: '2022'
         }
     ],
     optionsMes: [{

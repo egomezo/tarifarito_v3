@@ -1,4 +1,3 @@
-from decimal import Decimal
 import pandas as pd
 from sqlalchemy.sql import text
 
@@ -68,11 +67,11 @@ class ToolComponenteD097():
         for m in key_mercados:
             mercado = result[0]['mercados'][m]
             no_mercado = int(m.split('_')[1])
-            pr12 = Decimal(mercado[len(mercado)-1]['pr1_2'])
-            pr1 = Decimal(mercado[len(mercado)-1]['pr1'])
-            pr2 = Decimal(mercado[len(mercado)-1]['pr2'])
-            pr3 = Decimal(mercado[len(mercado)-1]['pr3'])
-            pr4 = Decimal(mercado[len(mercado)-1]['pr4'])
+            pr12 = mercado[len(mercado)-1]['pr1_2']
+            pr1 = mercado[len(mercado)-1]['pr1']
+            pr2 = mercado[len(mercado)-1]['pr2']
+            pr3 = mercado[len(mercado)-1]['pr3']
+            pr4 = mercado[len(mercado)-1]['pr4']
             obj.append([no_mercado,pr12,pr1,pr2,pr3,pr4])
 
         df = pd.DataFrame(obj,columns=['mercado','c12','c8','c9','c10','c11'])
@@ -91,10 +90,10 @@ class ToolComponenteD097():
         for e in key_empresa:
             empresa = result[0]['empresas'][e]
             no_empresa = int(e.split('_')[1])
-            cdi = Decimal(empresa[len(empresa)-1]['cdi'])
-            cdm = Decimal(empresa[len(empresa)-1]['cdm'])
-            cd2 = Decimal(empresa[len(empresa)-1]['cd2'])
-            cd3 = Decimal(empresa[len(empresa)-1]['cd3'])
+            cdi = empresa[len(empresa)-1]['cdi']
+            cdm = empresa[len(empresa)-1]['cdm']
+            cd2 = empresa[len(empresa)-1]['cd2']
+            cd3 = empresa[len(empresa)-1]['cd3']
             obj.append([no_empresa,cdi,cdm,cd2,cd3])
 
         df = pd.DataFrame(obj,columns=['empresa','c1','c2','c3','c4'])
@@ -113,7 +112,7 @@ class ToolComponenteD097():
         for m in key_mes:
             result_mes = result[0]['meses'][m]
             # ipc = result_mes[len(result_mes)-1]['ipc']
-            ipp = Decimal(result_mes[len(result_mes)-1]['ipp'])
+            ipp = result_mes[len(result_mes)-1]['ipp']
             obj.append([mes,ipp])
 
         df = pd.DataFrame(obj,columns=['mes','c7'])
@@ -130,7 +129,7 @@ class ToolComponenteD097():
 
         for m in key_mes:
             result_mes = result[0]['meses'][m]
-            ipc = Decimal(result_mes[len(result_mes)-1]['ipc'])
+            ipc = result_mes[len(result_mes)-1]['ipc']
             # ipp = result_mes[len(result_mes)-1]['ipp']
             obj.append([ano,ipc])
 
@@ -139,4 +138,6 @@ class ToolComponenteD097():
 
     def getVariablesSUI(self, componente):
         sql = componenteD097_sql
-        return componente.db.engine.execute(text(sql), ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado).fetchall()
+        cursor = componente.db.cursor()
+        cursor.execute(sql, ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado)
+        return cursor.fetchall()

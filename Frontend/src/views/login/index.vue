@@ -239,7 +239,8 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true
-          const userInfo = { username: this.loginForm.username.trim(), password: btoa(this.loginForm.password), loginGestor: this.loginGestor, api: process.env.VUE_APP_GESTOR_API }
+          // const userInfo = { username: this.loginForm.username.trim(), password: btoa(this.loginForm.password), loginGestor: this.loginGestor, api: process.env.VUE_APP_GESTOR_API }
+          const userInfo = { username: this.loginForm.username.trim(), password: this.loginForm.password, loginGestor: this.loginGestor, api: process.env.VUE_APP_GESTOR_API }
           this.$store
             .dispatch('user/login', userInfo)
             .then((data) => {

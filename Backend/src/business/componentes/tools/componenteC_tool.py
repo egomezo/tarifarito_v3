@@ -154,4 +154,6 @@ class ToolComponenteC():
 
     def getVariablesSUI(self, componente):
         sql = componenteC_sql
-        return componente.db.engine.execute(text(sql), ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, PERIODO_ARG_MENOS1=componente.periodo_menos1, PERIODO_ARG_MENOS2=componente.periodo_menos2, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado).fetchall()
+        cursor = componente.db.cursor()
+        cursor.execute(sql, ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, PERIODO_ARG_MENOS1=componente.periodo_menos1, PERIODO_ARG_MENOS2=componente.periodo_menos2, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado)
+        return cursor.fetchall()

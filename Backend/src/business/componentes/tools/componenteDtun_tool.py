@@ -44,4 +44,6 @@ class ToolComponenteDtun():
 
     def getVariablesSUI(self, componente):
         sql = componenteDtun_sql
-        return componente.db.engine.execute(text(sql), ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado).fetchall()
+        cursor = componente.db.cursor()
+        cursor.execute(sql, ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, EMPRESA_ARG=componente.empresa)
+        return cursor.fetchall()

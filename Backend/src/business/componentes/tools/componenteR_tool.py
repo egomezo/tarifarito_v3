@@ -9,4 +9,9 @@ class ToolComponenteR():
 
     def getVariablesSUI(self, componente):
         sql = componenteR_sql
-        return componente.db.engine.execute(text(sql), ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, PERIODO_ARG_MENOS1=componente.periodo_menos1, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado).fetchall()
+        try:
+            cursor = componente.db.cursor()
+            cursor.execute(sql, ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, PERIODO_ARG_MENOS1=componente.periodo_menos1, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado)
+            return cursor.fetchall()
+        except:
+            return componente.db.engine.execute(text(sql), ANIO_ARG=componente.anio, PERIODO_ARG=componente.periodo, PERIODO_ARG_MENOS1=componente.periodo_menos1, EMPRESA_ARG=componente.empresa, MERCADO_ARG=componente.mercado).fetchall()
