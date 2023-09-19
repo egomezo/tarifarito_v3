@@ -1,0 +1,67 @@
+version: '3.9'
+services:
+  tarifarito_app_container:
+    container_name: tarifarito_app_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      TZ: America/Bogota
+      FLASK_APP: "app"
+      FLASK_ENV: "development"
+      TOOL_KEY: "U2FsdGVkX19ooBjsgDGiIDvNsbUndXRCVx32+kvjbP0ygyMHkaQJs4VTrypDob2g0BOyjd8KO10Z1OP4EKk+GQ=="
+    volumes:
+      - ./Backend:/app/
+    ports:
+      - "5063:5063"
+    depends_on:
+      - tarifarito_pg_container
+      - tarifarito_mongo_db_container
+    networks:
+      #- gestordeaplicaciones-api_gestor-network
+      - tarifarito-network
+
+  tarifarito_pg_container:
+    container_name: tarifarito_pg_container
+    image: postgres
+    restart: always
+    environment:
+      TZ: America/Bogota
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: S5a06ELZAxvNxQ6aVOkfycU2db5hA4
+      POSTGRES_DB: gestor_aplicaciones
+    expose:
+      - '5432'
+    volumes:
+      - tarifarito-db:/var/lib/postgresql/data
+      # copy the sql script to create tables
+      - ./sql/procesos_dieg.sql:/docker-entrypoint-initdb.d/procesos_dieg.sql
+    networks:
+      #- gestordeaplicaciones-api_gestor-network
+      - tarifarito-network
+
+  tarifarito_mongo_db_container:
+    container_name: tarifarito_mongo_db_container
+    image: mongo:4.2
+    restart: always
+    environment:
+      TZ: America/Bogota
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_DATABASE: tarifarito
+      MONGO_INITDB_ROOT_PASSWORD: XM6IgfHVcMUxyR7dfw4e
+    expose:
+      - '27017:27017'
+    volumes: 
+      - tarifarito-mongo-db:/data/db
+    networks:
+      - tarifarito-network
+
+volumes:
+  tarifarito-db:
+  tarifarito-mongo-db:
+
+networks:
+  tarifarito-network:
+  #gestordeaplicaciones-api_gestor-network:
+    #external: true
