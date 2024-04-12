@@ -1,1 +1,1 @@
-"# Software para el manejo de procesos de la DIEG"
+"# Software para verificacion de la formula tarifaria y CU"
