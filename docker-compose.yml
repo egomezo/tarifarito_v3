@@ -32,7 +32,7 @@ services:
       POSTGRES_PASSWORD: S5a06ELZAxvNxQ6aVOkfycU2db5hA4
       POSTGRES_DB: gestor_aplicaciones
     expose:
-      - '5432'
+      - '5432:5432'
     volumes:
       - tarifarito-db:/var/lib/postgresql/data
       # copy the sql script to create tables
@@ -54,6 +54,41 @@ services:
       - '27017:27017'
     volumes: 
       - tarifarito-mongo-db:/data/db
+    networks:
+      - tarifarito-network
+
+  tarifarito_mongo_express_container:
+      container_name: tarifarito_mongo_express_container
+      image: mongo-express
+      restart: always
+      ports:
+        - "8081:8081"
+      depends_on:
+        - tarifarito_mongo_db_container
+      environment:
+        TZ: America/Bogota
+        ME_CONFIG_MONGODB_SERVER: tarifarito_mongo_db_container
+        ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+        ME_CONFIG_MONGODB_ADMINPASSWORD: XM6IgfHVcMUxyR7dfw4e
+        ME_CONFIG_BASICAUTH_USERNAME: admin@admin.com
+        ME_CONFIG_BASICAUTH_PASSWORD: 123456789
+      volumes: 
+        - tarifarito-mongo-db:/data/db
+      networks:
+        - tarifarito-network
+
+  tarifarito_pgadmin4_container:
+    container_name: gestor_pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      TZ: America/Bogota
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: 123456789
+    ports:
+      - "8082:80"
+    volumes:
+      - tarifarito-db:/var/lib/postgresql/data
     networks:
       - tarifarito-network
 

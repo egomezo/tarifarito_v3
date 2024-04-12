@@ -244,7 +244,7 @@ export default {
           this.$store
             .dispatch('user/login', userInfo)
             .then((data) => {
-              // console.log('store login --> ', data)
+              console.log('store login --> ', data)
               const userLogged = this.listCorreos.find(user => user.correo === this.loginForm.username.toLowerCase()).nombre
               this.$notify({
                 title: `Hola ${userLogged}`,

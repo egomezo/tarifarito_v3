@@ -1,0 +1,26 @@
+--crear los contenedores del tarifarito 
+docker compose up -d --build
+
+--eliminar los contenedores con los volumenes (datos)
+docker compose down -v
+
+--eliminar los contenedores manteniendo los volumenes (datos)
+docker compose down
+
+--copiar el backup de mongo en el contenedor de mongo
+docker cp /mnt/home2/egomezo/BD/mongo6.0/tarifarito_2023-06-05/backup/ tarifarito_mongo_db_container:/dump
+
+--restaurar un backup dentro del contenedor de mongo 
+docker exec -it tarifarito_mongo_db_container mongorestore --username=admin --password=XM6IgfHVcMUxyR7dfw4e
+
+--administrar la bd mongo en un contenedor mediante mongo-express
+http://localhost:8081
+
+--eliminar todas las imágenes que no tengan al menos un contenedor asociado.
+docker image prune -a
+
+--Eliminar todos los volúmenes locales no utilizados
+docker volume prune
+
+--Eliminar todos los contenedores, redes, imágenes (tanto colgantes como sin referencia) no utilizados y, opcionalmente, volúmenes.
+docker system prune
