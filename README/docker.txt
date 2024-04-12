@@ -8,10 +8,18 @@ docker compose down -v
 docker compose down
 
 --copiar el backup de mongo en el contenedor de mongo
-docker cp /mnt/home2/egomezo/BD/mongo6.0/tarifarito_2023-06-05/backup/ tarifarito_mongo_db_container:/dump
+    --opcion 1: copiar la carpeta descomprimida (contiene archivos bson y .json)
+    docker cp /mnt/home2/egomezo/BD/mongo6.0/tarifarito_2023-06-05/backup/ tarifarito_mongo_db_container:/dump
+
+    --opcion 2: copiar el backup .gz (contiene archivo binario)
+    docker cp /mnt/home2/egomezo/Documentos/DENER/proyectos/tarifarito/aplicacion/desarrollo/tarifarito_v3/mongo/tarifarito_20231011.gz tarifarito_mongo_db_container:/home/tarifarito_20231011.gz
 
 --restaurar un backup dentro del contenedor de mongo 
-docker exec -it tarifarito_mongo_db_container mongorestore --username=admin --password=XM6IgfHVcMUxyR7dfw4e
+    --opcion 1: restaurar la carpeta descomprimida (contiene archivos bson y .json)
+    docker exec -it tarifarito_mongo_db_container mongorestore --username=admin --password=XM6IgfHVcMUxyR7dfw4e
+
+    --opcion 2: restaurar a partir del backup .gz (contiene archivo binario)
+    docker exec -it tarifarito_mongo_db_container mongorestore --gzip --archive="/home/tarifarito_20231011.gz" --username=admin --password=XM6IgfHVcMUxyR7dfw4e
 
 --administrar la bd mongo en un contenedor mediante mongo-express
 http://localhost:8081
